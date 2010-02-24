@@ -23,29 +23,47 @@ namespace RE330
 		  centerOfProjection = cOfP;
 		  lookAtPoint = lAtP;
 		  upVector = uV;
+          updateViewMatrix();
 
-		  Vector3 w = lookAtPoint->normalize(lookAtPoint->magnitude());
-		  
-		  Vector3 u = upVector->crossProduct(w);
-		  u = u->normalize(u->magnitude());
-		  
-		  Vector3 v = w->crossProduct(u);
-
-		  viewMatrix = {u.getX(), v.getX(), w.getX(), centerOfProjection.getX(),
-		       u.getY(), v.getY(), w.getY(), centerOfProjection.getY(),
-		       u.getZ(), v.getZ(), w.getZ(), centerOfProjection.getZ(),
-		       0, 0, 0, 1};
 		}
 		
-		Vector4 getCenterOfProjection() { return centerOfProjection; }
-		Vector4 getlookAtPoint() { return lookAtPoint; }
-		Vector4 getupVector() { return upVector; }
+		Vector3 getCenterOfProjection() { return centerOfProjection; }
+		Vector3 getlookAtPoint() { return lookAtPoint; }
+		Vector3 getupVector() { return upVector; }
 
-		void setCenterOfProjection(Vector3 cOfP) { centerOfProjection = cOfP;}
-		void setlookAtPoin(Vector3 lAtP) { lookAtPoin = lAtP;}
-		void setupVector(Vector3 uV) { upVector = uV;}
+        void setCenterOfProjection(Vector3 cOfP) { centerOfProjection = cOfP; updateViewMatrix();}
+        void setlookAtPoint(Vector3 lAtP) { lookAtPoint = lAtP; updateViewMatrix();}
+        void setupVector(Vector3 uV) { upVector = uV; updateViewMatrix();}
+        
+        void updateViewMatrix() {
+            Vector3 z = centerOfProjection - lookAtPoint;
+            z.normalize();
+            Vector3 x = (upVector * z);
+            x.normalize();
+            Vector3 y = z * x;
+
+            viewMatrix = Matrix4(
+                x.getX(), x.getY(), x.getZ(), -centerOfProjection.getX() * x.getX() - centerOfProjection.getY() * x.getY() - centerOfProjection.getZ() * x.getZ(),
+                y.getX(), y.getY(), y.getZ(), -centerOfProjection.getX() * y.getX() - centerOfProjection.getY() * y.getY() - centerOfProjection.getZ() * y.getZ(),
+                z.getX(), z.getY(), z.getZ(), -centerOfProjection.getX() * z.getX() - centerOfProjection.getY() * z.getY() - centerOfProjection.getZ() * z.getZ(),
+                0, 0, 0, 1
+            );
+        }
+		void testCase1() {
+            centerOfProjection = Vector3(0, 0, 40);
+            lookAtPoint = Vector3(0, 0, 0);
+            upVector = Vector3(0, 1, 0);
+            updateViewMatrix();
+		}
 		
-		const Matrix4 &getViewMatrix() const { return v; }
+		void testCase2() {
+            centerOfProjection = Vector3(-10, 40, 40);
+            lookAtPoint = Vector3(-5, 0, 0);
+            upVector = Vector3(0, 1, 0);
+            updateViewMatrix();
+		}
+		
+		const Matrix4 &getViewMatrix() const { return viewMatrix; }
 
 	private:
 		Matrix4 viewMatrix;

@@ -22,6 +22,15 @@ namespace RE330
             z = k[2];
             return *this;
         }
+        float getX() {
+            return x;
+        }
+        float getY() {
+            return y;
+        }
+        float getZ() {
+            return z;
+        }
         Vector3& operator= (const float* k) {
             x = k[0];
             y = k[1];
@@ -38,7 +47,7 @@ namespace RE330
             z += k[2];
             return *this;
         }
-        Vector3& operator+ (const Vector3& k) const {
+        Vector3 operator+ (const Vector3& k) const {
             return Vector3(*this) += k;
         }
         // Subtraction
@@ -48,7 +57,7 @@ namespace RE330
             z -= k[2];
             return *this;
         }
-        Vector3& operator- (const Vector3& k) const {
+        Vector3 operator- (const Vector3& k) const {
             return Vector3(*this) -= k;
         }
         // Scalar division
@@ -58,7 +67,7 @@ namespace RE330
             z /= i;
             return *this;
         }
-        Vector3& operator/ (const float i) const {
+        Vector3 operator/ (const float i) const {
             return Vector3(*this) /= i;
         }
         // Scalar multiplication
@@ -68,17 +77,20 @@ namespace RE330
             z *= i;
             return *this;
         }
-        Vector3& operator* (const float i) const {
+        Vector3 operator* (const float i) const {
             return Vector3(*this) *= i;
         }
         // Cross multiplication
         Vector3& operator*= (const Vector3& k) {
-            x = y*k[2] - z*k[1];
-            y = z*k[0] - x*k[2];
-            z = x*k[1] - y*k[0];
+            float a = x;
+            float b = y;
+            float c = z;
+            x = b*k[2] - c*k[1];
+            y = c*k[0] - a*k[2];
+            z = a*k[1] - b*k[0];
             return *this;
         }
-        Vector3& operator* (const Vector3& k) const {
+        Vector3 operator* (const Vector3& k) const {
             return Vector3(*this) *= k;
         }
         // Dot multiplication

@@ -28,11 +28,12 @@ namespace RE330
 
 		  float farMinusNear = farPlane - nearPlane;
 		  
-		  p = {1/(aspectRatio*tan(verticalFieldOfView/2)), 0, 0, 0,
+		  p = Matrix4(
+		       1/(aspectRatio*tan(verticalFieldOfView/2)), 0, 0, 0,
 		       0, 1/tan(verticalFieldOfView/2), 0, 0,
-		       0, 0, (farPlane+nearPlane)/farMinusNear, (2*farPlane*nearPlane)/farMinusNear,
+		       0, 0, -(farPlane+nearPlane)/farMinusNear, -(2*farPlane*nearPlane)/farMinusNear,
 		       0, 0, -1, 0
-		  };
+		  );
 		}
 		const Matrix4 &getProjectionMatrix() const { return p; }
 

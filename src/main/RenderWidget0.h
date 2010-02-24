@@ -50,6 +50,7 @@ protected:
 private:
 	SceneManager *sceneManager;
 	Camera *camera;
+    Object *object;
 	Object *earth;
     Object *sun;
     Object *moon;
@@ -64,6 +65,9 @@ private:
     float mars_theta;
     float jupiter_theta;
     float jupiter_z_theta;
+    bool testing;
+    bool dragging;
+    float sphereX, sphereY;
 };
 
 #endif // BASICAPP_H
