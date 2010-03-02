@@ -71,7 +71,10 @@ private:
 	int timerId;
     int counter;
     int frames;
+    int turn_frames;
     static int const max_frames = 25;
+    static int const max_turn_frames = 15;
+    float turning_angle; 
     float earth_theta;
     float earth_axis_theta;
     float moon_theta;
@@ -82,6 +85,7 @@ private:
     static const int zoompercent = 40;
     Vector3 zoomvector;
     bool testcamera1, testcamera2, dragging, zooming, zoomedin, solarsystem, airplanemode, heightmap;
+    bool turning, turningup, turningdown, turningleft, turningright;
     float airplane_speed;
     Vector3 airplane_direction;
     float sphereX, sphereY;

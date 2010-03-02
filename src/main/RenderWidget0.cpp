@@ -35,12 +35,14 @@ float translate(float level, float actual_min, float actual_max, float new_min, 
 
 void RenderWidget0::initSceneEvent() 
 {
-    solarsystem = false;
+    solarsystem = true;
     testcamera1 = false;
     testcamera2 = false;
-    heightmap = true;
+    heightmap = false;
     counter = 0;
     airplanemode = true;
+    turning_angle = 0.1;
+    airplane_speed = 0;
 	sceneManager = new SceneManager();
     terrain_x_scale = 2;
     terrain_y_scale = 1;
@@ -52,7 +54,6 @@ void RenderWidget0::initSceneEvent()
         camera->setCenterOfProjection(Vector3(0, 10, 10));
 	}
     airplane_direction = Vector3(0, 0, -1);
-    airplane_speed = 0.005;
 	
 	if (heightmap) {
         int rows, cols;
@@ -417,6 +418,44 @@ void RenderWidget0::timerEvent(QTimerEvent *t)
         camera->setLookAtPoint(
             Vector3(lap4[0], lap4[1], lap4[2])
         );
+        if (turning) {
+            lap3 = camera->getLookAtPoint() - camera->getCenterOfProjection();
+            lap4 = Vector4(lap3[0], lap3[1], lap3[2], 1);
+            Vector3 crossplap = lap3 * camera->getUpVector();
+            Vector3 dir3 = airplane_direction;
+            Vector3 crosspdir = dir3 * camera->getUpVector();
+            Vector4 dir = Vector4(dir3[0], dir3[1], dir3[2], 1);
+            Vector3 cam3 = camera->getUpVector();
+            Vector4 cam4 = Vector4(cam3[0], cam3[1], cam3[2], 1);
+            turn_frames++;
+            if (turningleft) {
+                lap4 = Matrix4::rotateA(camera->getUpVector(), turning_angle / max_turn_frames) * lap4;
+                dir = Matrix4::rotateA(camera->getUpVector(), turning_angle / max_turn_frames) * dir;
+            } else if (turningright) {
+                lap4 = Matrix4::rotateA(camera->getUpVector(), -turning_angle / max_turn_frames) * lap4;
+                dir = Matrix4::rotateA(camera->getUpVector(), -turning_angle / max_turn_frames) * dir;
+            } else if (turningup) {
+                lap4 = Matrix4::rotateA(crossplap, turning_angle / max_turn_frames) * lap4;
+                dir = Matrix4::rotateA(crosspdir, turning_angle / max_turn_frames) * dir;
+                cam4 = Matrix4::rotateA(crosspdir, turning_angle / max_turn_frames) * cam4;                
+            } else if (turningdown) {
+                lap4 = Matrix4::rotateA(crossplap, -turning_angle / max_turn_frames) * lap4;
+                dir = Matrix4::rotateA(crosspdir, -turning_angle / max_turn_frames) * dir;
+                cam4 = Matrix4::rotateA(crosspdir, -turning_angle / max_turn_frames) * cam4;
+            }
+            if (turn_frames == max_turn_frames) {
+                turning = false;
+                turningdown = turningup = turningleft = turningright = false;
+                turn_frames = 0;
+            }
+            camera->setLookAtPoint(
+                Vector3(lap4[0], lap4[1], lap4[2]) + camera->getCenterOfProjection()
+            );
+            camera->setUpVector(
+                Vector3(cam4[0], cam4[1], cam4[2])
+            );
+            airplane_direction = Vector3(dir[0], dir[1], dir[2]);
+        }
     }
     if (zooming) {
         Vector3 cop = camera->getCenterOfProjection();
@@ -554,74 +593,31 @@ void RenderWidget0::stopAnimation()
 
 void RenderWidget0::turnLeft()
 {
-    Vector3 lap3 = camera->getLookAtPoint() - camera->getCenterOfProjection();
-    Vector4 lap4 = Vector4(lap3[0], lap3[1], lap3[2], 1);
-    lap4 = Matrix4::rotateA(camera->getUpVector(), 0.02) * lap4;
-    camera->setLookAtPoint(
-        Vector3(lap4[0], lap4[1], lap4[2]) + camera->getCenterOfProjection()
-    );
-    Vector3 dir3 = airplane_direction;
-    Vector4 dir = Vector4(dir3[0], dir3[1], dir3[2], 1);
-    dir = Matrix4::rotateA(camera->getUpVector(), 0.02) * dir;
-    airplane_direction = Vector3(dir[0], dir[1], dir[2]);
+    if (!turning) {
+        turning = turningleft = true;
+    }
 }
 
 void RenderWidget0::turnRight()
 {
-    Vector3 lap3 = camera->getLookAtPoint() - camera->getCenterOfProjection();
-    Vector4 lap4 = Vector4(lap3[0], lap3[1], lap3[2], 1);
-    lap4 = Matrix4::rotateA(camera->getUpVector(), -0.02) * lap4;
-    camera->setLookAtPoint(
-        Vector3(lap4[0], lap4[1], lap4[2]) + camera->getCenterOfProjection()
-    );    
-    Vector3 dir3 = airplane_direction;
-    Vector4 dir = Vector4(dir3[0], dir3[1], dir3[2], 1);
-    dir = Matrix4::rotateA(camera->getUpVector(), -0.02) * dir;
-    airplane_direction = Vector3(dir[0], dir[1], dir[2]);
+    if (!turning) {
+        turning = turningright = true;
+    }
 }
 
 void RenderWidget0::turnDown()
 {
-    Vector3 lap3 = camera->getLookAtPoint() - camera->getCenterOfProjection();
-    Vector3 crossp = lap3 * camera->getUpVector();
-    Vector4 lap4 = Vector4(lap3[0], lap3[1], lap3[2], 1);
-    lap4 = Matrix4::rotateA(crossp, -0.02) * lap4;
-    camera->setLookAtPoint(
-        Vector3(lap4[0], lap4[1], lap4[2]) + camera->getCenterOfProjection()
-    );    
-    Vector3 dir3 = airplane_direction;
-    crossp = dir3 * camera->getUpVector();
-    Vector4 dir = Vector4(dir3[0], dir3[1], dir3[2], 1);
-    dir = Matrix4::rotateA(crossp, -0.02) * dir;
-    airplane_direction = Vector3(dir[0], dir[1], dir[2]);
-    Vector3 cam3 = camera->getUpVector();
-    Vector4 cam4 = Vector4(cam3[0], cam3[1], cam3[2], 1);
-    cam4 = Matrix4::rotateA(crossp, -0.02) * cam4;
-    camera->setUpVector(
-        Vector3(cam4[0], cam4[1], cam4[2])
-    );
+    if (!turning) {
+        turning = turningdown = true;
+    }
 }
 
 void RenderWidget0::turnUp()
 {
-    Vector3 lap3 = camera->getLookAtPoint() - camera->getCenterOfProjection();
-    Vector3 crossp = lap3 * camera->getUpVector();
-    Vector4 lap4 = Vector4(lap3[0], lap3[1], lap3[2], 1);
-    lap4 = Matrix4::rotateA(crossp, 0.02) * lap4;
-    camera->setLookAtPoint(
-        Vector3(lap4[0], lap4[1], lap4[2]) + camera->getCenterOfProjection()
-    );    
-    Vector3 dir3 = airplane_direction;
-    crossp = dir3 * camera->getUpVector();
-    Vector4 dir = Vector4(dir3[0], dir3[1], dir3[2], 1);
-    dir = Matrix4::rotateA(crossp, 0.02) * dir;
-    airplane_direction = Vector3(dir[0], dir[1], dir[2]);
-    Vector3 cam3 = camera->getUpVector();
-    Vector4 cam4 = Vector4(cam3[0], cam3[1], cam3[2], 1);
-    cam4 = Matrix4::rotateA(crossp, 0.02) * cam4;
-    camera->setUpVector(
-        Vector3(cam4[0], cam4[1], cam4[2])
-    );}
+    if (!turning) {
+        turning = turningup = true;        
+    }
+}
 
 void RenderWidget0::toggleFly()
 {
