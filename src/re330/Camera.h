@@ -16,7 +16,7 @@ namespace RE330
 	class RE330_EXPORT Camera : public Frustum
 	{
 	public:
-	        Camera() : viewMatrix(1,0,0,0, 0,1,0,0, 0,0,1,-10, 0,0,0,1) {};
+	        Camera() : viewMatrix(1,0,0,0, 0,1,0,0, 0,0,1,-10, 0,0,0,1), centerOfProjection(0, 0, 10), lookAtPoint(0, 0, 0), upVector(0, 1, 0) {};
 	  
 	        inline Camera(Vector3 cOfP, Vector3 lAtP, Vector3 uV)
 	        {

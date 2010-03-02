@@ -43,7 +43,7 @@ namespace RE330
             w += k[3];
             return *this;
         }
-        Vector4& operator+ (const Vector4& k) const {
+        Vector4 operator+ (const Vector4& k) const {
             return Vector4(*this) += k;
         }
         // Subtraction
@@ -54,7 +54,7 @@ namespace RE330
             w -= k[3];
             return *this;
         }
-        Vector4& operator- (const Vector4& k) const {
+        Vector4 operator- (const Vector4& k) const {
             return Vector4(*this) -= k;
         }
         // Scalar division
@@ -65,7 +65,7 @@ namespace RE330
             w /= i;
             return *this;
         }
-        Vector4& operator/ (const float i) const {
+        Vector4 operator/ (const float i) const {
             return Vector4(*this) /= i;
         }
         // Scalar multiplication
@@ -76,7 +76,7 @@ namespace RE330
             w *= i;
             return *this;
         }
-        Vector4& operator* (const float i) const {
+        Vector4 operator* (const float i) const {
             return Vector4(*this) *= i;
         }
         // No cross multiplication for the Vector4 class

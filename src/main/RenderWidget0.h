@@ -38,6 +38,7 @@ protected:
 	void mousePressEvent(QMouseEvent *e);
 	void mouseMoveEvent(QMouseEvent *e);
 	void mouseReleaseEvent(QMouseEvent *e);
+    void mouseDoubleClickEvent(QMouseEvent *e);
 	
 	// Creates the sphere's vertices
     float* makeSphereVertices(int slices, int points);
@@ -51,6 +52,7 @@ private:
 	SceneManager *sceneManager;
 	Camera *camera;
     Object *object;
+    Object *bunny;
 	Object *earth;
     Object *sun;
     Object *moon;
@@ -59,15 +61,24 @@ private:
     Object *jupiter;
 	int timerId;
     int counter;
+    int frames;
+    static int const max_frames = 25;
     float earth_theta;
     float earth_axis_theta;
     float moon_theta;
     float mars_theta;
     float jupiter_theta;
     float jupiter_z_theta;
-    bool testing;
-    bool dragging;
+    static const int zoompercent = 40;
+    Vector3 zoomvector;
+    bool testcamera1, testcamera2, dragging, zooming, zoomedin, solarsystem, airplanemode;
+    float airplane_speed;
+    Vector3 airplane_direction;
     float sphereX, sphereY;
+    Vector4 last_coords;
+    Object ** object_list;
+    int num_objects;
+    Vector3 initial_cop;
 };
 
 #endif // BASICAPP_H

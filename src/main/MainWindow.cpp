@@ -26,6 +26,8 @@ void MainWindow::createMenus()
 	stopAct = new QAction(tr("St&op animation"), this);
     stopAct->setShortcut(tr("Ctrl+o"));
     connect(stopAct, SIGNAL(triggered()), this, SLOT(stopAnimation()));
+    
+    moveLeft = new QAction(tr("Move &left"), this);
 
     fileMenu = menuBar()->addMenu(tr("&File"));
     fileMenu->addAction(exitAct);
