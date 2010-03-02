@@ -6,6 +6,7 @@
 #include "GLRenderWidget.h"
 #include "SceneManager.h"
 #include "Object.h"
+#include <math.h>
 
 using namespace RE330;
 
@@ -18,6 +19,13 @@ public:
 
 	void startAnimation();
 	void stopAnimation();
+    void turnLeft();
+    void turnRight();
+    void turnUp();
+    void turnDown();
+    void toggleFly();
+    void speedUp();
+    void speedDown();
 
 protected:
 	// Event handlers. These are virtual methods of the base class.
@@ -39,7 +47,7 @@ protected:
 	void mouseMoveEvent(QMouseEvent *e);
 	void mouseReleaseEvent(QMouseEvent *e);
     void mouseDoubleClickEvent(QMouseEvent *e);
-	
+    	
 	// Creates the sphere's vertices
     float* makeSphereVertices(int slices, int points);
     int* makeSphereIndices(int slices, int points);
@@ -58,6 +66,7 @@ private:
     Object *moon;
     Object *satellite;
     Object *mars;
+    Object *terrain;
     Object *jupiter;
 	int timerId;
     int counter;
@@ -69,9 +78,10 @@ private:
     float mars_theta;
     float jupiter_theta;
     float jupiter_z_theta;
+    float terrain_x_scale, terrain_y_scale, terrain_z_scale;
     static const int zoompercent = 40;
     Vector3 zoomvector;
-    bool testcamera1, testcamera2, dragging, zooming, zoomedin, solarsystem, airplanemode;
+    bool testcamera1, testcamera2, dragging, zooming, zoomedin, solarsystem, airplanemode, heightmap;
     float airplane_speed;
     Vector3 airplane_direction;
     float sphereX, sphereY;

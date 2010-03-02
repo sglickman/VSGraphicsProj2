@@ -6,6 +6,7 @@
 #include "GLRenderContext.h"
 #include "ObjReader.h"
 #include "VertexData.h"
+#include "PGMLoader.cpp"
 #include "Shapes.h"
 
 #include <stdio.h>
@@ -28,21 +29,137 @@ RenderWidget0::~RenderWidget0()
 	}
 }
 
+float translate(float level, float actual_min, float actual_max, float new_min, float new_max) {
+    return ((level - actual_min) / (actual_max - actual_min) * (new_max - new_min)) + new_min;
+}
+
 void RenderWidget0::initSceneEvent() 
 {
     solarsystem = false;
     testcamera1 = false;
-    testcamera2 = true;
+    testcamera2 = false;
+    heightmap = true;
     counter = 0;
-    airplanemode = false;
-    airplane_direction = Vector3(0, 0, 1);
-    airplane_speed = 0.01;
+    airplanemode = true;
 	sceneManager = new SceneManager();
+    terrain_x_scale = 2;
+    terrain_y_scale = 1;
+    terrain_z_scale = 2;
 
 	// Camera
 	camera = sceneManager->createCamera();
+	if (airplanemode) {
+        camera->setCenterOfProjection(Vector3(0, 10, 10));
+	}
+    airplane_direction = Vector3(0, 0, -1);
+    airplane_speed = 0.005;
 	
-	if (solarsystem) {
+	if (heightmap) {
+        int rows, cols;
+        int & _rows = rows;
+        int & _cols = cols;
+        // char min_height, max_height;
+        unsigned char * heights = loadPGM("Heightmap.pgm", _rows, _cols);
+        // min_height = max_height = heights[0];
+        // for (int y = 0; y < height; y++) {
+        //     for (int x = 0; x < width; x++) {
+        //         if (heights[y * width + x] > max_height) {
+        //             max_height = heights[y * width + x];
+        //         } else if (heights[y * width + x] < min_height) {
+        //             min_height = heights[y * width + x];
+        //         }
+        //     }
+        // }
+        int nVerts = rows * cols;
+        int nIndices = 6 * (rows - 1) * (cols - 1);
+        float * vertices = new float[3 * nVerts];
+        float * colors = new float[3 * nVerts];
+        int * indices = new int[nIndices];
+        int index = 0;
+        for (int y = 0; y < cols; y++) {
+            for (int x = 0; x < rows; x++) {
+                vertices[index++] = translate(x, 0, rows, -1 * terrain_x_scale, 1 * terrain_x_scale);
+                vertices[index++] = translate(heights[y * rows + x], 0, 255, -1 * terrain_y_scale, 1 * terrain_y_scale);
+                vertices[index++] = translate(y, 0, cols, -1 * terrain_z_scale, 1 * terrain_z_scale);
+            }
+        }
+        index = 0;
+        float color_level;
+        for (int y = 0; y < cols; y++) {
+            for (int x = 0; x < rows; x++) {
+                color_level = translate(heights[y * rows + x], 0, 255, 0, 1);
+                if (color_level < 0.25) {
+                    // smooth gradient from blue to yellow
+                    // blue = (0, 0, 1)
+                    // yellow = (1, 1, 0)
+                    colors[index++] = translate(color_level, 0, 0.25, 0, 1);
+                    colors[index++] = translate(color_level, 0, 0.25, 0, 1);
+                    colors[index++] = translate(color_level, 0, 0.25, 1, 0);
+                } else if (color_level < 0.5) {
+                    // smooth gradient from yellow to green
+                    // yellow = (1, 1, 0)
+                    // green = (0, 1, 0)
+                    colors[index++] = translate(color_level, 0.25, 0.5, 1, 0);
+                    colors[index++] = 1.0;
+                    colors[index++] = 0.0;
+                } else if (color_level < 0.75) {
+                    // smooth gradient from green to brown
+                    // green = (0, 1, 0)
+                    // brown = (150/255, 75/255, 0)
+                    colors[index++] = translate(color_level, 0.5, 0.75, 0, 0.6);
+                    colors[index++] = translate(color_level, 0.5, 0.75, 1, 0.3);
+                    colors[index++] = 0;
+                } else if (color_level < 0.85) {
+                    // smooth gradient from brown to white
+                    // brown = (150/255, 75/255, 0)
+                    // white = (1, 1, 1)
+                    colors[index++] = translate(color_level, 0.75, 0.85, 0.6, 1);
+                    colors[index++] = translate(color_level, 0.75, 0.85, 0.3, 1);
+                    colors[index++] = translate(color_level, 0.75, 0.85, 0, 1);
+                } else {
+                    // the top 15% is pure white
+                    colors[index++] = 1;
+                    colors[index++] = 1;
+                    colors[index++] = 1;
+                }
+            }
+        }
+        
+        index = 0;
+        for (int y = 0; y < cols - 1; y++) {
+            for (int x = 0; x < rows - 1; x++) {
+                indices[index++] = y * rows + x;
+                indices[index++] = (y + 1) * rows + x;
+                indices[index++] = y * rows + x + 1;
+                indices[index++] = (y + 1) * rows + x;
+                indices[index++] = (y + 1) * rows + x + 1;
+                indices[index++] = y * rows + x + 1;
+            }
+        }
+        
+
+
+        // Add an object to the scene
+        terrain = sceneManager->createObject();
+        
+        // Set up the vertex data
+        VertexData& vertexData = terrain->vertexData;
+        
+        // Specify the elements of the vertex data:
+        // - one element for vertex positions
+        vertexData.vertexDeclaration.addElement(0, 0, 3, 3*sizeof(float), RE330::VES_POSITION);
+        // - one element for vertex colors
+        vertexData.vertexDeclaration.addElement(1, 0, 3, 3*sizeof(int), RE330::VES_DIFFUSE);
+        // Create the buffers and load the data
+        vertexData.createVertexBuffer(0, nVerts*3*sizeof(float), (unsigned char*)vertices);
+        vertexData.createVertexBuffer(1, nVerts*3*sizeof(float), (unsigned char*)colors);
+        vertexData.createIndexBuffer(nIndices, indices);
+        num_objects = 1;
+        object_list = new Object*[num_objects];
+        int object_list_array = 0;
+        object_list[object_list_array++] = terrain;
+        
+	} else if (solarsystem) {
         const int sun_colors = 13;
         float sun_list[sun_colors][3] = {
             {255, 200, 0},
@@ -286,7 +403,20 @@ void RenderWidget0::resizeRenderWidgetEvent(const QSize &s)
 void RenderWidget0::timerEvent(QTimerEvent *t)
 {
     if (airplanemode) {
+        Vector3 cop3 = camera->getCenterOfProjection();
+        Matrix4 translation = Matrix4::translate(airplane_direction * airplane_speed);
+        Vector3 lap3 = camera->getLookAtPoint();
+        Vector4 cop4 = Vector4(cop3[0], cop3[1], cop3[2], 1);
+        Vector4 lap4 = Vector4(lap3[0], lap3[1], lap3[2], 1);
+        lap4 = translation * lap4;
+        cop4 = translation * cop4;
         
+        camera->setCenterOfProjection(
+            Vector3(cop4[0], cop4[1], cop4[2])
+        );
+        camera->setLookAtPoint(
+            Vector3(lap4[0], lap4[1], lap4[2])
+        );
     }
     if (zooming) {
         Vector3 cop = camera->getCenterOfProjection();
@@ -420,4 +550,90 @@ void RenderWidget0::stopAnimation()
 		killTimer(timerId);
 		timerId = 0;
 	}
+}
+
+void RenderWidget0::turnLeft()
+{
+    Vector3 lap3 = camera->getLookAtPoint() - camera->getCenterOfProjection();
+    Vector4 lap4 = Vector4(lap3[0], lap3[1], lap3[2], 1);
+    lap4 = Matrix4::rotateA(camera->getUpVector(), 0.02) * lap4;
+    camera->setLookAtPoint(
+        Vector3(lap4[0], lap4[1], lap4[2]) + camera->getCenterOfProjection()
+    );
+    Vector3 dir3 = airplane_direction;
+    Vector4 dir = Vector4(dir3[0], dir3[1], dir3[2], 1);
+    dir = Matrix4::rotateA(camera->getUpVector(), 0.02) * dir;
+    airplane_direction = Vector3(dir[0], dir[1], dir[2]);
+}
+
+void RenderWidget0::turnRight()
+{
+    Vector3 lap3 = camera->getLookAtPoint() - camera->getCenterOfProjection();
+    Vector4 lap4 = Vector4(lap3[0], lap3[1], lap3[2], 1);
+    lap4 = Matrix4::rotateA(camera->getUpVector(), -0.02) * lap4;
+    camera->setLookAtPoint(
+        Vector3(lap4[0], lap4[1], lap4[2]) + camera->getCenterOfProjection()
+    );    
+    Vector3 dir3 = airplane_direction;
+    Vector4 dir = Vector4(dir3[0], dir3[1], dir3[2], 1);
+    dir = Matrix4::rotateA(camera->getUpVector(), -0.02) * dir;
+    airplane_direction = Vector3(dir[0], dir[1], dir[2]);
+}
+
+void RenderWidget0::turnDown()
+{
+    Vector3 lap3 = camera->getLookAtPoint() - camera->getCenterOfProjection();
+    Vector3 crossp = lap3 * camera->getUpVector();
+    Vector4 lap4 = Vector4(lap3[0], lap3[1], lap3[2], 1);
+    lap4 = Matrix4::rotateA(crossp, -0.02) * lap4;
+    camera->setLookAtPoint(
+        Vector3(lap4[0], lap4[1], lap4[2]) + camera->getCenterOfProjection()
+    );    
+    Vector3 dir3 = airplane_direction;
+    crossp = dir3 * camera->getUpVector();
+    Vector4 dir = Vector4(dir3[0], dir3[1], dir3[2], 1);
+    dir = Matrix4::rotateA(crossp, -0.02) * dir;
+    airplane_direction = Vector3(dir[0], dir[1], dir[2]);
+    Vector3 cam3 = camera->getUpVector();
+    Vector4 cam4 = Vector4(cam3[0], cam3[1], cam3[2], 1);
+    cam4 = Matrix4::rotateA(crossp, -0.02) * cam4;
+    camera->setUpVector(
+        Vector3(cam4[0], cam4[1], cam4[2])
+    );
+}
+
+void RenderWidget0::turnUp()
+{
+    Vector3 lap3 = camera->getLookAtPoint() - camera->getCenterOfProjection();
+    Vector3 crossp = lap3 * camera->getUpVector();
+    Vector4 lap4 = Vector4(lap3[0], lap3[1], lap3[2], 1);
+    lap4 = Matrix4::rotateA(crossp, 0.02) * lap4;
+    camera->setLookAtPoint(
+        Vector3(lap4[0], lap4[1], lap4[2]) + camera->getCenterOfProjection()
+    );    
+    Vector3 dir3 = airplane_direction;
+    crossp = dir3 * camera->getUpVector();
+    Vector4 dir = Vector4(dir3[0], dir3[1], dir3[2], 1);
+    dir = Matrix4::rotateA(crossp, 0.02) * dir;
+    airplane_direction = Vector3(dir[0], dir[1], dir[2]);
+    Vector3 cam3 = camera->getUpVector();
+    Vector4 cam4 = Vector4(cam3[0], cam3[1], cam3[2], 1);
+    cam4 = Matrix4::rotateA(crossp, 0.02) * cam4;
+    camera->setUpVector(
+        Vector3(cam4[0], cam4[1], cam4[2])
+    );}
+
+void RenderWidget0::toggleFly()
+{
+    airplanemode = !airplanemode;
+}
+
+void RenderWidget0::speedUp()
+{
+    airplane_speed += 0.005;
+}
+
+void RenderWidget0::speedDown()
+{
+    airplane_speed -= 0.005;
 }

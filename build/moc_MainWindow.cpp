@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'MainWindow.h'
 **
-** Created: Wed Feb 24 21:55:36 2010
+** Created: Tue Mar 2 00:20:07 2010
 **      by: The Qt Meta Object Compiler version 62 (Qt 4.6.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_MainWindow[] = {
        4,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       9,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -33,13 +33,22 @@ static const uint qt_meta_data_MainWindow[] = {
  // slots: signature, parameters, type, tag, flags
       12,   11,   11,   11, 0x08,
       29,   11,   11,   11, 0x08,
+      45,   11,   11,   11, 0x08,
+      56,   11,   11,   11, 0x08,
+      68,   11,   11,   11, 0x08,
+      77,   11,   11,   11, 0x08,
+      88,   11,   11,   11, 0x08,
+     100,   11,   11,   11, 0x08,
+     110,   11,   11,   11, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_MainWindow[] = {
     "MainWindow\0\0startAnimation()\0"
-    "stopAnimation()\0"
+    "stopAnimation()\0turnLeft()\0turnRight()\0"
+    "turnUp()\0turnDown()\0toggleFly()\0"
+    "speedUp()\0speedDown()\0"
 };
 
 const QMetaObject MainWindow::staticMetaObject = {
@@ -73,9 +82,16 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         switch (_id) {
         case 0: startAnimation(); break;
         case 1: stopAnimation(); break;
+        case 2: turnLeft(); break;
+        case 3: turnRight(); break;
+        case 4: turnUp(); break;
+        case 5: turnDown(); break;
+        case 6: toggleFly(); break;
+        case 7: speedUp(); break;
+        case 8: speedDown(); break;
         default: ;
         }
-        _id -= 2;
+        _id -= 9;
     }
     return _id;
 }

@@ -28,12 +28,12 @@ namespace RE330
 		}
 		
 		Vector3 getCenterOfProjection() { return centerOfProjection; }
-		Vector3 getlookAtPoint() { return lookAtPoint; }
-		Vector3 getupVector() { return upVector; }
+		Vector3 getLookAtPoint() { return lookAtPoint; }
+		Vector3 getUpVector() { return upVector; }
 
         void setCenterOfProjection(Vector3 cOfP) { centerOfProjection = cOfP; updateViewMatrix();}
-        void setlookAtPoint(Vector3 lAtP) { lookAtPoint = lAtP; updateViewMatrix();}
-        void setupVector(Vector3 uV) { upVector = uV; updateViewMatrix();}
+        void setLookAtPoint(Vector3 lAtP) { lookAtPoint = lAtP; updateViewMatrix();}
+        void setUpVector(Vector3 uV) { upVector = uV; updateViewMatrix();}
         
         void updateViewMatrix() {
             Vector3 z = centerOfProjection - lookAtPoint;
