@@ -25,24 +25,49 @@ namespace RE330
 		  farPlane = fP;
 		  aspectRatio = aP;
 		  verticalFieldOfView = vFOV;
+          updateMatrix();
 
-		  float farMinusNear = farPlane - nearPlane;
+          // float farMinusNear = farPlane - nearPlane;
 		  
-		  p = Matrix4(
-		       1/(aspectRatio*tan(verticalFieldOfView/2)), 0, 0, 0,
-		       0, 1/tan(verticalFieldOfView/2), 0, 0,
-		       0, 0, -(farPlane+nearPlane)/farMinusNear, -(2*farPlane*nearPlane)/farMinusNear,
-		       0, 0, -1, 0
-		  );
+          // p = Matrix4(
+          //      1/(aspectRatio*tan(verticalFieldOfView/2)), 0, 0, 0,
+          //      0, 1/tan(verticalFieldOfView/2), 0, 0,
+          //      0, 0, -(farPlane+nearPlane)/farMinusNear, -(2*farPlane*nearPlane)/farMinusNear,
+          //      0, 0, -1, 0
+          // );
 		}
 		const Matrix4 &getProjectionMatrix() const { return p; }
-
+        void setNearPlane(float np) {
+            nearPlane = np;
+            updateMatrix();
+		}
+		void setFarPlane(float fp) {
+            farPlane = fp;
+            updateMatrix();
+		}
+		void setAspectRatio(float ap) {
+            aspectRatio = ap;
+            updateMatrix();
+		}
+		void setVerticalFieldOfView(float vfov) {
+            verticalFieldOfView = M_PI * vfov / 180;
+            updateMatrix();
+		}
+		
 	private:
 		Matrix4 p;
 		float nearPlane;
 		float farPlane;
 		float aspectRatio;
 		float verticalFieldOfView;
+		void updateMatrix() {
+		    p = Matrix4(
+		        1/(aspectRatio*tan(verticalFieldOfView/2)), 0, 0, 0,
+		        0, 1/tan(verticalFieldOfView/2), 0, 0,
+		        0, 0, -(farPlane + nearPlane)/(farPlane - nearPlane), -(2 * farPlane * nearPlane) / (farPlane - nearPlane),
+		        0, 0, -1, 0
+            );
+		}
 	};
 
 }

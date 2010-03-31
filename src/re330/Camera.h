@@ -43,9 +43,9 @@ namespace RE330
             Vector3 y = z * x;
 
             viewMatrix = Matrix4(
-                x.getX(), x.getY(), x.getZ(), -centerOfProjection.getX() * x.getX() - centerOfProjection.getY() * x.getY() - centerOfProjection.getZ() * x.getZ(),
-                y.getX(), y.getY(), y.getZ(), -centerOfProjection.getX() * y.getX() - centerOfProjection.getY() * y.getY() - centerOfProjection.getZ() * y.getZ(),
-                z.getX(), z.getY(), z.getZ(), -centerOfProjection.getX() * z.getX() - centerOfProjection.getY() * z.getY() - centerOfProjection.getZ() * z.getZ(),
+                x[0], x[1], x[2], -centerOfProjection[0] * x[0] - centerOfProjection[1] * x[1] - centerOfProjection[2] * x[2],
+                y[0], y[1], y[2], -centerOfProjection[0] * y[0] - centerOfProjection[1] * y[1] - centerOfProjection[2] * y[2],
+                z[0], z[1], z[2], -centerOfProjection[0] * z[0] - centerOfProjection[1] * z[1] - centerOfProjection[2] * z[2],
                 0, 0, 0, 1
             );
         }
@@ -53,6 +53,10 @@ namespace RE330
             centerOfProjection = Vector3(0, 0, 40);
             lookAtPoint = Vector3(0, 0, 0);
             upVector = Vector3(0, 1, 0);
+            setAspectRatio(1);
+            setVerticalFieldOfView(60);
+            setNearPlane(1);
+            setFarPlane(100);
             updateViewMatrix();
 		}
 		
@@ -60,6 +64,32 @@ namespace RE330
             centerOfProjection = Vector3(-10, 40, 40);
             lookAtPoint = Vector3(-5, 0, 0);
             upVector = Vector3(0, 1, 0);
+            setAspectRatio(1);
+            setVerticalFieldOfView(60);
+            setNearPlane(1);
+            setFarPlane(100);
+            updateViewMatrix();
+		}
+		
+		void scene1() {
+            centerOfProjection = Vector3(20, 20, 20);
+            lookAtPoint = Vector3(0, 0, 0);
+            upVector = Vector3(0, 1, 0);
+            setAspectRatio(1);
+            setVerticalFieldOfView(60);
+            setNearPlane(1);
+            setFarPlane(100);
+            updateViewMatrix();
+		}
+
+		void scene2() {
+            centerOfProjection = Vector3(-10, 20, 200);
+            lookAtPoint = Vector3(-5, 0, 0);
+            upVector = Vector3(0, 1, 0);
+            setAspectRatio(1);
+            setVerticalFieldOfView(60);
+            setNearPlane(1);
+            setFarPlane(100);
             updateViewMatrix();
 		}
 		

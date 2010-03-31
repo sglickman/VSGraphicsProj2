@@ -36,34 +36,30 @@ void ObjReader::get_indices(char *word, int *vindex, int *tindex, int *nindex)
 }
 
 void ObjReader::normalize(float *vertices, int nVertices) {
-    float xmax = vertices[0];
-    float xmin = vertices[0];
-    float ymax = vertices[1];
-    float ymin = vertices[1];
-    float zmax = vertices[2];
-    float zmin = vertices[2];
+    float max = vertices[0];
+    float min = vertices[0];
     int x_index, y_index, z_index;
     
     for (int i = 0; i < nVertices; i ++) {
         x_index = 3*i;
         y_index = x_index + 1;
         z_index = y_index + 1;
-        if (vertices[x_index] > xmax) {
-            xmax = vertices[x_index];
-        } else if (vertices[x_index] < xmin) {
-            xmin = vertices[x_index];
+        if (vertices[x_index] > max) {
+            max = vertices[x_index];
+        } else if (vertices[x_index] < min) {
+            min = vertices[x_index];
         }
         
-        if (vertices[y_index] > ymax) {
-            ymax = vertices[y_index];
-        } else if (vertices[y_index] < ymin) {
-            ymin = vertices[y_index];
+        if (vertices[y_index] > max) {
+            max = vertices[y_index];
+        } else if (vertices[y_index] < min) {
+            min = vertices[y_index];
         }
         
-        if (vertices[z_index] > zmax) {
-            zmax = vertices[z_index];
-        } else if (vertices[z_index] < zmin) {
-            zmin = vertices[z_index];
+        if (vertices[z_index] > max) {
+            max = vertices[z_index];
+        } else if (vertices[z_index] < min) {
+            min = vertices[z_index];
         }
     }
     
@@ -71,9 +67,9 @@ void ObjReader::normalize(float *vertices, int nVertices) {
         x_index = 3*i;
         y_index = x_index + 1;
         z_index = y_index + 1;
-        vertices[x_index] = (vertices[x_index] - xmin) / (xmax - xmin) - 0.5;
-        vertices[y_index] = (vertices[y_index] - ymin) / (ymax - ymin) - 0.5;
-        vertices[z_index] = (vertices[z_index] - zmin) / (zmax - zmin) - 0.5;
+        vertices[x_index] = (vertices[x_index] - min) / (max - min) - 0.5;
+        vertices[y_index] = (vertices[y_index] - min) / (max - min) - 0.5;
+        vertices[z_index] = (vertices[z_index] - min) / (max - min) - 0.5;
     }
 }
 

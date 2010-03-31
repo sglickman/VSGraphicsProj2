@@ -1,0 +1,8 @@
+
+*.o
+bin/
+build/
+*.app
+Makefile
+*.obj
+.DS_Store

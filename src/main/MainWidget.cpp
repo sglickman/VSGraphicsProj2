@@ -13,5 +13,6 @@ QSizePolicy MainWidget::sizePolicy()
 
 void MainWidget::resizeEvent(QResizeEvent * event) 
 {
+    
 	qDebug("resize");
 }

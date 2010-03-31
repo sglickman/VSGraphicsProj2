@@ -2,6 +2,7 @@
 #define __Vector4_h__
 
 #include "RE330_global.h"
+#include "Vector3.h"
 #include <math.h>
 
 namespace RE330 
@@ -15,8 +16,7 @@ namespace RE330
         Vector4() : x(0), y(0), z(0), w(0) {}
         Vector4(float a, float b, float c, float d) 
             : x(a), y(b), z(c), w(d) {}
-        Vector4(float *k) 
-        { Vector4(k[0], k[1], k[2], k[3]); }
+        Vector4(float *k) : x(k[0]), y(k[1]), z(k[2]), w(k[3]) {}
         float operator[] (int i) const {return (&x)[i];}
         Vector4& operator= (const Vector4& k) {
             x = k[0];
@@ -86,7 +86,10 @@ namespace RE330
         }
         // Equality test
         bool operator== (const Vector4& k) const {
-            return ((x - k[0] < EPSILON) && (y - k[1] < EPSILON) && (z - k[2] < EPSILON) && (w - k[3] < EPSILON));
+            return ((x - k[0] < EPSILON) 
+                && (y - k[1] < EPSILON) 
+                && (z - k[2] < EPSILON) 
+                && (w - k[3] < EPSILON));
         }
         // Inequality test
         bool operator!= (const Vector4& k) const {
@@ -101,6 +104,9 @@ namespace RE330
         Vector4& normalize () {
             if (len() == 0) return (*this);
             return (*this) /= len();
+        }
+        Vector3 hdiv() {
+            return Vector3(x/w, y/w, z/w);
         }
 	};
 

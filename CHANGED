@@ -1,0 +1,17 @@
+Changed files:
+  - re330/Light.h:
+    - Provided
+  - re330/Light.cpp:
+    - Provided
+  - re330/Material.h
+    - Provided
+  - re330/Material.cpp:
+    - Provided
+  - re330/Shader.h:
+    - Provided
+  - re330/Shader.cpp:
+    - Provided
+  - re330/Texture.h:
+    - Provided
+  - re330/Texture.cpp:
+    - Provided

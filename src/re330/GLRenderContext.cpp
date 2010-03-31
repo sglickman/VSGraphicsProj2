@@ -21,6 +21,8 @@ void GLRenderContext::init()
 	glEnable(GL_DEPTH_TEST);    // activates depth buffer for hidden surface removal
 	glEnable(GL_CULL_FACE);     // makes faces invisible
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    // clears color and depth buffer
+  glEnable(GL_NORMALIZE);
+  glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 }
 
 void GLRenderContext::setViewport(int width, int height)

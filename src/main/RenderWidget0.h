@@ -2,10 +2,14 @@
 #define RenderWidget0_H
 
 #include <QWidget>
-#include "GLRenderWidget.h"
+#include "SWRenderWidget.h"
+#include "SWRenderContext.h"
+#include "GLWidget.h"
+#include "GLWidget.h"
 #include "GLRenderWidget.h"
 #include "SceneManager.h"
 #include "Object.h"
+#include "Shader.h"
 #include <math.h>
 
 using namespace RE330;
@@ -48,18 +52,18 @@ protected:
 	void mouseReleaseEvent(QMouseEvent *e);
     void mouseDoubleClickEvent(QMouseEvent *e);
     	
-	// Creates the sphere's vertices
-    float* makeSphereVertices(int slices, int points);
-    int* makeSphereIndices(int slices, int points);
-    float* makeSphereColors(int slices, int points);
-    float* makePyramidVertices(int height, int base_points);
-    int* makePyramidIndices(int height, int base_points);
-    float* makePyramidColors(int height, int base_points);
     void toDecimal(int num_colors, float color_list[][3]);
+    void setupDefault();
+    void setupSolarSystem();
+    void setupHeightmap();
+    void setupTestCamera(int testcamera);
+    void setupColorfulGeometry();
+    void setupHyperbolicRectangle();
 private:
 	SceneManager *sceneManager;
 	Camera *camera;
     Object *object;
+    Object *house;
     Object *bunny;
 	Object *earth;
     Object *sun;
@@ -84,7 +88,9 @@ private:
     float terrain_x_scale, terrain_y_scale, terrain_z_scale;
     static const int zoompercent = 40;
     Vector3 zoomvector;
-    bool testcamera1, testcamera2, dragging, zooming, zoomedin, solarsystem, airplanemode, heightmap;
+    bool dragging, zooming, zoomedin, solarsystem, airplanemode, heightmap,
+        colorful_geometry, hyperbolic_rectangle;
+    int testcamera;
     bool turning, turningup, turningdown, turningleft, turningright;
     float airplane_speed;
     Vector3 airplane_direction;

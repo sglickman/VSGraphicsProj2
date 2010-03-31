@@ -115,6 +115,9 @@ namespace RE330
             if (len() == 0) return (*this);
             return (*this) /= len();
         }
+        void print() {
+            printf("(%f, %f, %f)\n", x, y, z);
+        }
 	};
 
 }
