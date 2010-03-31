@@ -2,7 +2,7 @@
 #define __Texture_h__
 
 #include "RE330_global.h"
-#include <qimage>
+#include <QImage>
 
 namespace RE330 {
 

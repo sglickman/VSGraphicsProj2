@@ -3,7 +3,7 @@
 
 #include "RE330_global.h"
 #include "SWRenderContext.h"
-#include <qtgui>
+#include <QtGui>
 
 namespace RE330 {
 

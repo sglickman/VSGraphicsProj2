@@ -4,7 +4,7 @@
 #include "RE330_global.h"
 #include "RenderWidget.h"
 #include "SWWidget.h"
-#include <qtgui>
+#include <QtGui>
 
 
 namespace RE330 {
