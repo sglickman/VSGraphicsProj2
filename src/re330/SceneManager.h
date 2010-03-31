@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "Object.h"
 #include "RenderContext.h"
+#include "GLRenderContext.h"
 #include <list>
 #include <stdlib.h>
 #include <time.h>

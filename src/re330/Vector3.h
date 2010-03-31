@@ -9,9 +9,8 @@ namespace RE330
 {
 	class RE330_EXPORT Vector3
 	{
-	private:
-	    float x, y, z;
     public:
+        float x, y, z;
         // Constructors and assignment
         Vector3() : x(0), y(0), z(0) {}
         Vector3(float a, float b, float c) : x(a), y(b), z(c) {}

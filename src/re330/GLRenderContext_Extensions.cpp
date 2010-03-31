@@ -22,7 +22,8 @@ private:
 
 void GLRenderContext::setLights(const std::list<Light*> &lightList)
 {	
-	GLint lightIndex[] = {GL_LIGHT0, GL_LIGHT1, GL_LIGHT2, GL_LIGHT3, GL_LIGHT4, GL_LIGHT5, GL_LIGHT6, GL_LIGHT7};
+	GLint lightIndex[] = {GL_LIGHT0, GL_LIGHT1, GL_LIGHT2, GL_LIGHT3, GL_LIGHT4,
+	    GL_LIGHT5, GL_LIGHT6, GL_LIGHT7};
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

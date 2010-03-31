@@ -38,7 +38,9 @@ Camera* SceneManager::createCamera()
 
 void SceneManager::renderScene()
 {
-	RenderContext* renderContext = RenderContext::getSingletonPtr();
+	GLRenderContext* renderContext = GLRenderContext::getSingletonPtr();
+  renderContext->setModelViewMatrix(Matrix4::IDENTITY);
+  renderContext->setLights(mLightList);
 
 	if(mCamera!=0) 
 	{
