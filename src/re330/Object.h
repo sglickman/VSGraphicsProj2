@@ -4,6 +4,7 @@
 #include "RE330_global.h"
 #include "VertexData.h"
 #include "Matrix4.h"
+#include "Material.h"
 
 namespace RE330 
 {
@@ -29,6 +30,7 @@ namespace RE330
 	protected:
 		Object() { mTransformation = Matrix4::IDENTITY; }
 		Matrix4 mTransformation;
+    Material* material;
 
 		friend class SceneManager;
 	};

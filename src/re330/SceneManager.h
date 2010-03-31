@@ -8,6 +8,7 @@
 #include <list>
 #include <stdlib.h>
 #include <time.h>
+#include "Light.h"
 
 namespace RE330 
 {
@@ -44,6 +45,7 @@ namespace RE330
 	private:
 		Camera *mCamera;
 		std::list<Object*> mObjectList;
+    std::list<Light*> mLightList;
 	};
 
 }
