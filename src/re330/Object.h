@@ -23,14 +23,14 @@ namespace RE330
             printf("(%f %f %f %f)\n", mTransformation[4], mTransformation[5], mTransformation[6], mTransformation[7]);
             printf("(%f %f %f %f)\n", mTransformation[8], mTransformation[9], mTransformation[10], mTransformation[11]);
             printf("(%f %f %f %f)\n", mTransformation[12], mTransformation[13], mTransformation[14], mTransformation[15]);
-            fflush(NULL);
+            fflush(NULL);             
         }
 		VertexData vertexData;
+    Material* material;
 
 	protected:
-		Object() { mTransformation = Matrix4::IDENTITY; }
+    Object() { mTransformation = Matrix4::IDENTITY; material = new Material();}
 		Matrix4 mTransformation;
-    Material* material;
 
 		friend class SceneManager;
 	};

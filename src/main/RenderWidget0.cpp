@@ -51,8 +51,9 @@ float scale(float level, float actual_min, float actual_max,
 void RenderWidget0::initSceneEvent() 
 {
   hyperbolic_rectangle = false;
-  colorful_geometry = true;
+  colorful_geometry = false;
   solarsystem = false;
+  pot = true;
   testcamera = 0;
   heightmap = false;
   counter = 0;
@@ -86,6 +87,8 @@ void RenderWidget0::initSceneEvent()
     setupColorfulGeometry();
   } else if (hyperbolic_rectangle) {
     setupHyperbolicRectangle();
+  } else if (pot) {
+    setupTeapot();
   } else {
     setupDefault();
   }
@@ -337,6 +340,42 @@ void RenderWidget0::setupColorfulGeometry() {
   int object_list_array = 0;
   object_list[object_list_array++] = object;
 }
+
+/*
+** Sets up the teapot, which has normals.
+*/
+void RenderWidget0::setupTeapot() {
+  int nVerts;
+  float *vertices;
+  float *normals;
+  float *texcoords;
+  int nIndices;
+  int *indices;
+  ObjReader::readObj("teapot.obj", nVerts, &vertices, &normals,
+    &texcoords, nIndices, &indices);
+  ObjReader::normalize(vertices, nVerts);
+  teapot = sceneManager->createObject();
+  VertexData& vertexData = teapot->vertexData;
+  vertexData.vertexDeclaration.addElement(0, 0, 3, 3*sizeof(float),
+    RE330::VES_POSITION);
+  vertexData.createVertexBuffer(0, nVerts*3*sizeof(float), 
+    (unsigned char*)vertices);
+  if(normals)
+  {
+  	vertexData.vertexDeclaration.addElement(1, 0, 3, 3*sizeof(float),
+  	  RE330::VES_NORMAL);		
+  	vertexData.createVertexBuffer(1, nVerts*3*sizeof(float), 
+  	  (unsigned char*)normals);
+  }
+
+  vertexData.createIndexBuffer(nIndices, indices);
+  num_objects = 1;
+  object_list = new Object*[num_objects];
+  int object_list_array = 0;
+  object_list[object_list_array++] = teapot;
+}
+
+
 /*
 ** Sets up the default view, with the bunny in the center
 ** and the planet Earth off to the side.

@@ -20,6 +20,12 @@ SceneManager::~SceneManager()
 	    mObjectList.pop_front();
 		delete o;
 	} 
+	while(mLightList.size() > 0)
+	{
+    Light *l = mLightList.front();
+    mLightList.pop_front();
+    delete l;
+	}
 }
 
 Object* SceneManager::createObject()

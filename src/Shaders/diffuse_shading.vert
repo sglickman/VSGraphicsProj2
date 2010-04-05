@@ -6,7 +6,7 @@
 // surface normal, which are passed to the fragment
 // shader as varying variables.
 
-varying vec3 normal, lightDir;
+varying vec3 normal, lightDir, reflection;
 
 void main()
 {	
@@ -15,6 +15,7 @@ void main()
     // state.
     lightDir = normalize(vec3(gl_LightSource[0].position));
     normal = normalize(gl_NormalMatrix * gl_Normal);
+    reflection = reflect(normal, lightDir);
 	
     // ftransform() is a built-in function that applies all
     // transformations (i.e., modelview and 

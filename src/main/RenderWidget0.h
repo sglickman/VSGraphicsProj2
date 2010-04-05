@@ -59,6 +59,7 @@ protected:
     void setupTestCamera(int testcamera);
     void setupColorfulGeometry();
     void setupHyperbolicRectangle();
+    void setupTeapot();
 private:
 	SceneManager *sceneManager;
 	Camera *camera;
@@ -72,6 +73,7 @@ private:
     Object *mars;
     Object *terrain;
     Object *jupiter;
+    Object *teapot;
 	int timerId;
     int counter;
     int frames;
@@ -89,7 +91,7 @@ private:
     static const int zoompercent = 40;
     Vector3 zoomvector;
     bool dragging, zooming, zoomedin, solarsystem, airplanemode, heightmap,
-        colorful_geometry, hyperbolic_rectangle;
+        colorful_geometry, hyperbolic_rectangle, pot;
     int testcamera;
     bool turning, turningup, turningdown, turningleft, turningright;
     float airplane_speed;

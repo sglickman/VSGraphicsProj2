@@ -8,11 +8,17 @@
 // result is multiplied with the vertex color, which is 
 // accessed through a pre-defined varying variable.
 
-varying vec3 normal, lightDir;
+varying vec3 normal, lightDir, reflection;
 
 void main()
 {		
+    float p = 10.0;
     gl_FragColor = gl_LightSource[0].diffuse * 
-                   max(dot(normalize(normal), normalize(lightDir)),0.0) * 
-                   gl_FrontMaterial.diffuse;		
+                   pow(max(dot(normalize(normal), normalize(reflection)),0.0),
+                   p) * 
+                   gl_FrontMaterial.diffuse + 
+                   gl_LightSource[0].diffuse *
+                   pow(max(dot(normalize(normal), normalize(lightDir)), 0.0),
+                   p) *
+                   gl_FrontMaterial.diffuse;
 }
