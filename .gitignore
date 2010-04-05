@@ -6,3 +6,5 @@ build
 Makefile
 *.obj
 .DS_Store
+/p
+*.app
