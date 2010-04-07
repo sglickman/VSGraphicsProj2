@@ -12,7 +12,7 @@ varying vec3 normal, lightDir, reflection, eyeDir;
 
 void main()
 {		
-    float p = 2.0;
+    float p = 1.0;
     gl_FragColor = gl_LightSource[0].diffuse * 
                    max(dot(normalize(normal), normalize(lightDir)),0.0) * 
                    gl_FrontMaterial.diffuse + 
@@ -21,7 +21,7 @@ void main()
                    gl_FrontMaterial.ambient +
                    
                    gl_LightSource[0].specular *
-                   pow(max(dot(normalize(reflection), normalize(eyeDir)), 0.0),
+                   pow(max(dot(normalize(eyeDir), normalize(reflection)), 0.0),
                    p) *
                    gl_FrontMaterial.specular
                    

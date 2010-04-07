@@ -15,7 +15,7 @@ void main()
     // state.
     lightDir = normalize(vec3(gl_LightSource[0].position));
     normal = normalize(gl_NormalMatrix * gl_Normal);
-    reflection = reflect(normal, lightDir);
+    reflection = -reflect(lightDir, normal);
     eyeDir = -normalize(vec3(gl_ModelViewMatrix * gl_Vertex));
 	
     // ftransform() is a built-in function that applies all
