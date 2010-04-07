@@ -8,35 +8,35 @@
 // result is multiplied with the vertex color, which is 
 // accessed through a pre-defined varying variable.
 
-varying vec3 normal, lightDir, reflection, eyeDir;
+varying vec3 normal, lightDir0, lightDir1, reflection0, reflection1, eyeDir;
 
 void main()
 {		
     float p = 1.0;
     gl_FragColor = gl_LightSource[0].diffuse * 
-                   max(dot(normalize(normal), normalize(lightDir)),0.0) * 
-                   gl_FrontMaterial.diffuse + 
+        max(dot(normalize(normal), normalize(lightDir0)),0.0) * 
+        gl_FrontMaterial.diffuse + 
                    
-                   gl_LightSource[0].ambient *
-                   gl_FrontMaterial.ambient +
+        gl_LightSource[0].ambient *
+        gl_FrontMaterial.ambient +
                    
-                   gl_LightSource[0].specular *
-                   pow(max(dot(normalize(eyeDir), normalize(reflection)), 0.0),
-                   p) *
-                   gl_FrontMaterial.specular
+        gl_LightSource[0].specular *
+        pow(max(dot(normalize(eyeDir), normalize(reflection0)), 0.0),
+            p) *
+        gl_FrontMaterial.specular
                    
-                   + 
+        + 
                    
-                   gl_LightSource[1].diffuse * 
-                   max(dot(normalize(normal), normalize(lightDir)),0.0) * 
-                   gl_FrontMaterial.diffuse + 
+        gl_LightSource[1].diffuse * 
+        max(dot(normalize(normal), normalize(lightDir1)),0.0) * 
+        gl_FrontMaterial.diffuse + 
                    
-                   gl_LightSource[1].ambient *
-                   gl_FrontMaterial.ambient +
+        gl_LightSource[1].ambient *
+        gl_FrontMaterial.ambient +
                    
-                   gl_LightSource[1].specular *
-                   pow(max(dot(normalize(reflection), normalize(eyeDir)), 0.0),
-                   p) *
-                   gl_FrontMaterial.specular;
+        gl_LightSource[1].specular *
+        pow(max(dot(normalize(eyeDir), normalize(reflection1)), 0.0),
+            p) *
+        gl_FrontMaterial.specular;
    
 }

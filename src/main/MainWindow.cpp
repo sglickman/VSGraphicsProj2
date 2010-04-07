@@ -7,7 +7,7 @@ MainWindow::MainWindow()
 	setWindowTitle("CSCI330SP09 Rendering Engine");
 
 	// the menu bar (21 pixels) is part of the widget size...
-	resize(512,512+21);	
+	resize(1024,1024+21);	
 	
 	renderWidget = new RenderWidget0();
 	setCentralWidget(renderWidget);

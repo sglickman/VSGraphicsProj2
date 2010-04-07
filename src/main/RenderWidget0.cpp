@@ -89,6 +89,7 @@ void RenderWidget0::initSceneEvent()
     setupHyperbolicRectangle();
   } else if (pot) {
     setupTeapot();
+    camera->testCase1();
   } else {
     setupDefault();
   }

@@ -8,18 +8,21 @@ SceneManager::SceneManager()
 {
   Light* redLight = new Light();
   Light* blueLight = new Light();
-  blueLight->setDirection(Vector3(1, 0, 0));
+  blueLight->setDirection(Vector3(-1, 0, 0));
   blueLight->setPosition(Vector3(1, 0, 0));
-  blueLight->setSpotDirection(Vector3(1, 0, 0));
-  blueLight->setDiffuseColor(Vector3(0.5, 0.5, 1.0));
+  blueLight->setSpotDirection(Vector3(-1, 0, 0));
+  blueLight->setDiffuseColor(Vector3(0.0, 0.0, 1.0));
   blueLight->setAmbientColor(Vector3(0.1, 0.1, 0.2));
-  blueLight->setSpecularColor(Vector3(0.5, 0.5, 1.0));
-  redLight->setDiffuseColor(Vector3(1.0, 0.5, 0.5));
+  blueLight->setSpecularColor(Vector3(0.0, 0.0, 1.0));
+  blueLight->setType(Light::DIRECTIONAL);
+  redLight->setType(Light::SPOT);
+  redLight->setDiffuseColor(Vector3(1.0, 0.0, 0.0));
   redLight->setAmbientColor(Vector3(0.2, 0.1, 0.1));
-  redLight->setSpecularColor(Vector3(1.0, 0.5, 0.5));
+  redLight->setSpecularColor(Vector3(1.0, 0.0, 0.0));
   
-  mLightList.push_back(redLight);
+  
   mLightList.push_back(blueLight);
+  mLightList.push_back(redLight);
 }
 
 SceneManager::~SceneManager()

@@ -50,7 +50,7 @@ namespace RE330
             );
         }
 		void testCase1() {
-            centerOfProjection = Vector3(0, 0, 40);
+            centerOfProjection = Vector3(0, 0, 2);
             lookAtPoint = Vector3(0, 0, 0);
             upVector = Vector3(0, 1, 0);
             setAspectRatio(1);
@@ -66,7 +66,7 @@ namespace RE330
             upVector = Vector3(0, 1, 0);
             setAspectRatio(1);
             setVerticalFieldOfView(60);
-            setNearPlane(1);
+            setNearPlane(-10);
             setFarPlane(100);
             updateViewMatrix();
 		}
