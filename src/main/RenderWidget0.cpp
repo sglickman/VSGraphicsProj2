@@ -369,10 +369,31 @@ void RenderWidget0::setupTeapot() {
   }
 
   vertexData.createIndexBuffer(nIndices, indices);
-  num_objects = 1;
+
+  ObjReader::readObj("dragon_smooth.obj", nVerts, &vertices, &normals,
+    &texcoords, nIndices, &indices);
+  ObjReader::normalize(vertices, nVerts);
+  bunny = sceneManager->createObject();
+  VertexData& vertexData2 = bunny->vertexData;
+  vertexData2.vertexDeclaration.addElement(0, 0, 3, 3*sizeof(float),
+    RE330::VES_POSITION);
+  vertexData2.createVertexBuffer(0, nVerts*3*sizeof(float), 
+    (unsigned char*)vertices);
+  if(normals)
+  {
+  	vertexData2.vertexDeclaration.addElement(1, 0, 3, 3*sizeof(float),
+  	  RE330::VES_NORMAL);		
+  	vertexData2.createVertexBuffer(1, nVerts*3*sizeof(float), 
+  	  (unsigned char*)normals);
+  }
+
+  vertexData2.createIndexBuffer(nIndices, indices);
+  
+  num_objects = 2;
   object_list = new Object*[num_objects];
   int object_list_array = 0;
   object_list[object_list_array++] = teapot;
+  object_list[object_list_array++] = bunny;
 }
 
 

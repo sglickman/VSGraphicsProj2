@@ -27,6 +27,9 @@ namespace RE330
         }
 		VertexData vertexData;
     Material* material;
+    inline void setMaterial(Material* m) {
+      material = m;
+    }
 
 	protected:
     Object() { mTransformation = Matrix4::IDENTITY; material = new Material();}
