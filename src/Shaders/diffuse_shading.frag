@@ -79,54 +79,42 @@ vec4 point(uint light)
     return color;
 }
 
+vec4 lightcolor(uint light)
+{
+    vec4 color;
+    float spotEffect;
+
+    color = gl_LightModel.ambient * gl_FrontMaterial.ambient + 
+        gl_LightSource[light].ambient *
+        gl_FrontMaterial.ambient;
+
+    // determine whether or not it is a directional light
+    if (gl_LightSource[light].position[3] == 0.0) {
+        color += directional(light);   
+    } else {
+        // Now find out whether this is a spot or a point.
+        if (any(notEqual(gl_LightSource[light].spotDirection, vec3(0.0, 0.0, 0.0)))) {
+            // We have a spot light.  Determine if we are in the cone.
+            spotEffect = dot(normalize(-L[light]), 
+                             normalize(gl_LightSource[light].spotDirection));
+            if ( spotEffect >= gl_LightSource[light].spotCosCutoff) {
+                // We are in the cone of light, set color.
+                //color += spot(light, spotEffect);
+            }
+        } else {
+            // We have a point light.
+            color += point(light);
+        }
+    }
+    return color;
+}
+
 void main()
 {	
     vec4 c[2];
-    float spotEffect;
     
-    c[0] = gl_LightModel.ambient * gl_FrontMaterial.ambient + 
-        gl_LightSource[0].ambient *
-        gl_FrontMaterial.ambient;
-    c[1] = gl_LightModel.ambient * gl_FrontMaterial.ambient +
-        gl_LightSource[1].ambient *
-        gl_FrontMaterial.ambient;
-    
-    // determine whether or not c[0] is a directional light
-    if (gl_LightSource[0].position[3] == 0.0) {
-        c[0] += directional(0);   
-    } else {
-        // Now find out whether this is a spot or a point.
-        if (!(gl_LightSource[0].spotDirection == 0)) {
-            // We have a spot light.  Determine if we are in the cone.
-            spotEffect = dot(normalize(-L[0]), 
-                             normalize(gl_LightSource[0].spotDirection));
-            if ( spotEffect >= gl_LightSource[0].spotCosCutoff) {
-                // We are in the cone of light, set c[0].
-                c[0] += spot(0, spotEffect);
-            }
-        } else {
-            // We have a point light.
-            c[0] += point(0);
-        }
-    }
-
-    if (gl_LightSource[1].position[3] == 0.0) {
-        c[1] += directional(1);
-    } else {
-        // Now find out whether this is a spot or a point.
-        if (!(gl_LightSource[1].spotDirection == 0)) {
-            // We have a spot light.  Determine if we are in the cone.
-            spotEffect = dot(normalize(-L[1]), 
-                             normalize(gl_LightSource[1].spotDirection));
-            if ( spotEffect >= gl_LightSource[1].spotCosCutoff) {
-                // We are in the cone of light, set c[1].
-                c[1] += spot(1, spotEffect);
-            }
-        } else {
-            // We have a point light.
-            c[1] += point(1);
-        }
-    }
+    c[0] = lightcolor(0);
+    c[1] = lightcolor(1);
     
     gl_FragColor = c[0] + c[1];
 }
