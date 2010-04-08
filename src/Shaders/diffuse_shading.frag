@@ -33,12 +33,10 @@ vec4 spot(uint light, float spotEffect)
 {
     vec4 color;
     float att;
-    /* att = pow(spotEffect, gl_LightSource[light].spotExponent) /  */
-    /*     (gl_LightSource[light].constantAttenuation + */
-    /*      gl_LightSource[light].linearAttenuation * d[light] + */
-    /*      gl_LightSource[light].quadraticAttenuation * d[light] * d[light]); */
-
-    att = 1.0;
+    att = pow(spotEffect, gl_LightSource[light].spotExponent) /
+        (gl_LightSource[light].constantAttenuation +
+         gl_LightSource[light].linearAttenuation * d[light] +
+         gl_LightSource[light].quadraticAttenuation * d[light] * d[light]);
 
     // Diffuse
     color =
@@ -100,7 +98,8 @@ void main()
         // Now find out whether this is a spot or a point.
         if (!(gl_LightSource[0].spotDirection == 0)) {
             // We have a spot light.  Determine if we are in the cone.
-            spotEffect = dot(normalize(-L[0]), gl_LightSource[0].spotDirection);
+            spotEffect = dot(normalize(-L[0]), 
+                             normalize(gl_LightSource[0].spotDirection));
             if ( spotEffect >= gl_LightSource[0].spotCosCutoff) {
                 // We are in the cone of light, set c[0].
                 c[0] += spot(0, spotEffect);
@@ -117,7 +116,8 @@ void main()
         // Now find out whether this is a spot or a point.
         if (!(gl_LightSource[1].spotDirection == 0)) {
             // We have a spot light.  Determine if we are in the cone.
-            spotEffect = dot(normalize(-L[1]), gl_LightSource[1].spotDirection);
+            spotEffect = dot(normalize(-L[1]), 
+                             normalize(gl_LightSource[1].spotDirection));
             if ( spotEffect >= gl_LightSource[1].spotCosCutoff) {
                 // We are in the cone of light, set c[1].
                 c[1] += spot(1, spotEffect);

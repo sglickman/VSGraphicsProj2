@@ -4,7 +4,7 @@ using namespace RE330;
 
 Light::Light()
 : mDirection(-1,0,0), mPosition(-1,0,0), mType(DIRECTIONAL), mDiffuse(1,1,1), mAmbient(0.2,0.2,0.2), mSpecular(1,1,1),
-  mSpotDirection(-1,0,0), mSpotExponent(0.f), mSpotCutoff(180.f)
+  mSpotDirection(-1,0,0), mSpotExponent(1.f), mSpotCutoff(180.f)
 {
 }
 
