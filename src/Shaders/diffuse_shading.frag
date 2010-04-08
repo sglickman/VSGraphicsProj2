@@ -11,68 +11,121 @@
 varying vec3 normal, L[2], R[2], eyeDir;
 varying float d[2];
 
+vec4 directional(uint light)
+{
+    vec4 color; 
+    // Diffuse
+    color +
+        gl_LightSource[light].diffuse *
+        max(dot(normalize(normal), normalize(L[light])),0.0) *
+        gl_FrontMaterial.diffuse;
+      
+    // Specular
+    color +=
+        gl_LightSource[light].specular *
+        pow(max(dot(normalize(eyeDir), normalize(R[light])), 0.0),
+            gl_FrontMaterial.shininess) *
+        gl_FrontMaterial.specular;
+    return color;
+}
+
+vec4 spot(uint light, float spotEffect)
+{
+    vec4 color;
+    float att;
+    /* att = pow(spotEffect, gl_LightSource[light].spotExponent) /  */
+    /*     (gl_LightSource[light].constantAttenuation + */
+    /*      gl_LightSource[light].linearAttenuation * d[light] + */
+    /*      gl_LightSource[light].quadraticAttenuation * d[light] * d[light]); */
+
+    att = 1.0;
+
+    // Diffuse
+    color =
+        gl_LightSource[light].diffuse *
+        max(dot(normalize(normal), normalize(L[light])), 0.0) *
+        gl_FrontMaterial.diffuse * att;
+             
+    // Specular
+    color +=
+        gl_LightSource[light].specular *
+        pow(max(dot(normalize(eyeDir), normalize(R[light])), 0.0),
+            gl_FrontMaterial.shininess) *
+        gl_FrontMaterial.specular * att;
+    return color;
+}
+
+vec4 point(uint light)
+{
+    vec4 color;
+    float att;
+    att = 1.0 / (gl_LightSource[light].constantAttenuation +
+                 gl_LightSource[light].linearAttenuation * d[light] +
+                 gl_LightSource[light].quadraticAttenuation * d[light] * d[light]);
+
+    // Diffuse
+    color =
+        gl_LightSource[light].diffuse *
+        max(dot(normalize(normal), normalize(L[light])), 0.0) *
+        gl_FrontMaterial.diffuse;
+             
+    // Specular
+    color +=
+        gl_LightSource[light].specular *
+        pow(max(dot(normalize(eyeDir), normalize(R[light])), 0.0),
+            gl_FrontMaterial.shininess) *
+        gl_FrontMaterial.specular;
+
+    // "Power" of the light
+    color *= att;
+    return color;
+}
+
 void main()
 {	
     vec4 c[2];
-    float p = 1.0;
     float spotEffect;
     
-    c[0] = gl_LightSource[0].ambient *
+    c[0] = gl_LightModel.ambient * gl_FrontMaterial.ambient + 
+        gl_LightSource[0].ambient *
         gl_FrontMaterial.ambient;
-    c[1] = gl_LightSource[1].ambient *
+    c[1] = gl_LightModel.ambient * gl_FrontMaterial.ambient +
+        gl_LightSource[1].ambient *
         gl_FrontMaterial.ambient;
     
     // determine whether or not c[0] is a directional light
     if (gl_LightSource[0].position[3] == 0.0) {
-        c[0] += 
-            gl_LightSource[0].diffuse * 
-            max(dot(normalize(normal), normalize(L[0])),0.0) * 
-            gl_FrontMaterial.diffuse;
-      
-        c[0] += 
-            gl_LightSource[0].specular *
-            pow(max(dot(normalize(eyeDir), normalize(R[0])), 0.0),
-                p) *
-            gl_FrontMaterial.specular;          
+        c[0] += directional(0);   
     } else {
         // Now find out whether this is a spot or a point.
         if (!(gl_LightSource[0].spotDirection == 0)) {
             // We have a spot light.  Determine if we are in the cone.
             spotEffect = dot(normalize(-L[0]), gl_LightSource[0].spotDirection);
             if ( spotEffect >= gl_LightSource[0].spotCosCutoff) {
-                // We are in the cone of light, add to c[0].
-                spotEffect = pow(spotEffect, gl_LightSource[0].spotExponent);
-                c[0] *= spotEffect;
-                c[0] +=
-                    gl_LightSource[0].diffuse *
-                    max(dot(normalize(normal), normalize(L[0])), 0.0) *
-                    gl_FrontMaterial.diffuse *
-                    spotEffect;
-              
-                c[0] +=
-                    gl_LightSource[0].specular *
-                    pow(max(dot(normalize(eyeDir), normalize(R[0])), 0.0),
-                        p) *
-                    gl_FrontMaterial.specular *
-                    spotEffect;
+                // We are in the cone of light, set c[0].
+                c[0] += spot(0, spotEffect);
             }
         } else {
             // We have a point light.
-        
+            c[0] += point(0);
         }
     }
-    
-    if (gl_LightSource[1].position[3] == 1.0) {
-        c[1] +=
-            gl_LightSource[1].diffuse *
-            max(dot(normalize(normal), normalize(L[1])), 0.0) *
-            gl_FrontMaterial.diffuse;
-      
-        c[1] +=
-            gl_LightSource[1].specular *
-            pow(max(dot(normalize(eyeDir), normalize(R[1])), 0.0),
-                p) *
-            gl_FrontMaterial.specular;
+
+    if (gl_LightSource[1].position[3] == 0.0) {
+        c[1] += directional(1);
+    } else {
+        // Now find out whether this is a spot or a point.
+        if (!(gl_LightSource[1].spotDirection == 0)) {
+            // We have a spot light.  Determine if we are in the cone.
+            spotEffect = dot(normalize(-L[1]), gl_LightSource[1].spotDirection);
+            if ( spotEffect >= gl_LightSource[1].spotCosCutoff) {
+                // We are in the cone of light, set c[1].
+                c[1] += spot(1, spotEffect);
+            }
+        } else {
+            // We have a point light.
+            c[1] += point(1);
+        }
     }
     
     gl_FragColor = c[0] + c[1];
