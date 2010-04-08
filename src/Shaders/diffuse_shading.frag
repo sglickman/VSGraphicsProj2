@@ -65,17 +65,15 @@ vec4 point(uint light)
     color =
         gl_LightSource[light].diffuse *
         max(dot(normalize(normal), normalize(L[light])), 0.0) *
-        gl_FrontMaterial.diffuse;
+        gl_FrontMaterial.diffuse * att;
              
     // Specular
     color +=
         gl_LightSource[light].specular *
         pow(max(dot(normalize(eyeDir), normalize(R[light])), 0.0),
             gl_FrontMaterial.shininess) *
-        gl_FrontMaterial.specular;
+        gl_FrontMaterial.specular * att;
 
-    // "Power" of the light
-    color *= att;
     return color;
 }
 
@@ -93,13 +91,13 @@ vec4 lightcolor(uint light)
         color += directional(light);   
     } else {
         // Now find out whether this is a spot or a point.
-        if (any(notEqual(gl_LightSource[light].spotDirection, vec3(0.0, 0.0, 0.0)))) {
+        if (gl_LightSource[light].spotCutoff != 180.0) {
             // We have a spot light.  Determine if we are in the cone.
             spotEffect = dot(normalize(-L[light]), 
                              normalize(gl_LightSource[light].spotDirection));
             if ( spotEffect >= gl_LightSource[light].spotCosCutoff) {
                 // We are in the cone of light, set color.
-                //color += spot(light, spotEffect);
+                color += spot(light, spotEffect);
             }
         } else {
             // We have a point light.

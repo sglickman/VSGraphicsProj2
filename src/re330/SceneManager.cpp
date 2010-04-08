@@ -11,12 +11,13 @@ SceneManager::SceneManager()
   blueLight->setDirection(Vector3(-1, 0, 0));
   blueLight->setPosition(Vector3(10, 0, 0));
   blueLight->setSpotDirection(Vector3(-1, 0, 0));
+  blueLight->setSpotCutoff(10.f);
   blueLight->setDiffuseColor(Vector3(0.0, 0.0, 1.0));
   blueLight->setAmbientColor(Vector3(0.1, 0.1, 0.2));
   blueLight->setSpecularColor(Vector3(0.0, 0.0, 1.0));
   blueLight->setType(Light::SPOT);
   redLight->setType(Light::POINT);
-  redLight->setPosition(Vector3(0.f, 0.f, 1.f));
+  redLight->setPosition(Vector3(0.f, 0.f, 20.f));
   redLight->setSpotDirection(Vector3(0.f,0.f, -1.f));
   redLight->setSpotCutoff(5.f);
   redLight->setSpotExponent(5.f);
