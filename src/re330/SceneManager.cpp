@@ -21,7 +21,7 @@ SceneManager::SceneManager()
   redLight->setSpecularColor(Vector3(1.0, 0.0, 0.0));
   
   
-  // mLightList.push_back(blueLight);
+  mLightList.push_back(blueLight);
   mLightList.push_back(redLight);
 }
 
