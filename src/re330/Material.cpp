@@ -2,8 +2,8 @@
 
 using namespace RE330;
 
-Material::Material() : mDiffuse(Vector3(0.8,0.8,0.8)), mSpecular(Vector3(0,0,0)),
- mAmbient(Vector3(0.2,0.2,0.2)), mShininess(20), mTexture(0), mShader(0)
+Material::Material() : mDiffuse(Vector3(0.8,0.8,0.8)), mSpecular(Vector3(.2,.2,.2)),
+ mAmbient(Vector3(0.2,0.2,0.2)), mShininess(10), mTexture(0), mShader(0)
 {
 }
 

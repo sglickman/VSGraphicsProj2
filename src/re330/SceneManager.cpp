@@ -8,10 +8,10 @@ SceneManager::SceneManager()
 {
   Light* redLight = new Light();
   Light* blueLight = new Light();
-  blueLight->setPosition(Vector3(10, 0, 0));
-  blueLight->setSpotDirection(Vector3(-1, 0, 0));
-  blueLight->setSpotCutoff(10.f);
-  blueLight->setDiffuseColor(Vector3(1.0, 1.0, 1.0));
+  blueLight->setPosition(Vector3(0.f, 0, 2));
+  blueLight->setSpotDirection(Vector3(0, 0, -1));
+  blueLight->setSpotCutoff(7.f);
+  blueLight->setDiffuseColor(Vector3(1.0, .0, .0));
   blueLight->setAmbientColor(Vector3(0.1, 0.1, 0.1));
   blueLight->setSpecularColor(Vector3(.2, .2, .2));
   blueLight->setType(Light::SPOT);

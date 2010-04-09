@@ -53,7 +53,8 @@ void RenderWidget0::initSceneEvent()
   hyperbolic_rectangle = false;
   colorful_geometry = false;
   solarsystem = false;
-  pot = true;
+  pot = false;
+  texturemode = true;
   testcamera = 0;
   heightmap = false;
   counter = 0;
@@ -65,11 +66,6 @@ void RenderWidget0::initSceneEvent()
   terrain_y_scale = 1;
   terrain_z_scale = 2;
   
-  // Shader
-  Shader *shader = new Shader("src/Shaders/diffuse_shading.vert",
-                              "src/Shaders/diffuse_shading.frag");
-  shader->use();
-
 	// Camera
 	camera = sceneManager->createCamera();
 	if (airplanemode) {
@@ -90,6 +86,8 @@ void RenderWidget0::initSceneEvent()
   } else if (pot) {
     setupTeapot();
     camera->testCase1();
+  } else if (texturemode) {
+    setupTexturedPlanes();
   } else {
     setupDefault();
   }
@@ -97,6 +95,187 @@ void RenderWidget0::initSceneEvent()
   initial_cop = camera->getCenterOfProjection();
 	// Trigger timer event every 5ms.
 	timerId = startTimer(5);
+}
+
+/*
+** Sets up the textured planes, as required in the lab.
+*/
+
+void RenderWidget0::setupTexturedPlanes() {
+  // Shader
+  Shader *shader = new Shader("src/Shaders/texture_shading.vert",
+                              "src/Shaders/texture_shading.frag");
+  shader->use();
+  
+  int nVerts1 = 6;
+  float vertices1[] = 
+  {
+    -5,5,0,  5,-5,0,   5,5,0,
+    -5,5,0,  -5,-5,0,  5,-5,0
+  };
+  float colors1[] = 
+  {
+    1,0,0,  0,0,1,   1,0,0,
+    1,0,0,  0,0,1,   0,0,1
+  };
+  int indices1[] = 
+  {
+    0,1,2,  3,4,5
+  };
+  
+  float texcoords1[] = 
+  {
+    0, 0, 1, 1, 1, 0,
+    0, 0, 0, 1, 1, 1
+  };
+  
+  float normals1[] = 
+  {
+    0,0,1, 0,0,1, 0,0,1, 
+    0,0,1, 0,0,1, 0,0,1
+  };
+  
+  int nVerts2 = 16;
+  
+  float vertices2[] = 
+  {
+    -1, 1, -1,  -1, 1, -1,
+    -1, 1, 1,   -1, 1, 1,
+    1, 1, 1,    1, 1, 1,
+    1, 1, -1,   1, 1, -1,
+    -1, -1, -1, -1, -1, -1,
+    -1, -1, 1,  -1, -1, 1,
+    1, -1, 1,   1, -1, 1,
+    1, -1, -1,  1, -1, -1,
+  };
+  
+  float normals2[] = 
+  {
+    -1, 1, -1,  -1, 1, -1,
+    -1, 1, 1,   -1, 1, 1,
+    1, 1, 1,    1, 1, 1,
+    1, 1, -1,   1, 1, -1,
+    -1, -1, -1, -1, -1, -1,
+    -1, -1, 1,  -1, -1, 1,
+    1, -1, 1,   1, -1, 1,
+    1, -1, -1,  1, -1, -1,
+  };
+  
+
+  float colors2[] = 
+  {
+      0,0,0,  0,0,0,
+      0,0,0,  0,0,0,
+      0,0,0,  0,0,0,
+      0,0,0,  0,0,0,
+      0,0,0,  0,0,0,
+      0,0,0,  0,0,0,
+      0,0,0,  0,0,0,
+      0,0,0,  0,0,0,    
+  };
+  int indices2[] = 
+  {
+    0, 4, 6,     0, 2, 4,
+    4, 14, 6,    4, 12, 14,
+    12, 8, 14,   12, 10, 8,
+    10, 2, 8,    8, 2, 0,
+    
+    3, 13, 5,    3, 11, 13,
+    1, 7, 15,    15, 9, 1
+  };
+  
+  float texcoords2[] = 
+  {
+    0,0,  0,0, 
+    0,1,  0,0,
+    1,1,  1,0,
+    1,0,  0,1,
+    1,0,  1,0,
+    1,1,  0,1,
+    0,1,  1,1,
+    0,0,  1,1
+  };
+  
+  
+  object1 = sceneManager->createObject();
+  // Set up the vertex data
+	VertexData& vertexData1 = object1->vertexData;
+
+	// Specify the elements of the vertex data:
+	// - one element for vertex positions
+	vertexData1.vertexDeclaration.addElement(0, 0, 3, 
+	  3*sizeof(float), RE330::VES_POSITION);
+	// - one element for vertex colors
+	vertexData1.vertexDeclaration.addElement(1, 0, 3, 
+	  3*sizeof(float), RE330::VES_DIFFUSE);
+	  
+	vertexData1.vertexDeclaration.addElement(2, 0, 3,
+    3*sizeof(float), RE330::VES_NORMAL);
+  vertexData1.createVertexBuffer(2, nVerts1 * 3 * sizeof(float), (unsigned char*)normals1);
+
+	// Create the buffers and load the data
+	vertexData1.createVertexBuffer(0, nVerts1*3*sizeof(float), 
+	  (unsigned char*)vertices1);
+	vertexData1.createVertexBuffer(1, nVerts1*3*sizeof(float), 
+	  (unsigned char*)colors1);
+	
+	vertexData1.createIndexBuffer(2 * 3, indices1);
+	vertexData1.vertexDeclaration.addElement(3, 0, 2, 2*sizeof(float),
+	  RE330::VES_TEXTURE_COORDINATES);
+	vertexData1.createVertexBuffer(3, nVerts1*2*sizeof(float), 
+	  (unsigned char*)texcoords1);
+	
+  QImage *texImg1 = new QImage("stone.png", "PNG");
+  Texture *t1 = new Texture(texImg1);  
+  Material* object1_material = new Material();
+  object1_material->setTexture(t1);
+  object1->setMaterial(object1_material);
+
+	
+  object2 = sceneManager->createObject();
+  // Set up the vertex data
+	VertexData& vertexData2 = object2->vertexData;
+
+	// Specify the elements of the vertex data:
+	// - one element for vertex positions
+	vertexData2.vertexDeclaration.addElement(0, 0, 3, 
+	  3*sizeof(float), RE330::VES_POSITION);
+	// - one element for vertex colors
+	vertexData2.vertexDeclaration.addElement(1, 0, 3, 
+	  3*sizeof(float), RE330::VES_DIFFUSE);
+
+	// Create the buffers and load the data
+	vertexData2.createVertexBuffer(0, nVerts2*3*sizeof(float), 
+	  (unsigned char*)vertices2);
+	vertexData2.createVertexBuffer(1, nVerts2*3*sizeof(float), 
+	  (unsigned char*)colors2);
+	  
+	  vertexData2.vertexDeclaration.addElement(2, 0, 3,
+      3*sizeof(float), RE330::VES_NORMAL);
+    vertexData2.createVertexBuffer(2, 3*nVerts2*sizeof(float), (unsigned char*)normals2);
+	
+	vertexData2.createIndexBuffer(36, indices2);
+	
+	vertexData2.vertexDeclaration.addElement(3, 0, 2, 2*sizeof(float),
+	  RE330::VES_TEXTURE_COORDINATES);
+	vertexData2.createVertexBuffer(3, nVerts2*2*sizeof(float), 
+	  (unsigned char*)texcoords2);
+
+  QImage *texImg2 = new QImage("brick.jpg", "JPG");
+  Texture *t2 = new Texture(texImg2);  
+  Material* object2_material = new Material();
+  object2_material->setTexture(t2);
+  object2->setMaterial(object2_material);
+	
+	
+  object1->setTransformation(object1->getTransformation() * Matrix4::translate(-3, 0, -1));
+  object2->setTransformation(object2->getTransformation() * Matrix4::translate(3, 0, 1));
+  
+	num_objects = 2;
+  object_list = new Object*[num_objects];
+  int object_list_array = 0;
+  object_list[object_list_array++] = object1;
+  object_list[object_list_array++] = object2;
 }
 
 
@@ -346,14 +525,16 @@ void RenderWidget0::setupColorfulGeometry() {
 ** Sets up the teapot, which has normals.
 */
 void RenderWidget0::setupTeapot() {
+  // Shader
+  Shader *shader = new Shader("src/Shaders/diffuse_shading.vert",
+                              "src/Shaders/diffuse_shading.frag");
+  shader->use();
   int nVerts;
   float *vertices;
   float *normals;
   float *texcoords;
   int nIndices;
   int *indices;
-  // QImage *texImg = new QImage("stone.png", "PNG");
-  // Texture *t = new Texture(texImg);
   ObjReader::readObj("teapot.obj", nVerts, &vertices, &normals,
     &texcoords, nIndices, &indices);
   ObjReader::normalize(vertices, nVerts);
@@ -372,17 +553,20 @@ void RenderWidget0::setupTeapot() {
   }
 
   vertexData.createIndexBuffer(nIndices, indices);
+  // QImage *texImg = new QImage("stone.png", "PNG");
+  // Texture *t = new Texture(texImg);
   
   Material* teapot_material = new Material();
   // teapot_material->setTexture(t);
-  teapot_material->setSpecular(Vector3(.7, .7, .7));
-  teapot_material->setShininess(20.f);
-  teapot_material->setDiffuse(Vector3(.1, .3, .7));
+  teapot_material->setSpecular(Vector3(1, 1, 1));
+  teapot_material->setShininess(40.f);
+  teapot_material->setDiffuse(Vector3(.5, .7, 1));
   teapot_material->setAmbient(Vector3(.1, .2, .4));
   teapot->setMaterial(teapot_material);
 
+  float *texcoords2; 
   ObjReader::readObj("dragon_smooth.obj", nVerts, &vertices, &normals,
-    &texcoords, nIndices, &indices);
+    &texcoords2, nIndices, &indices);
   ObjReader::normalize(vertices, nVerts);
   bunny = sceneManager->createObject();
   VertexData& vertexData2 = bunny->vertexData;
@@ -402,11 +586,14 @@ void RenderWidget0::setupTeapot() {
   
   Material* bunny_material = new Material();
   // teapot_material->setTexture(t);
+  bunny_material->setShininess(10.f);
   bunny_material->setSpecular(Vector3(.5, .5, .5));
+  bunny_material->setDiffuse(Vector3(.3, .9, .1));
+  bunny_material->setAmbient(Vector3(.1, .2, .1));
   bunny->setMaterial(bunny_material);
   
-  bunny->setTransformation(bunny->getTransformation() * Matrix4::translate(-.3, 0, 0));
-  teapot->setTransformation(teapot->getTransformation() * Matrix4::translate(.3, 0, 0));
+  bunny->setTransformation(bunny->getTransformation() * Matrix4::translate(-.5, 0, 0));
+  teapot->setTransformation(teapot->getTransformation() * Matrix4::translate(.5, 0, 0));
   
   num_objects = 2;
   object_list = new Object*[num_objects];
@@ -449,7 +636,10 @@ void RenderWidget0::setupDefault() {
   vertexData.createIndexBuffer(nIndices, indices);
 
   if(normals) delete[] normals;
-  if(texcoords) delete[] texcoords;
+  if(texcoords) {
+    printf("texcoords 0, 1 and 2: %f, %f, %f\n", texcoords[0], texcoords[1], texcoords[2]);
+    delete[] texcoords;
+  }
   delete[] vertices;
   delete[] indices;
 
@@ -799,6 +989,10 @@ void RenderWidget0::resizeRenderWidgetEvent(const QSize &s)
 */ 
 void RenderWidget0::timerEvent(QTimerEvent *t)
 {
+  if (pot) {
+    bunny->setTransformation(bunny->getTransformation() * Matrix4::rotateY(0.03));
+    teapot->setTransformation(teapot->getTransformation() * Matrix4::rotateY(-0.03));
+  }
   if (airplanemode) {
     Vector3 cop3 = camera->getCenterOfProjection();
     Matrix4 translation = 
