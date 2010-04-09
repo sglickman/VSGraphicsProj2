@@ -11,7 +11,8 @@ varying float d[2];
 
 void main()
 {	
-    vec3 aux;
+  vec3 aux;
+
     // Note that gl_LightSource, gl_NormalMatrix, and gl_Normal
     // are pre-defined variables that access the current OpenGL
     // state.

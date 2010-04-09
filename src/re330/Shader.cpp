@@ -70,9 +70,13 @@ Shader::Shader(char *vertexFileName, char *fragmentFileName) {
 void Shader::use() {
     if (glewIsSupported("GL_VERSION_2_0")) {  // OpenGL 2.0 syntax
 		glUseProgram(p);
+    printf("2.0 Syntax.\n");
+    fflush(NULL);
 	}
 	else {  // ARB extensions syntax
 		glUseProgramObjectARB(p);
+    printf("Not 2.0 Syntax.\n");
+    fflush(NULL);
 	}
 	// If this assertion fails your shader program couldn't be activated
 	// by OpenGL.
