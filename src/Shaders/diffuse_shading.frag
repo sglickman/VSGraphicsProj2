@@ -94,8 +94,6 @@ void main()
     vec4 c[2];
     
     c[0] = lightcolor(0);
-    // c[1] = vec4(1.0, 1.0, 1.0, 1.0);
-    // lightcolor(0);
     c[1] = lightcolor(1);
     
     gl_FragColor = c[0] + c[1];

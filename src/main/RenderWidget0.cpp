@@ -352,6 +352,8 @@ void RenderWidget0::setupTeapot() {
   float *texcoords;
   int nIndices;
   int *indices;
+  // QImage *texImg = new QImage("stone.png", "PNG");
+  // Texture *t = new Texture(texImg);
   ObjReader::readObj("teapot.obj", nVerts, &vertices, &normals,
     &texcoords, nIndices, &indices);
   ObjReader::normalize(vertices, nVerts);
@@ -372,33 +374,45 @@ void RenderWidget0::setupTeapot() {
   vertexData.createIndexBuffer(nIndices, indices);
   
   Material* teapot_material = new Material();
-  teapot_material->setSpecular(Vector3(0.0, 0.0, 1.0));
+  // teapot_material->setTexture(t);
+  teapot_material->setSpecular(Vector3(.7, .7, .7));
+  teapot_material->setShininess(20.f);
+  teapot_material->setDiffuse(Vector3(.1, .3, .7));
+  teapot_material->setAmbient(Vector3(.1, .2, .4));
   teapot->setMaterial(teapot_material);
 
-  // ObjReader::readObj("dragon_smooth.obj", nVerts, &vertices, &normals,
-  //   &texcoords, nIndices, &indices);
-  // ObjReader::normalize(vertices, nVerts);
-  // bunny = sceneManager->createObject();
-  // VertexData& vertexData2 = bunny->vertexData;
-  // vertexData2.vertexDeclaration.addElement(0, 0, 3, 3*sizeof(float),
-  //   RE330::VES_POSITION);
-  // vertexData2.createVertexBuffer(0, nVerts*3*sizeof(float), 
-  //   (unsigned char*)vertices);
-  // if(normals)
-  // {
-  //  vertexData2.vertexDeclaration.addElement(1, 0, 3, 3*sizeof(float),
-  //    RE330::VES_NORMAL);   
-  //  vertexData2.createVertexBuffer(1, nVerts*3*sizeof(float), 
-  //    (unsigned char*)normals);
-  // }
-  // 
-  // vertexData2.createIndexBuffer(nIndices, indices);
+  ObjReader::readObj("dragon_smooth.obj", nVerts, &vertices, &normals,
+    &texcoords, nIndices, &indices);
+  ObjReader::normalize(vertices, nVerts);
+  bunny = sceneManager->createObject();
+  VertexData& vertexData2 = bunny->vertexData;
+  vertexData2.vertexDeclaration.addElement(0, 0, 3, 3*sizeof(float),
+    RE330::VES_POSITION);
+  vertexData2.createVertexBuffer(0, nVerts*3*sizeof(float), 
+    (unsigned char*)vertices);
+  if(normals)
+  {
+   vertexData2.vertexDeclaration.addElement(1, 0, 3, 3*sizeof(float),
+     RE330::VES_NORMAL);   
+   vertexData2.createVertexBuffer(1, nVerts*3*sizeof(float), 
+     (unsigned char*)normals);
+  }
   
-  num_objects = 1;
+  vertexData2.createIndexBuffer(nIndices, indices);
+  
+  Material* bunny_material = new Material();
+  // teapot_material->setTexture(t);
+  bunny_material->setSpecular(Vector3(.5, .5, .5));
+  bunny->setMaterial(bunny_material);
+  
+  bunny->setTransformation(bunny->getTransformation() * Matrix4::translate(-.3, 0, 0));
+  teapot->setTransformation(teapot->getTransformation() * Matrix4::translate(.3, 0, 0));
+  
+  num_objects = 2;
   object_list = new Object*[num_objects];
   int object_list_array = 0;
   object_list[object_list_array++] = teapot;
-  // object_list[object_list_array++] = bunny;
+  object_list[object_list_array++] = bunny;
 }
 
 

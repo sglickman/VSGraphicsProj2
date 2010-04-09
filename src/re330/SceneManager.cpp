@@ -8,22 +8,18 @@ SceneManager::SceneManager()
 {
   Light* redLight = new Light();
   Light* blueLight = new Light();
-  blueLight->setDirection(Vector3(-1, 0, 0));
   blueLight->setPosition(Vector3(10, 0, 0));
   blueLight->setSpotDirection(Vector3(-1, 0, 0));
   blueLight->setSpotCutoff(10.f);
-  blueLight->setDiffuseColor(Vector3(0.0, 0.0, 1.0));
-  blueLight->setAmbientColor(Vector3(0.1, 0.1, 0.2));
-  blueLight->setSpecularColor(Vector3(5.0, 5.0, 1.0));
+  blueLight->setDiffuseColor(Vector3(1.0, 1.0, 1.0));
+  blueLight->setAmbientColor(Vector3(0.1, 0.1, 0.1));
+  blueLight->setSpecularColor(Vector3(.2, .2, .2));
   blueLight->setType(Light::SPOT);
   redLight->setType(Light::DIRECTIONAL);
-  redLight->setPosition(Vector3(0.f, 0.f, 20.f));
-  redLight->setSpotDirection(Vector3(0.f,0.f, -1.f));
-  redLight->setSpotCutoff(5.f);
-  redLight->setSpotExponent(5.f);
-  redLight->setDiffuseColor(Vector3(1.0, 0.0, 0.0));
-  redLight->setAmbientColor(Vector3(0.2, 0.1, 0.1));
-  redLight->setSpecularColor(Vector3(1.0, 7.0, 7.0));
+  redLight->setDirection(Vector3(-1.f, 0.f, 0.f));
+  redLight->setDiffuseColor(Vector3(.7, 0.7, 0.7));
+  redLight->setAmbientColor(Vector3(0.1, 0.1, 0.1));
+  redLight->setSpecularColor(Vector3(1.0, 1.0, 1.0));
   
   
   mLightList.push_back(blueLight);

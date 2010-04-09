@@ -9,5 +9,5 @@ void main()
     // look-up. We read the texture coordinates from the
     // pre-defined varying variable gl_TexCoord[0], which
     // we set in the vertex shader.
-    gl_FragColor = texture2D(tex, gl_TexCoord[0].st);		
+    gl_FragColor = texture2D(tex, gl_TexCoord[0].st);	
 }
