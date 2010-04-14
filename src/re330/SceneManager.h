@@ -11,6 +11,8 @@
 #include <time.h>
 #include "Light.h"
 
+using namespace std;
+
 namespace RE330 
 {
 	/** This class provides an abstraction of a scene. It manages a camera,
@@ -45,8 +47,8 @@ namespace RE330
 
 	private:
 		Camera *mCamera;
-		std::list<Object*> mObjectList;
-    std::list<Light*> mLightList;
+		list<Object*> mObjectList;
+        list<Light*> mLightList;
 	};
 
 }

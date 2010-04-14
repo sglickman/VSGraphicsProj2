@@ -10,7 +10,6 @@ namespace RE330 {
 	class RE330_EXPORT Light : Leaf
 	{
 	public:
-
 		enum Type {
 			DIRECTIONAL = 1,
 			POINT = 2,
@@ -18,25 +17,52 @@ namespace RE330 {
 		};
 
 		Light();
+        ~Light();
+
+        // Quickly set the colors of the lights
+        void setAllColors(Vector3 &d, Vector3& s, Vector3 &a)
+        {
+            mDiffuse = d; mSpecular = s; mAmbient = a;
+        }
+
+        // Quickly set the light to spot, point, or directional light
+        void makeSpot(Vector3 &pos, Vector3 &dir, 
+                      float exp, float cut)
+        { 
+            mPosition = pos; mSpotDirection = dir;
+            mSpotExponent = exp; mSpotCutoff = cut;
+            mType = Type::SPOT;
+        }
+        void makePoint(Vector3 &position)
+        {
+            mPosition = pos;
+            mType = Type::POINT;
+        }
+        void makeDirectional(Vector3 &dir)
+        {
+            mDirection = dir;
+            mType = Type::DIRECTIONAL;
+        }
+
+		Type getType() const;
+		const Vector3 &getDirection() const;
+		const Vector3 &getPosition() const;
+		const Vector3 &getDiffuseColor() const;
+		const Vector3 &getSpecularColor() const;
+		const Vector3 &getAmbientColor() const;
+		const Vector3 &getSpotDirection() const;
+		float getSpotExponent() const;
+		float getSpotCutoff() const;
 
 		void setType(const Type type);
-		Type getType() const;
 		void setDirection(const Vector3 &direction);
-		const Vector3 &getDirection() const;
 		void setPosition(const Vector3 &position);
-		const Vector3 &getPosition() const;
 		void setDiffuseColor(const Vector3 &diffuse);
-		const Vector3 &getDiffuseColor() const;
 		void setSpecularColor(const Vector3 &specular);
-		const Vector3 &getSpecularColor() const;
 		void setAmbientColor(const Vector3 &ambient);
-		const Vector3 &getAmbientColor() const;
 		void setSpotDirection(const Vector3 &spotDirection);
-		const Vector3 &getSpotDirection() const;
 		void setSpotExponent(float spotExponent);
-		float getSpotExponent() const;
 		void setSpotCutoff(float spotCutoff);
-		float getSpotCutoff() const;
 
 	private:
 		Vector3 mDirection;
