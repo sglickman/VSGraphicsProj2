@@ -3,10 +3,13 @@
 
 namespace RE330 
 {
-	class RE330_EXPORT Shape3D
+	class RE330_EXPORT Shape3D : Leaf
 	{
     public:
+      Object* getObject();
       
+    protected:
+      Object* obj;
 	};
 	
 }

@@ -3,10 +3,14 @@
 
 namespace RE330 
 {
-	class RE330_EXPORT Group
+	class RE330_EXPORT Group : Node
 	{
     public:
-      
+      std::list<Node *>::const_iterator getChildren();
+      void addChild(Node * child);
+      void removeChild(Node * child);
+    protected:
+      std::list<Node *>::const_iterator nodeList;
 	};
 	
 }

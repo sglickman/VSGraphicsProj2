@@ -3,7 +3,7 @@
 
 namespace RE330 
 {
-	class RE330_EXPORT TransformGroup
+	class RE330_EXPORT TransformGroup : Group
 	{
     public:
       

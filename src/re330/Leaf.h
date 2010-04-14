@@ -3,7 +3,7 @@
 
 namespace RE330 
 {
-	class RE330_EXPORT Leaf
+	class RE330_EXPORT Leaf : Node
 	{
     public:
       

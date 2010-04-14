@@ -2,11 +2,12 @@
 #define __Light_h__
 
 #include "RE330_global.h"
+#include "Leaf.h"
 #include "Vector3.h"
 
 namespace RE330 {
 
-	class RE330_EXPORT Light
+	class RE330_EXPORT Light : Leaf
 	{
 	public:
 
