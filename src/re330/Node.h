@@ -3,8 +3,10 @@
 
 namespace RE330 
 {
-	class  Node
+	class RE330_EXPORT Node
 	{
+    public:
+      
 	};
 	
 }
