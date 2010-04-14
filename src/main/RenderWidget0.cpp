@@ -53,8 +53,8 @@ void RenderWidget0::initSceneEvent()
   hyperbolic_rectangle = false;
   colorful_geometry = false;
   solarsystem = false;
-  pot = false;
-  texturemode = true;
+  shadingmode = true;
+  texturemode = false;
   testcamera = 0;
   heightmap = false;
   counter = 0;
@@ -83,8 +83,8 @@ void RenderWidget0::initSceneEvent()
     setupColorfulGeometry();
   } else if (hyperbolic_rectangle) {
     setupHyperbolicRectangle();
-  } else if (pot) {
-    setupTeapot();
+  } else if (shadingmode) {
+    setupTeapotAndDragon();
     camera->testCase1();
   } else if (texturemode) {
     setupTexturedPlanes();
@@ -107,32 +107,32 @@ void RenderWidget0::setupTexturedPlanes() {
                               "src/Shaders/texture_shading.frag");
   shader->use();
   
-  int nVerts1 = 6;
+  int nVerts1 = 4;
   float vertices1[] = 
   {
     -5,5,0,  5,-5,0,   5,5,0,
-    -5,5,0,  -5,-5,0,  5,-5,0
+    -5,-5,0
   };
   float colors1[] = 
   {
     1,0,0,  0,0,1,   1,0,0,
-    1,0,0,  0,0,1,   0,0,1
+    1,0,0
   };
   int indices1[] = 
   {
-    0,1,2,  3,4,5
+    0,1,2,  0,3,1
   };
   
   float texcoords1[] = 
   {
     0, 0, 1, 1, 1, 0,
-    0, 0, 0, 1, 1, 1
+    1, 0
   };
   
   float normals1[] = 
   {
     0,0,1, 0,0,1, 0,0,1, 
-    0,0,1, 0,0,1, 0,0,1
+    0,0,1
   };
   
   int nVerts2 = 16;
@@ -524,7 +524,7 @@ void RenderWidget0::setupColorfulGeometry() {
 /*
 ** Sets up the teapot, which has normals.
 */
-void RenderWidget0::setupTeapot() {
+void RenderWidget0::setupTeapotAndDragon() {
   // Shader
   Shader *shader = new Shader("src/Shaders/diffuse_shading.vert",
                               "src/Shaders/diffuse_shading.frag");
@@ -560,7 +560,7 @@ void RenderWidget0::setupTeapot() {
   // teapot_material->setTexture(t);
   teapot_material->setSpecular(Vector3(1, 1, 1));
   teapot_material->setShininess(40.f);
-  teapot_material->setDiffuse(Vector3(.5, .7, 1));
+  teapot_material->setDiffuse(Vector3(.5, .7, 1.f));
   teapot_material->setAmbient(Vector3(.1, .2, .4));
   teapot->setMaterial(teapot_material);
 
@@ -568,8 +568,8 @@ void RenderWidget0::setupTeapot() {
   ObjReader::readObj("dragon_smooth.obj", nVerts, &vertices, &normals,
     &texcoords2, nIndices, &indices);
   ObjReader::normalize(vertices, nVerts);
-  bunny = sceneManager->createObject();
-  VertexData& vertexData2 = bunny->vertexData;
+  dragon = sceneManager->createObject();
+  VertexData& vertexData2 = dragon->vertexData;
   vertexData2.vertexDeclaration.addElement(0, 0, 3, 3*sizeof(float),
     RE330::VES_POSITION);
   vertexData2.createVertexBuffer(0, nVerts*3*sizeof(float), 
@@ -584,22 +584,22 @@ void RenderWidget0::setupTeapot() {
   
   vertexData2.createIndexBuffer(nIndices, indices);
   
-  Material* bunny_material = new Material();
+  Material* dragon_material = new Material();
   // teapot_material->setTexture(t);
-  bunny_material->setShininess(10.f);
-  bunny_material->setSpecular(Vector3(.5, .5, .5));
-  bunny_material->setDiffuse(Vector3(.3, .9, .1));
-  bunny_material->setAmbient(Vector3(.1, .2, .1));
-  bunny->setMaterial(bunny_material);
+  dragon_material->setShininess(10.f);
+  dragon_material->setSpecular(Vector3(.5, .5, .5));
+  dragon_material->setDiffuse(Vector3(.3, .9, .1));
+  dragon_material->setAmbient(Vector3(.1, .2, .1));
+  dragon->setMaterial(dragon_material);
   
-  bunny->setTransformation(bunny->getTransformation() * Matrix4::translate(-.5, 0, 0));
+  dragon->setTransformation(dragon->getTransformation() * Matrix4::translate(-.5, 0, 0));
   teapot->setTransformation(teapot->getTransformation() * Matrix4::translate(.5, 0, 0));
   
   num_objects = 2;
   object_list = new Object*[num_objects];
   int object_list_array = 0;
   object_list[object_list_array++] = teapot;
-  object_list[object_list_array++] = bunny;
+  object_list[object_list_array++] = dragon;
 }
 
 
@@ -989,8 +989,8 @@ void RenderWidget0::resizeRenderWidgetEvent(const QSize &s)
 */ 
 void RenderWidget0::timerEvent(QTimerEvent *t)
 {
-  if (pot) {
-    bunny->setTransformation(bunny->getTransformation() * Matrix4::rotateY(0.03));
+  if (shadingmode) {
+    dragon->setTransformation(dragon->getTransformation() * Matrix4::rotateY(0.03));
     teapot->setTransformation(teapot->getTransformation() * Matrix4::rotateY(-0.03));
   }
   if (airplanemode) {

@@ -59,7 +59,7 @@ protected:
     void setupTestCamera(int testcamera);
     void setupColorfulGeometry();
     void setupHyperbolicRectangle();
-    void setupTeapot();
+    void setupTeapotAndDragon();
     void setupTexturedPlanes();
 private:
 	SceneManager *sceneManager;
@@ -69,6 +69,7 @@ private:
     Object *object2;
     Object *house;
     Object *bunny;
+    Object *dragon;
 	Object *earth;
     Object *sun;
     Object *moon;
@@ -94,7 +95,7 @@ private:
     static const int zoompercent = 40;
     Vector3 zoomvector;
     bool dragging, zooming, zoomedin, solarsystem, airplanemode, heightmap,
-        colorful_geometry, hyperbolic_rectangle, pot, texturemode;
+        colorful_geometry, hyperbolic_rectangle, shadingmode, texturemode;
     int testcamera;
     bool turning, turningup, turningdown, turningleft, turningright;
     float airplane_speed;

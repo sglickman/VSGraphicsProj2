@@ -6,24 +6,27 @@ using namespace RE330;
 SceneManager::SceneManager()
 	: mCamera(0)
 {
+  
+  // redLight is a red spot light.
+  // whiteLight is a white directional light.
+  Light* whiteLight = new Light();
   Light* redLight = new Light();
-  Light* blueLight = new Light();
-  blueLight->setPosition(Vector3(0.f, 0, 2));
-  blueLight->setSpotDirection(Vector3(0, 0, -1));
-  blueLight->setSpotCutoff(7.f);
-  blueLight->setDiffuseColor(Vector3(1.0, .0, .0));
-  blueLight->setAmbientColor(Vector3(0.1, 0.1, 0.1));
-  blueLight->setSpecularColor(Vector3(.2, .2, .2));
-  blueLight->setType(Light::SPOT);
-  redLight->setType(Light::DIRECTIONAL);
-  redLight->setDirection(Vector3(-1.f, 0.f, 0.f));
-  redLight->setDiffuseColor(Vector3(.7, 0.7, 0.7));
+  redLight->setPosition(Vector3(0.f, 0, 2));
+  redLight->setSpotDirection(Vector3(0, 0, -1));
+  redLight->setSpotCutoff(7.f);
+  redLight->setDiffuseColor(Vector3(1.0, .0, .0));
   redLight->setAmbientColor(Vector3(0.1, 0.1, 0.1));
-  redLight->setSpecularColor(Vector3(1.0, 1.0, 1.0));
+  redLight->setSpecularColor(Vector3(.2, .2, .2));
+  redLight->setType(Light::SPOT);
+  whiteLight->setType(Light::DIRECTIONAL);
+  whiteLight->setDirection(Vector3(-1.f, 0.f, 0.f));
+  whiteLight->setDiffuseColor(Vector3(.7, 0.7, 0.7));
+  whiteLight->setAmbientColor(Vector3(0.1, 0.1, 0.1));
+  whiteLight->setSpecularColor(Vector3(1.0, 1.0, 1.0));
   
   
-  mLightList.push_back(blueLight);
   mLightList.push_back(redLight);
+  mLightList.push_back(whiteLight);
 }
 
 SceneManager::~SceneManager()
