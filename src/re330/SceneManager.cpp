@@ -49,7 +49,7 @@ Object* SceneManager::createObject()
     // Creates an object in the root of the scene.
 	Object *o = new Object();
 //	mObjectList.push_back(o);
-    sceneRoot->addChild(new Shape3D(o, NULL));
+    sceneRoot->addChild(new Shape3D(o, 0));
 
 	return o;
 }

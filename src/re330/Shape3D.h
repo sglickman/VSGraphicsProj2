@@ -11,9 +11,7 @@ namespace RE330
         Shape3D(Object *obj, Material *mat) {
             _obj = obj; _mat = mat;
         }
-        ~Shape3D() { 
-            if ( _obj ) { delete _obj; }
-            if ( _mat ) { delete _mat; }}
+        ~Shape3D() {}
 
         void light(RenderContext *r, Matrix4 *C) {};
         void draw(RenderContext *r, Matrix4 *C);
