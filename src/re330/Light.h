@@ -1,12 +1,15 @@
 #ifndef __Light_h__
 #define __Light_h__
 
+namespace RE330 {
+    class Light;
+}
+
 #include "RE330_global.h"
 #include "Leaf.h"
 #include "Vector3.h"
 
 namespace RE330 {
-
 	class RE330_EXPORT Light : public Leaf
 	{
 	public:
@@ -19,6 +22,7 @@ namespace RE330 {
 		Light();
         ~Light();
 
+        void light(RenderContext *r, Matrix4 *C);
         void draw(RenderContext *r, Matrix4 *C) {}
 
         // Quickly set the colors of the lights

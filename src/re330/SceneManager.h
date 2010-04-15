@@ -9,8 +9,10 @@
 #include <list>
 #include <stdlib.h>
 #include <time.h>
+
 #include "Light.h"
 #include "Group.h"
+#include "Shape3D.h"
 
 using namespace std;
 
@@ -35,6 +37,11 @@ namespace RE330
 			stored in the scene manager.
 		*/
 		Object *createObject();
+        // Create object no longer should be used, now with the tree hierarchy
+
+        /** Add a node to the root node.
+         */
+        void addChild(Node *n);
 
 		/** This method needs to be called in the renderSceneEvent
 			event handler of the RenderWidget. 

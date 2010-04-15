@@ -4,14 +4,18 @@
 
 namespace RE330 
 {
-	class RE330_EXPORT Shape3D : Leaf
+	class RE330_EXPORT Shape3D : public Leaf
 	{
     public:
         Shape3D() : _obj(NULL), _mat(NULL) {}
+        Shape3D(Object *obj, Material *mat) {
+            _obj = obj; _mat = mat;
+        }
         ~Shape3D() { 
-            if ( _obj != 0 ) { delete _obj; }
-            if ( _mat != 0 ) { delete _mat; }}
+            if ( _obj ) { delete _obj; }
+            if ( _mat ) { delete _mat; }}
 
+        void light(RenderContext *r, Matrix4 *C) {};
         void draw(RenderContext *r, Matrix4 *C);
 
         Object* getObject() { return _obj; }

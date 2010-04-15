@@ -9,6 +9,11 @@ Light::Light()
 {
 }
 
+void Light::light(RenderContext *r, Matrix4 *C){
+    r->setModelViewMatrix( (*C) * (*t) );
+    r->setLight(this);
+}
+
 void Light::setType(Light::Type type)
 {
 	mType = type;

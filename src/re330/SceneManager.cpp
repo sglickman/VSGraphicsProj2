@@ -1,6 +1,9 @@
 #include "SceneManager.h"
 #include "RenderContext.h"
 
+#include <iostream>
+
+using namespace std;
 using namespace RE330;
 
 SceneManager::SceneManager()
@@ -43,16 +46,22 @@ SceneManager::~SceneManager()
 
 Object* SceneManager::createObject()
 {	
-	// Object *o = new Object();
-	// mObjectList.push_back(o);
+    // Creates an object in the root of the scene.
+	Object *o = new Object();
+//	mObjectList.push_back(o);
+    sceneRoot->addChild(new Shape3D(o, NULL));
 
-	// return o;
+	return o;
 }
 
 Camera* SceneManager::createCamera()
 {
 	mCamera = new Camera();
 	return mCamera;
+}
+
+void SceneManager::addChild(Node *n) {
+    sceneRoot->addChild(n);
 }
 
 void SceneManager::renderScene()
@@ -63,22 +72,14 @@ void SceneManager::renderScene()
 	{
 		renderContext->beginFrame();
 
+        cout << "Render!" << endl;
+
 		renderContext->setProjectionMatrix(mCamera->getProjectionMatrix());
 		Matrix4 v = mCamera->getViewMatrix();
 
+        //First prepare the scene's lights, then draw the objects.
         sceneRoot->light(renderContext, &v);
         sceneRoot->draw(renderContext, &v);
-
-		// // Iterate through list of objects
-		// std::list<Object *>::const_iterator iter;
-		// for (iter=mObjectList.begin(); iter!=mObjectList.end(); iter++)
-		// {
-		// 	Object *o = (*iter);
-		// 	Matrix4 m = o->getTransformation();
-
-		// 	renderContext->setModelViewMatrix(v*m);
-		// 	renderContext->render(o);
-		// }
 
 		renderContext->endFrame();
 	}

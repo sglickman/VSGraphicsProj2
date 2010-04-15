@@ -7,8 +7,8 @@
 #include "RE330_global.h"
 #include "RenderContext.h"
 #include "VertexDeclaration.h"
-#include "Light.h"
 #include "Material.h"
+#include "Light.h"
 
 namespace RE330 
 {
@@ -35,6 +35,10 @@ namespace RE330
 
 		static GLRenderContext& getSingleton(void);
         static GLRenderContext* getSingletonPtr(void);
+
+        /** This function needs to be called before rendering each object.
+         */
+        void setMaterial(Material *material);
     
         /** This function needs to be called by the SceneManager once per 
             frame, before all objects are rendered. The function assumes 
@@ -43,15 +47,13 @@ namespace RE330
             NOTE: You also need to add this declaration to the base class 
             RenderContext.h so that the SceneManager can call it.
         */
-        void setLight(const Light* light);
+        void setLight(Light* light);
         void setLights(const std::list<Light*> &lightList);
   	
     private:
         int curLight;
 
-        /** This function needs to be called before rendering each object.
-         */
-        void setMaterial(Material *material);	
+	
 	};
 
 }

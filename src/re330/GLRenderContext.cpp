@@ -131,7 +131,7 @@ void GLRenderContext::render(Object *object)
 	assert(glGetError()==GL_NO_ERROR);
 }
 
-void GLRenderContext::setLight(const Light *l) {
+void GLRenderContext::setLight(Light *l) {
     GLint lightIndex[] = {GL_LIGHT0, GL_LIGHT1, GL_LIGHT2, GL_LIGHT3, GL_LIGHT4,
                           GL_LIGHT5, GL_LIGHT6, GL_LIGHT7};
 
