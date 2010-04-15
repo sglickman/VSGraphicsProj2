@@ -14,7 +14,7 @@ namespace RE330
 {
 	/** This class implements the abstract base class RenderContext and
 		it is the main interface to the low-level graphics OpenGL API.
-	@remarks
+        @remarks
 		This class also instantiates the Singleton class to make sure there is
 		only one instance at any time.
 	*/
@@ -36,19 +36,22 @@ namespace RE330
 		static GLRenderContext& getSingleton(void);
         static GLRenderContext* getSingletonPtr(void);
     
-    /** This function needs to be called by the SceneManager once per 
-  		frame, before all objects are rendered. The function assumes 
-  		your light sources are stored in a std::list.
+        /** This function needs to be called by the SceneManager once per 
+            frame, before all objects are rendered. The function assumes 
+            your light sources are stored in a std::list.
 
-  		NOTE: You also need to add this declaration to the base class 
-  		RenderContext.h so that the SceneManager can call it.
-  	*/
-  	void setLights(const std::list<Light*> &lightList);
+            NOTE: You also need to add this declaration to the base class 
+            RenderContext.h so that the SceneManager can call it.
+        */
+        void setLight(const Light* light);
+        void setLights(const std::list<Light*> &lightList);
   	
-  private:
-    /** This function needs to be called before rendering each object.
-  	*/
-    void setMaterial(Material *material);	
+    private:
+        int curLight;
+
+        /** This function needs to be called before rendering each object.
+         */
+        void setMaterial(Material *material);	
 	};
 
 }

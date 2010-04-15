@@ -7,7 +7,7 @@
 
 namespace RE330 {
 
-	class RE330_EXPORT Light : Leaf
+	class RE330_EXPORT Light : public Leaf
 	{
 	public:
 		enum Type {
@@ -19,29 +19,31 @@ namespace RE330 {
 		Light();
         ~Light();
 
+        void draw(RenderContext *r, Matrix4 *C) {}
+
         // Quickly set the colors of the lights
-        void setAllColors(Vector3 &d, Vector3& s, Vector3 &a)
+        void setAllColors(Vector3 d, Vector3 s, Vector3 a)
         {
             mDiffuse = d; mSpecular = s; mAmbient = a;
         }
 
         // Quickly set the light to spot, point, or directional light
-        void makeSpot(Vector3 &pos, Vector3 &dir, 
+        void makeSpot(Vector3 pos, Vector3 dir, 
                       float exp, float cut)
         { 
             mPosition = pos; mSpotDirection = dir;
             mSpotExponent = exp; mSpotCutoff = cut;
-            mType = Type::SPOT;
+            mType = SPOT;
         }
-        void makePoint(Vector3 &position)
+        void makePoint(Vector3 pos)
         {
             mPosition = pos;
-            mType = Type::POINT;
+            mType = POINT;
         }
-        void makeDirectional(Vector3 &dir)
+        void makeDirectional(Vector3 dir)
         {
             mDirection = dir;
-            mType = Type::DIRECTIONAL;
+            mType = DIRECTIONAL;
         }
 
 		Type getType() const;

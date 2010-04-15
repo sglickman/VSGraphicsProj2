@@ -6,15 +6,20 @@ using namespace std;
 
 namespace RE330 
 {
-	class RE330_EXPORT Group : Node
+	class RE330_EXPORT Group : public virtual Node
 	{
     public:
-      list<Node*>::const_iterator getChildrenIterator();
-      void addChild(Node *child);
-      void removeChild(Node *child);
+        Group() : nodeList() {};
+        ~Group();
+
+        void light(RenderContext *r, Matrix4 *C);
+        void draw(RenderContext *r, Matrix4 *C);
+
+        void addChild(Node *child);
+        void removeChild(Node *child);
 
     protected:
-      list<Node*>::const_iterator nodeList;
+        list<Node*> *nodeList;
 	};
 	
 }

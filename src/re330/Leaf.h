@@ -4,7 +4,7 @@
 
 namespace RE330 
 {
-	class RE330_EXPORT Leaf : Node
+	class RE330_EXPORT Leaf : public virtual Node
 	{
     public:
 

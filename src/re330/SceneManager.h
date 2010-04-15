@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "Light.h"
+#include "Group.h"
 
 using namespace std;
 
@@ -47,8 +48,7 @@ namespace RE330
 
 	private:
 		Camera *mCamera;
-		list<Object*> mObjectList;
-        list<Light*> mLightList;
+        Group *sceneRoot;
 	};
 
 }

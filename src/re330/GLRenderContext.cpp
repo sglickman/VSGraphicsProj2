@@ -21,8 +21,8 @@ void GLRenderContext::init()
 	glEnable(GL_DEPTH_TEST);    // activates depth buffer for hidden surface removal
 	glEnable(GL_CULL_FACE);     // makes faces invisible
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    // clears color and depth buffer
-  glEnable(GL_NORMALIZE);
-  glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+    glEnable(GL_NORMALIZE);
+    glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 }
 
 void GLRenderContext::setViewport(int width, int height)
@@ -34,6 +34,7 @@ void GLRenderContext::setViewport(int width, int height)
 void GLRenderContext::beginFrame()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    curLight = 0;
 }
 
 void GLRenderContext::endFrame()
@@ -56,7 +57,7 @@ void GLRenderContext::setProjectionMatrix(const Matrix4 &m)
 
 void GLRenderContext::render(Object *object)
 {
-  setMaterial(object->material);
+    setMaterial(object->material);
 	VertexData& vertexData = object->vertexData;
 	VertexDeclaration& vertexDeclaration = vertexData.vertexDeclaration;
 	VertexBufferBinding& vertexBufferBinding = vertexData.vertexBufferBinding;
@@ -82,23 +83,23 @@ void GLRenderContext::render(Object *object)
 
 		switch(element->getSemantic())
 		{
-			case VES_POSITION :
-				glEnableClientState(GL_VERTEX_ARRAY);
-				glVertexPointer(vertexSize, GL_FLOAT, vertexStride, buf+offset);
-				break;
-			case VES_NORMAL :
-				glEnableClientState(GL_NORMAL_ARRAY);
-				glNormalPointer(GL_FLOAT, vertexStride, buf+offset);
-				break;
-			case VES_DIFFUSE :
-				glEnableClientState(GL_COLOR_ARRAY);
-				glColorPointer(vertexSize, GL_FLOAT, vertexStride, buf+offset);
-				glEnable(GL_COLOR_MATERIAL);
-				break;
-			case VES_TEXTURE_COORDINATES :
-				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-				glTexCoordPointer(vertexSize, GL_FLOAT, vertexStride, buf+offset);
-				break;
+        case VES_POSITION :
+            glEnableClientState(GL_VERTEX_ARRAY);
+            glVertexPointer(vertexSize, GL_FLOAT, vertexStride, buf+offset);
+            break;
+        case VES_NORMAL :
+            glEnableClientState(GL_NORMAL_ARRAY);
+            glNormalPointer(GL_FLOAT, vertexStride, buf+offset);
+            break;
+        case VES_DIFFUSE :
+            glEnableClientState(GL_COLOR_ARRAY);
+            glColorPointer(vertexSize, GL_FLOAT, vertexStride, buf+offset);
+            glEnable(GL_COLOR_MATERIAL);
+            break;
+        case VES_TEXTURE_COORDINATES :
+            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+            glTexCoordPointer(vertexSize, GL_FLOAT, vertexStride, buf+offset);
+            break;
 		}
 	}
 	
@@ -112,31 +113,89 @@ void GLRenderContext::render(Object *object)
 
 		switch(element->getSemantic())
 		{
-			case VES_POSITION :
-				glDisableClientState(GL_VERTEX_ARRAY);
-				break;
-			case VES_NORMAL :
-				glDisableClientState(GL_NORMAL_ARRAY);
-				break;
-			case VES_DIFFUSE :
-				glDisableClientState(GL_COLOR_ARRAY);
-				break;
-			case VES_TEXTURE_COORDINATES :
-				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-				break;
+        case VES_POSITION :
+            glDisableClientState(GL_VERTEX_ARRAY);
+            break;
+        case VES_NORMAL :
+            glDisableClientState(GL_NORMAL_ARRAY);
+            break;
+        case VES_DIFFUSE :
+            glDisableClientState(GL_COLOR_ARRAY);
+            break;
+        case VES_TEXTURE_COORDINATES :
+            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+            break;
 		}
 	}
 
 	assert(glGetError()==GL_NO_ERROR);
 }
 
+void GLRenderContext::setLight(const Light *l) {
+    GLint lightIndex[] = {GL_LIGHT0, GL_LIGHT1, GL_LIGHT2, GL_LIGHT3, GL_LIGHT4,
+                          GL_LIGHT5, GL_LIGHT6, GL_LIGHT7};
+
+    // Lighting
+    glEnable(GL_LIGHTING);
+
+    glEnable(lightIndex[curLight]);
+
+    if(l->getType() == Light::DIRECTIONAL)
+    {
+        float direction[4];
+        direction[0] = l->getDirection().x;
+        direction[1] = l->getDirection().y;
+        direction[2] = l->getDirection().z;
+        direction[3] = 0.f;
+        glLightfv(lightIndex[curLight], GL_POSITION, direction);
+    }
+    if(l->getType() == Light::POINT || l->getType() == Light::SPOT)
+    {
+        float position[4];
+        position[0] = l->getPosition().x;
+        position[1] = l->getPosition().y;
+        position[2] = l->getPosition().z;
+        position[3] = 1.f;
+        glLightfv(lightIndex[curLight], GL_POSITION, position);
+    }
+    if(l->getType() == Light::SPOT)
+    {
+        float spotDirection[3];
+        spotDirection[0] = l->getSpotDirection().x;
+        spotDirection[1] = l->getSpotDirection().y;
+        spotDirection[2] = l->getSpotDirection().z;
+        glLightfv(lightIndex[curLight], GL_SPOT_DIRECTION, spotDirection);
+        glLightf(lightIndex[curLight], GL_SPOT_EXPONENT, l->getSpotExponent());
+        glLightf(lightIndex[curLight], GL_SPOT_CUTOFF, l->getSpotCutoff());
+    }
+
+    float diffuse[4];
+    diffuse[0] = l->getDiffuseColor().x;
+    diffuse[1] = l->getDiffuseColor().y;
+    diffuse[2] = l->getDiffuseColor().z;
+    diffuse[3] = 1.f;
+    glLightfv(lightIndex[curLight], GL_DIFFUSE, diffuse);
+
+    float ambient[4];
+    ambient[0] = l->getAmbientColor().x;
+    ambient[1] = l->getAmbientColor().y;
+    ambient[2] = l->getAmbientColor().z;
+    ambient[3] = 0;
+    glLightfv(lightIndex[curLight], GL_AMBIENT, ambient);
+
+    float specular[4];
+    specular[0] = l->getSpecularColor().x;
+    specular[1] = l->getSpecularColor().y;
+    specular[2] = l->getSpecularColor().z;
+    specular[3] = 0;
+    glLightfv(lightIndex[curLight], GL_SPECULAR, specular);
+ 
+}
+
 void GLRenderContext::setLights(const std::list<Light*> &lightList)
 {	
 	GLint lightIndex[] = {GL_LIGHT0, GL_LIGHT1, GL_LIGHT2, GL_LIGHT3, GL_LIGHT4,
-	    GL_LIGHT5, GL_LIGHT6, GL_LIGHT7};
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+                          GL_LIGHT5, GL_LIGHT6, GL_LIGHT7};
 
 	std::list<Light*>::const_iterator iter;
 

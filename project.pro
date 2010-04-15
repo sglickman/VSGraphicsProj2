@@ -24,6 +24,11 @@ HEADERS += src/main/MainWidget.h \
            src/re330/GLRenderContext.h \
            src/re330/GLRenderWidget.h \
            src/re330/GLWidget.h \
+           src/re330/Group.h \
+           src/re330/Node.h \
+           src/re330/Leaf.h \
+           src/re330/Shape3D.h \
+           src/re330/TransformGroup.h \
            src/re330/Light.h \
            src/re330/Material.h \
            src/re330/Matrix4.h \
@@ -54,6 +59,10 @@ SOURCES += src/main/main.cpp \
            src/re330/BasicMath.cpp \
            src/re330/GLRenderContext.cpp \
            src/re330/GLWidget.cpp \
+           src/re330/Group.cpp \
+           src/re330/TransformGroup.cpp \
+           src/re330/Shape3D.cpp \
+           src/re330/Leaf.cpp \
            src/re330/Light.cpp \
            src/re330/Material.cpp \
            src/re330/Matrix4.cpp \
