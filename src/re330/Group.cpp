@@ -5,7 +5,7 @@ using namespace RE330;
 
 Group::~Group() {
     while (nodeList && !nodeList->empty()) {
-        Node *n = nodeList.front();
+        Node *n = nodeList->front();
         nodeList->pop_front();
         delete n;
     }
@@ -28,7 +28,7 @@ void Group::draw(RenderContext *r, Matrix4 *C) {
     }
 }
 
-inline void Group::addChild(Node *child) {
+void Group::addChild(Node *child) {
     nodeList->push_back(child);
 }
 

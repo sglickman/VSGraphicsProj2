@@ -62,7 +62,6 @@ SOURCES += src/main/main.cpp \
            src/re330/Group.cpp \
            src/re330/TransformGroup.cpp \
            src/re330/Shape3D.cpp \
-           src/re330/Leaf.cpp \
            src/re330/Light.cpp \
            src/re330/Material.cpp \
            src/re330/Matrix4.cpp \
