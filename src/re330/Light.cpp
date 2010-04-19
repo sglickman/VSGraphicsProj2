@@ -9,8 +9,8 @@ Light::Light()
 {
 }
 
-void Light::light(RenderContext *r, Matrix4 *C){
-    r->setModelViewMatrix( (*C) * (*t) );
+void Light::light(RenderContext *r, const Matrix4 &C){
+    r->setModelViewMatrix( C*t );
     r->setLight(this);
 }
 

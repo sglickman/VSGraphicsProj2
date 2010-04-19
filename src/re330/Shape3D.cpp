@@ -4,11 +4,8 @@
 using namespace std;
 using namespace RE330;
 
-void Shape3D::draw(RenderContext *r, Matrix4 *C) {
-
-    cout << "Draw!" << endl;
-
-    Matrix4 mView = (*C) * (*t);
+void Shape3D::draw(RenderContext *r, const Matrix4 &C) {
+    const Matrix4 &mView = C*t;
     r->setModelViewMatrix(mView);
 
     if (_mat) {

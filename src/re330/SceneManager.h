@@ -11,7 +11,7 @@
 #include <time.h>
 
 #include "Light.h"
-#include "Group.h"
+#include "TransformGroup.h"
 #include "Shape3D.h"
 
 using namespace std;
@@ -25,6 +25,10 @@ namespace RE330
 	class RE330_EXPORT SceneManager
 	{
         friend class Shapes;
+	private:
+		Camera *mCamera;
+        TransformGroup *sceneRoot;
+
 	public:
 		SceneManager();
 		~SceneManager();
@@ -43,6 +47,11 @@ namespace RE330
          */
         void addChild(Node *n);
 
+        void setWorldTransformation(const Matrix4 &C) 
+        { sceneRoot->setTransformation(C); }
+        Matrix4 &getWorldTransformation() 
+        { return sceneRoot->getTransformation(); }
+
 		/** This method needs to be called in the renderSceneEvent
 			event handler of the RenderWidget. 
 		@remarks
@@ -53,9 +62,6 @@ namespace RE330
 		*/
 		void renderScene();
 
-	private:
-		Camera *mCamera;
-        Group *sceneRoot;
 	};
 
 }

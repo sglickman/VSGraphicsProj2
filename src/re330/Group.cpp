@@ -14,7 +14,7 @@ Group::~Group() {
     delete nodeList;
 }
 
-void Group::light(RenderContext *r, Matrix4 *C) {
+void Group::light(RenderContext *r, const Matrix4 &C) {
     list<Node*>::const_iterator iter;
     for (iter = nodeList->begin(); iter != nodeList->end(); iter++) {
         Node *n = (*iter);
@@ -22,12 +22,10 @@ void Group::light(RenderContext *r, Matrix4 *C) {
     }
 }
 
-void Group::draw(RenderContext *r, Matrix4 *C) {
+void Group::draw(RenderContext *r, const Matrix4 &C) {
     list<Node*>::const_iterator iter;
-    cout << "Iterate!" << endl;
 
     for (iter = nodeList->begin(); iter != nodeList->end(); iter++) {
-        cout << "Iterate even more!" << endl;
         Node *n = (*iter);
         n->draw(r, C);
     }

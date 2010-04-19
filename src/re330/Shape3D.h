@@ -13,14 +13,14 @@ namespace RE330
         }
         ~Shape3D() {}
 
-        void light(RenderContext *r, Matrix4 *C) {};
-        void draw(RenderContext *r, Matrix4 *C);
+        void light(RenderContext *r, const Matrix4 &C) {};
+        void draw(RenderContext *r, const Matrix4 &C);
 
         Object* getObject() { return _obj; }
         Material* getMaterial() { return _mat; }
         
         void setObject(Object* obj) { _obj = obj; }
-        void setMaterial(Material *mat) { _mat = mat; }
+        void setMaterial(Material* mat) { _mat = mat; }
       
     protected:
         Object *_obj;

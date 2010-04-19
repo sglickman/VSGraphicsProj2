@@ -53,14 +53,14 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent *e);
     	
     void toDecimal(int num_colors, float color_list[][3]);
-    void setupDefault();
-    void setupSolarSystem();
-    void setupHeightmap();
-    void setupTestCamera(int testcamera);
-    void setupColorfulGeometry();
-    void setupHyperbolicRectangle();
+    // void setupDefault();
+    // void setupSolarSystem();
+    // void setupHeightmap();
+    // void setupTestCamera(int testcamera);
+    // void setupColorfulGeometry();
+    // void setupHyperbolicRectangle();
     void setupTeapotAndDragon();
-    void setupTexturedPlanes();
+    // void setupTexturedPlanes();
 private:
 	SceneManager *sceneManager;
 	Camera *camera;

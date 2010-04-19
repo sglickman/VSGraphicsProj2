@@ -57,7 +57,7 @@ void GLRenderContext::setProjectionMatrix(const Matrix4 &m)
 
 void GLRenderContext::render(Object *object)
 {
-    setMaterial(object->material);
+    //setMaterial(object->material);
 	VertexData& vertexData = object->vertexData;
 	VertexDeclaration& vertexDeclaration = vertexData.vertexDeclaration;
 	VertexBufferBinding& vertexBufferBinding = vertexData.vertexBufferBinding;

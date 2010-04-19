@@ -13,8 +13,8 @@ namespace RE330
         Group() { nodeList = new list<Node*>(); }
         ~Group();
 
-        void light(RenderContext *r, Matrix4 *C);
-        void draw(RenderContext *r, Matrix4 *C);
+        void light(RenderContext *r, const Matrix4 &C);
+        void draw(RenderContext *r, const Matrix4 &C);
 
         void addChild(Node *child);
         void removeChild(Node *child);

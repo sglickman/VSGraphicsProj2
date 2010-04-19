@@ -9,7 +9,7 @@ using namespace RE330;
 SceneManager::SceneManager()
 	: mCamera(0)
 {
-    sceneRoot = new Group();
+    sceneRoot = new TransformGroup();
 
     // redLight is a red spot light.
     // whiteLight is a white directional light.
@@ -72,14 +72,12 @@ void SceneManager::renderScene()
 	{
 		renderContext->beginFrame();
 
-        cout << "Render!" << endl;
-
 		renderContext->setProjectionMatrix(mCamera->getProjectionMatrix());
 		Matrix4 v = mCamera->getViewMatrix();
 
         //First prepare the scene's lights, then draw the objects.
-        sceneRoot->light(renderContext, &v);
-        sceneRoot->draw(renderContext, &v);
+        sceneRoot->light(renderContext, v);
+        sceneRoot->draw(renderContext, v);
 
 		renderContext->endFrame();
 	}
