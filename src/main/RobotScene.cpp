@@ -28,10 +28,22 @@ void RobotScene::init() {
     mat->setAmbient(Vector3(.1, .2, .4));
 
     head = new Shape3D(obj, mat);
+    head->applyTransformation(Matrix4::translate(0, .5, 0));
     theRobot->addChild(head);
 
     // Create the rest of the Robot.
     robotBody = new TransformGroup();
+
+    // Create the Robot's torso. Change to some other shape later.
+    obj = Shapes::createSphere(.4f, 10, 10);
+    mat = new Material();
+    mat->setSpecular(Vector3(0, 1, 1));
+    mat->setShininess(40.f);
+    mat->setDiffuse(Vector3(.5, 1.f, .7f));
+    mat->setAmbient(Vector3(.5, .2, .0));
+    
+    torso = new Shape3D(obj, mat);    
+    robotBody->addChild(torso);
     
     // Create the Robot's left arm.
     leftArm = new TransformGroup();
@@ -60,7 +72,7 @@ void RobotScene::init() {
     leftHand->applyTransformation(Matrix4::translate(0, -.5, 0));
     leftArm->addChild(leftHand);
 
-    leftArm->applyTransformation(Matrix4::translate(-.4, -.2, 0));
+    leftArm->applyTransformation(Matrix4::translate(-.4, .3, 0));
     robotBody->addChild(leftArm);
 
     // Create the Robot's right arm.
@@ -90,11 +102,35 @@ void RobotScene::init() {
     rightHand->applyTransformation(Matrix4::translate(0, -.5, 0));
     rightArm->addChild(rightHand);
 
-    rightArm->applyTransformation(Matrix4::translate(.4, -.2, 0));
+    rightArm->applyTransformation(Matrix4::translate(.4, .3, 0));
     robotBody->addChild(rightArm);
+
+    // Create the Robot's left leg.
+    leftLeg = new TransformGroup();
+
+    // Create the Robot's lower left leg.
+    leftLowerLeg = new TransformGroup();
+
+    // Create the Robot's left knee.
+    obj = Shapes::createSphere(.1f, 10, 10);
+    mat = new Material();
+    mat->setSpecular(Vector3(1, 0, 0));
+    mat->setShininess(40.f);
+    mat->setDiffuse(Vector3(.7, 1.f, .7f));
+    mat->setAmbient(Vector3(.5, .0, .5));
+
+    leftKnee = new Shape3D(obj, mat);
+    leftLowerLeg->addChild(leftKnee);
+    
+    leftLowerLeg->applyTransformation(Matrix4::translate(0, -.5, 0));
+    leftLeg->addChild(leftLowerLeg);
+
+    leftLeg->applyTransformation(Matrix4::translate(-.2, -.5, 0));
+    robotBody->addChild(leftLeg);
 
     theRobot->addChild(robotBody);
 
+    theRobot->applyTransformation(Matrix4::translate(0, .3, 0));
     sceneManager->addChild(theRobot);
     
 
