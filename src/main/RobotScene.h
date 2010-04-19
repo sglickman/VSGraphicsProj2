@@ -13,12 +13,18 @@ public:
 //    ~RobotScene();
     
     void init();
+    void nextFrame();
 
 protected:
-    TransformGroup *teaDragon;
+    TransformGroup *theRobot, *robotBody;
+    TransformGroup *leftArm, *leftLeg, *leftLowerLeg;
+    TransformGroup *rightArm, *rightLeg, *rightLowerLeg;
 
-    Shape3D *teaShape;
-    Shape3D *dragShape;
+    Shape3D *head, *torso;
+    Shape3D *leftShoulder, *leftArmPart, *leftHand;
+    Shape3D *rightShoulder, *rightArmPart, *rightHand;
+    Shape3D *leftThigh, *leftKnee, *leftLegPart, *leftFoot;
+    Shape3D *rightThigh, *rightKnee, *rightLegPart, *rightFoot;
 };
 
 #endif

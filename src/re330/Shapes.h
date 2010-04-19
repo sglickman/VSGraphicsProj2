@@ -16,19 +16,26 @@ namespace RE330
         public:
             /** These methods create basic shapes.
     		*/
-            static Object *createSphere(SceneManager* sm, float height, int slices, int points, const int num_colors, float color_list[][3], bool random_colors);
-            static Object *createCone(SceneManager* sm, float height, float base_radius, int base_points, const int num_colors, float color_list[][3], bool random_colors);
-            static Object *createBox(SceneManager* sm, float height, float width, float depth, const int num_colors, float color_list[][3], bool random_colors);
+            static Object *createSphere(float height, int slices, int points);
+
+            static Object *createCone(float height, float base_radius, 
+                                      int base_points);
+
+            static Object *createBox(float height, float width, float depth);
+
             static float* coneVertices(float height, float base_radius, int base_points, const int num_colors);
             static float* coneColors(int base_points, const int num_colors, float color_list[][3]);
             static int* coneIndices(int base_points, const int num_colors, bool random_colors);
-            static float* sphereVertices(float height, int slices, int points, const int num_colors);
-            static float* sphereColors(int slices, int points, const int num_colors, float color_list[][3]);
-            static int* sphereIndices(int slices, int points, const int num_colors, bool random_colors);
+
+            static float* sphereVertices(float height, int slices, int points);
+            static float* sphereColors(int slices, int points);
+            static int* sphereIndices(int slices, int points);
+
             static float* boxVertices(float height, float width, float depth, const int num_colors);
             static float* boxColors(const int num_colors, float color_list[][3]);
             static int* boxIndices(const int num_colors, bool random_colors);
-            static void setupObject(Object* obj, int nVerts, int nIndices, float* v, float* c, int* i);
+            static void setupObject(Object* obj, int nVerts, int nIndices, 
+                                    float* v, float* n, int* i);
     };
     
 }

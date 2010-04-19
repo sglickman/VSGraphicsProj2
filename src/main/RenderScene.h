@@ -10,13 +10,13 @@ using namespace std;
 class RenderScene
 {
 public:
-    RenderScene() : _sm(NULL) {}
-    RenderScene(SceneManager *sm) : _sm(sm) {}
+    RenderScene() : sceneManager(NULL) {}
+    RenderScene(SceneManager *sm) : sceneManager(sm) {}
 
     virtual void init() = 0;
-    void nextFrame() {}
+    virtual void nextFrame() = 0;
 protected:
-    SceneManager *_sm;
+    SceneManager *sceneManager;
 };
 
 #endif
