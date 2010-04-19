@@ -24,6 +24,7 @@ RenderWidget0::RenderWidget0()
 	RenderContext *rs = new GLRenderContext();
     // rs->init();
 	sceneManager = 0;
+    scene = 0;
     mars_theta = 0.2;
 }
 
@@ -31,11 +32,11 @@ RenderWidget0::~RenderWidget0()
 {
 	if(sceneManager)
 	{
-		delete sceneManager;
+        delete sceneManager;
 	}
     if(scene)
     {
-        delete scene;
+        // delete scene;
     }
 }
 
@@ -91,8 +92,8 @@ void RenderWidget0::initSceneEvent()
     // } else if (hyperbolic_rectangle) {
     //     setupHyperbolicRectangle();
     // } else if (shadingmode) {
-         setupTeapotAndDragon();
-         camera->testCase1();
+    setupTeapotAndDragon();
+    camera->testCase1();
     // } else if (texturemode) {
     //     setupTexturedPlanes();
     // } else {

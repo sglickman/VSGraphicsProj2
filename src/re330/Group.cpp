@@ -6,11 +6,6 @@ using namespace std;
 using namespace RE330;
 
 Group::~Group() {
-    while (nodeList && !nodeList->empty()) {
-        Node *n = nodeList->front();
-        nodeList->pop_front();
-        delete n;
-    }
     delete nodeList;
 }
 
