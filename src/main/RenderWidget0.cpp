@@ -12,6 +12,7 @@
 #include "Shapes.h"
 #include "Shape3D.h"
 #include "TransformGroup.h"
+#include "RobotScene.h"
 
 #include <stdio.h>
 
@@ -32,6 +33,10 @@ RenderWidget0::~RenderWidget0()
 	{
 		delete sceneManager;
 	}
+    if(scene)
+    {
+        delete scene;
+    }
 }
 
 /*
@@ -527,90 +532,8 @@ void RenderWidget0::initSceneEvent()
 ** Sets up the teapot, which has normals.
 */
 void RenderWidget0::setupTeapotAndDragon() {
-    // Shader
-    Shader *shader = new Shader("src/Shaders/diffuse_shading.vert",
-                                "src/Shaders/diffuse_shading.frag");
-    shader->use();
-
-    TransformGroup *teaDragon = new TransformGroup();
-    Shape3D *teaShape;
-
-    int nVerts;
-    float *vertices;
-    float *normals;
-    float *texcoords;
-    int nIndices;
-    int *indices;
-    ObjReader::readObj("teapot.obj", nVerts, &vertices, &normals,
-                       &texcoords, nIndices, &indices);
-    ObjReader::normalize(vertices, nVerts);
-    teapot = new Object();
-    VertexData& vertexData = teapot->vertexData;
-    vertexData.vertexDeclaration.addElement(0, 0, 3, 3*sizeof(float),
-                                            RE330::VES_POSITION);
-    vertexData.createVertexBuffer(0, nVerts*3*sizeof(float), 
-                                  (unsigned char*)vertices);
-    if(normals)
-    {
-        vertexData.vertexDeclaration.addElement(1, 0, 3, 3*sizeof(float),
-                                                RE330::VES_NORMAL);		
-        vertexData.createVertexBuffer(1, nVerts*3*sizeof(float), 
-                                      (unsigned char*)normals);
-    }
-
-    vertexData.createIndexBuffer(nIndices, indices);
-    // QImage *texImg = new QImage("stone.png", "PNG");
-    // Texture *t = new Texture(texImg);
-  
-    Material* teaMaterial = new Material();
-    // teapot_material->setTexture(t);
-    teaMaterial->setSpecular(Vector3(1, 1, 1));
-    teaMaterial->setShininess(40.f);
-    teaMaterial->setDiffuse(Vector3(.5, .7, 1.f));
-    teaMaterial->setAmbient(Vector3(.1, .2, .4));
-
-    teaShape = new Shape3D(teapot, teaMaterial);
-    sceneManager->addChild(teaShape);
-
-    //teapot->setMaterial(teapot_material);
-
-    // float *texcoords2; 
-    // ObjReader::readObj("dragon_smooth.obj", nVerts, &vertices, &normals,
-    //                    &texcoords2, nIndices, &indices);
-    // ObjReader::normalize(vertices, nVerts);
-    // dragon = sceneManager->createObject();
-    // VertexData& vertexData2 = dragon->vertexData;
-    // vertexData2.vertexDeclaration.addElement(0, 0, 3, 3*sizeof(float),
-    //                                          RE330::VES_POSITION);
-    // vertexData2.createVertexBuffer(0, nVerts*3*sizeof(float), 
-    //                                (unsigned char*)vertices);
-    // if(normals)
-    // {
-    //     vertexData2.vertexDeclaration.addElement(1, 0, 3, 3*sizeof(float),
-    //                                              RE330::VES_NORMAL);   
-    //     vertexData2.createVertexBuffer(1, nVerts*3*sizeof(float), 
-    //                                    (unsigned char*)normals);
-    // }
-  
-    // vertexData2.createIndexBuffer(nIndices, indices);
-  
-    // Material* dragon_material = new Material();
-    // // teapot_material->setTexture(t);
-    // dragon_material->setShininess(10.f);
-    // dragon_material->setSpecular(Vector3(.5, .5, .5));
-    // dragon_material->setDiffuse(Vector3(.3, .9, .1));
-    // dragon_material->setAmbient(Vector3(.1, .2, .1));
-    // dragon->setMaterial(dragon_material);
-  
-    // dragon->setTransformation(dragon->getTransformation() * Matrix4::translate(-.5, 0, 0));
-
-    teaShape->setTransformation(teaShape->getTransformation() * Matrix4::translate(.5, 0, 0));
-  
-    num_objects = 1;
-    object_list = new Object*[num_objects];
-    int object_list_array = 0;
-    object_list[object_list_array++] = teapot;
-    object_list[object_list_array++] = dragon;
+    scene = new RobotScene(sceneManager);
+    scene->init();
 }
 
 

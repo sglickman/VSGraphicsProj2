@@ -10,6 +10,7 @@
 #include "SceneManager.h"
 #include "Object.h"
 #include "Shader.h"
+#include "RenderScene.h"
 #include <math.h>
 
 using namespace RE330;
@@ -105,6 +106,8 @@ private:
     Object ** object_list;
     int num_objects;
     Vector3 initial_cop;
+
+    RenderScene *scene;
 };
 
 #endif // BASICAPP_H

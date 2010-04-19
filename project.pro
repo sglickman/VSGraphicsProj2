@@ -17,6 +17,8 @@ INCLUDEPATH += . src/main src/re330
 HEADERS += src/main/MainWidget.h \
            src/main/MainWindow.h \
            src/main/RenderWidget0.h \
+           src/main/RenderScene.h \
+           src/main/RobotScene.h \
            src/re330/BasicMath.h \
            src/re330/Camera.h \
            src/re330/Frustum.h \
@@ -51,11 +53,12 @@ HEADERS += src/main/MainWidget.h \
            src/re330/VertexData.h \
            src/re330/VertexDeclaration.h \
            src/re330/wglew.h \
-           src/re330/PGMLoader.cpp
+           src/re330/PGMLoader.cpp 
 SOURCES += src/main/main.cpp \
            src/main/MainWidget.cpp \
            src/main/MainWindow.cpp \
            src/main/RenderWidget0.cpp \
+           src/main/RobotScene.cpp \
            src/re330/BasicMath.cpp \
            src/re330/GLRenderContext.cpp \
            src/re330/GLWidget.cpp \
