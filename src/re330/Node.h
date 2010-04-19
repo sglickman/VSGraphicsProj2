@@ -19,6 +19,9 @@ namespace RE330
 
         Matrix4 &getTransformation() { return t; }
         void setTransformation(const Matrix4 &_t) { t = _t; };
+        void applyTransformation(const Matrix4 &_t) {
+            t *= _t;
+        }
       
     protected:
         Matrix4 t;

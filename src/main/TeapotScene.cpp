@@ -84,7 +84,7 @@ void TeapotScene::init() {
     teaDragon->addChild(dragShape);
   
     dragShape->setTransformation(dragShape->getTransformation() *
-                                 Matrix4::translate(-.5, 0, 0));
+                                 Matrix4::translate(5, 0, 0));
 
     teaShape->setTransformation(teaShape->getTransformation() * 
                                 Matrix4::translate(.5, 0, 0));
