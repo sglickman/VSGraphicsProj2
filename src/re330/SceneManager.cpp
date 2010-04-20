@@ -29,7 +29,7 @@ SceneManager::SceneManager()
     whiteLight->setAllColors(Vector3(.7, 0.7, 0.7),
                              Vector3(1.0, 1.0, 1.0),
                              Vector3(0.1, 0.1, 0.1));
-    whiteLight->makeDirectional(Vector3(-1.f, 0.f, 0.f));  
+    whiteLight->makeDirectional(Vector3(0.f, 0.f, 1.f));  
 
     sceneRoot->addChild(redLight);
     sceneRoot->addChild(whiteLight);
