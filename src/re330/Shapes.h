@@ -21,6 +21,7 @@ namespace RE330
             static Object *createCone(float height, float base_radius, 
                                       int base_points);
 
+            static Object *createRect(float width, float height);
             static Object *createBox(float height, float width, float depth);
 
             static float* coneVertices(float height, float base_radius, int base_points, const int num_colors);

@@ -47,6 +47,67 @@ Object* Shapes::createSphere(float height, int slices, int points) {
 //     return cone;
 // }
 
+Object* Shapes::createRect(float width, float height) {
+    int nVerts1 = 4;
+    float vertices1[] = 
+        {
+            -width,height,0,  width,-height,0,   width,height,0,
+            -width,-height,0
+        };
+    float colors1[] = 
+        {
+            1,0,0,  0,0,1,   1,0,0,
+            1,0,0
+        };
+    int indices1[] = 
+        {
+            0,1,2,  0,3,1
+        };
+  
+    float texcoords1[] = 
+        {
+            0, 0, 1, 1, 1, 0,
+            1, 0
+        };
+  
+    float normals1[] = 
+        {
+            0,0,1, 0,0,1, 0,0,1, 
+            0,0,1
+        };
+
+    Object *object1 = new Object();
+
+    // Set up the vertex data
+	VertexData& vertexData1 = object1->vertexData;
+
+	// Specify the elements of the vertex data:
+	// - one element for vertex positions
+	vertexData1.vertexDeclaration.addElement(0, 0, 3, 
+                                             3*sizeof(float), RE330::VES_POSITION);
+	// - one element for vertex colors
+	vertexData1.vertexDeclaration.addElement(1, 0, 3, 
+                                             3*sizeof(float), RE330::VES_DIFFUSE);
+	  
+	vertexData1.vertexDeclaration.addElement(2, 0, 3,
+                                             3*sizeof(float), RE330::VES_NORMAL);
+    vertexData1.createVertexBuffer(2, nVerts1 * 3 * sizeof(float), (unsigned char*)normals1);
+
+	// Create the buffers and load the data
+	vertexData1.createVertexBuffer(0, nVerts1*3*sizeof(float), 
+                                   (unsigned char*)vertices1);
+	vertexData1.createVertexBuffer(1, nVerts1*3*sizeof(float), 
+                                   (unsigned char*)colors1);
+	
+	vertexData1.createIndexBuffer(2 * 3, indices1);
+	vertexData1.vertexDeclaration.addElement(3, 0, 2, 2*sizeof(float),
+                                             RE330::VES_TEXTURE_COORDINATES);
+	vertexData1.createVertexBuffer(3, nVerts1*2*sizeof(float), 
+                                   (unsigned char*)texcoords1);
+	
+    return object1;
+}
+
 Object* Shapes::createBox(float height, float width, float depth) {
     Object *box = new Object();
 

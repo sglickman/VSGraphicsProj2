@@ -71,6 +71,18 @@ void RobotScene::init() {
     leftHand->applyTransformation(Matrix4::translate(0, -.5, 0));
     leftArm->addChild(leftHand);
 
+    // Create the Robot's flashlight.
+    flashlight = new Light();
+
+    flashlight->setAllColors(Vector3(1.0, 0.0, 0.0),
+                             Vector3(1., 0.2, 0.2),
+                             Vector3(0.1, 0.1, 0.1));
+    flashlight->makeSpot(Vector3(0.0, -.5, 0.0),
+                         Vector3(0.0, -1, 0.3),
+                         120.0, 7.0);
+
+    leftArm->addChild(flashlight);
+
     leftArm->applyTransformation(Matrix4::translate(-.3, .3, 0));
     robotBody->addChild(leftArm);
 
@@ -194,6 +206,15 @@ void RobotScene::init() {
 
     theRobot->applyTransformation(Matrix4::translate(0, .3, 0));
     sceneManager->addChild(theRobot);
+
+    obj = Shapes::createRect(10, 10);
+    mat = new Material(*robomat);
+
+    theGround = new Shape3D(obj, mat);
+    theGround->applyTransformation(Matrix4::translate(0, -1, 0));    
+    theGround->applyTransformation(Matrix4::rotateX(-M_PI/2.f));
+
+    sceneManager->addChildToWorld(theGround);
     
 
 }

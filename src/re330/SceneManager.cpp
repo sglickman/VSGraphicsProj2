@@ -17,21 +17,11 @@ SceneManager::SceneManager()
     // redLight is a red spot light.
     // whiteLight is a white directional light.
     Light* whiteLight = new Light();
-    Light* redLight = new Light();
-
-    redLight->setAllColors(Vector3(1.0, 0.0, 0.0),
-                           Vector3(1., 0.2, 0.2),
-                           Vector3(0.1, 0.1, 0.1));
-    redLight->makeSpot(Vector3(0.0, 0.0, 2.0),
-                       Vector3(0.0, 0.0, -1.f),
-                       10.0, 7.0);
 
     whiteLight->setAllColors(Vector3(.7, 0.7, 0.7),
                              Vector3(1.0, 1.0, 1.0),
                              Vector3(0.1, 0.1, 0.1));
     whiteLight->makeDirectional(Vector3(0.f, 0.f, 1.f));  
-
-    sceneRoot->addChild(redLight);
     sceneRoot->addChild(whiteLight);
 }
 

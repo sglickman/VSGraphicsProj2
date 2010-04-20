@@ -3,6 +3,7 @@
 
 #include "RenderScene.h"
 #include "Shape3D.h"
+#include "Light.h"
 
 using namespace RE330;
 
@@ -20,6 +21,9 @@ protected:
     TransformGroup *leftArm, *leftLeg, *leftLowerLeg;
     TransformGroup *rightArm, *rightLeg, *rightLowerLeg;
 
+    Light *flashlight;
+
+    Shape3D *theGround;
     Shape3D *head, *torso;
     Shape3D *leftShoulder, *leftArmPart, *leftHand;
     Shape3D *rightShoulder, *rightArmPart, *rightHand;
