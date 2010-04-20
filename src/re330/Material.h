@@ -12,6 +12,15 @@ namespace RE330 {
 	{
 	public:
 		Material();
+        Material(Material &m) {
+            mDiffuse = m.mDiffuse;
+            mSpecular = m.mSpecular;
+            mAmbient = m.mAmbient;
+            mShininess = m.mShininess;
+            mTexture = m.mTexture;
+            mShader = m.mShader;
+        }
+
 		void setDiffuse(const Vector3 &diffuse);
 		const Vector3& getDiffuse() const;
 		void setSpecular(const Vector3 &specular);

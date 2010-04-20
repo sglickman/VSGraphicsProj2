@@ -10,6 +10,9 @@ SceneManager::SceneManager()
 	: mCamera(0)
 {
     sceneRoot = new TransformGroup();
+    worldRoot = new TransformGroup();
+
+    sceneRoot->addChild(worldRoot);
 
     // redLight is a red spot light.
     // whiteLight is a white directional light.
@@ -17,7 +20,7 @@ SceneManager::SceneManager()
     Light* redLight = new Light();
 
     redLight->setAllColors(Vector3(1.0, 0.0, 0.0),
-                           Vector3(0.2, 0.2, 0.2),
+                           Vector3(1., 0.2, 0.2),
                            Vector3(0.1, 0.1, 0.1));
     redLight->makeSpot(Vector3(0.0, 0.0, 2.0),
                        Vector3(0.0, 0.0, -1.f),
@@ -61,7 +64,15 @@ Camera* SceneManager::createCamera()
 }
 
 void SceneManager::addChild(Node *n) {
+    addChildToWorld(n);
+}
+
+void SceneManager::addChildToScene(Node *n) {
     sceneRoot->addChild(n);
+}
+
+void SceneManager::addChildToWorld(Node *n) {
+    worldRoot->addChild(n);
 }
 
 void SceneManager::renderScene()

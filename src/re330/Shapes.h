@@ -33,7 +33,7 @@ namespace RE330
 
             static float* boxVertices(float height, float width, float depth, const int num_colors);
             static float* boxColors(const int num_colors, float color_list[][3]);
-            static int* boxIndices(const int num_colors, bool random_colors);
+            static int* boxIndices();
             static void setupObject(Object* obj, int nVerts, int nIndices, 
                                     float* v, float* n, int* i);
     };

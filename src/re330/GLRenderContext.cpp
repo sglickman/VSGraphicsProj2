@@ -190,6 +190,8 @@ void GLRenderContext::setLight(Light *l) {
     specular[3] = 0;
     glLightfv(lightIndex[curLight], GL_SPECULAR, specular);
  
+
+    curLight++;
 }
 
 void GLRenderContext::setLights(const std::list<Light*> &lightList)

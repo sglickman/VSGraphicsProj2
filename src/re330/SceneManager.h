@@ -28,6 +28,7 @@ namespace RE330
 	private:
 		Camera *mCamera;
         TransformGroup *sceneRoot;
+        TransformGroup *worldRoot;
 
 	public:
 		SceneManager();
@@ -46,11 +47,13 @@ namespace RE330
         /** Add a node to the root node.
          */
         void addChild(Node *n);
+        void addChildToScene(Node *n);
+        void addChildToWorld(Node *n);
 
         void setWorldTransformation(const Matrix4 &C) 
-        { sceneRoot->setTransformation(C); }
+        { worldRoot->setTransformation(C); }
         Matrix4 &getWorldTransformation() 
-        { return sceneRoot->getTransformation(); }
+        { return worldRoot->getTransformation(); }
 
 		/** This method needs to be called in the renderSceneEvent
 			event handler of the RenderWidget. 

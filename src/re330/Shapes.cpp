@@ -1,4 +1,7 @@
 #include "Shapes.h"
+#include <iostream>
+
+using namespace std;
 
 using namespace RE330;
 
@@ -46,12 +49,72 @@ Object* Shapes::createSphere(float height, int slices, int points) {
 
 Object* Shapes::createBox(float height, float width, float depth) {
     Object *box = new Object();
+
+    float* box_v = new float[3 * 8 * 3];
+    float* box_n = new float[3 * 8 * 3];
+    float coords[3 * 8] = {
+        -width / 2, height / 2, -depth / 2,
+        -width / 2, height / 2, depth / 2,
+        width / 2, height / 2, depth / 2,
+        width / 2, height / 2, -depth / 2,
+        -width / 2, -height / 2, -depth / 2,
+        -width / 2, -height / 2, depth / 2,
+        width / 2, -height / 2, depth / 2,
+        width / 2, -height / 2, -depth / 2
+    };
+
+    // Loop through each corner of the box
+    for (char i = 0; i < 8; i++) {
+        // Loop through each normal of the vertex
+        for (int j = 0; j < 3; j++) {
+            // Loop through the x,y,z coordinates.
+            for (int k = 0; k < 3; k++) {
+                box_v[3*3*i + 3*j + k] =
+                    (k == 0 ? (i & 1)*width - width/2 :
+                     (k == 1 ? (i & 2)/2.0*height - height/2 :
+                      (k == 2 ? (i & 4)/4.0*depth - depth/2 : 0)));
+                box_n[3*3*i + 3*j + k] =
+                    (j == k && j == 0 ? (i & 1)*2 - 1 :
+                     (j == k && j == 1 ? (i & 2) - 1 :
+                      (j == k && j == 2 ? (i & 4)/2 - 1 : 0)));
+            }
+            cout << (3*i + j) << ": Vertex" << " (" <<
+                box_v[3*3*i + 3*j + 0] << "," <<
+                box_v[3*3*i + 3*j + 1] << "," <<
+                box_v[3*3*i + 3*j + 2] << ")"
+                 "  \tNormal" << " (" <<
+                box_n[3*3*i + 3*j + 0] << "," <<
+                box_n[3*3*i + 3*j + 1] << "," <<
+                box_n[3*3*i + 3*j + 2] << ")"<< endl;
+        }
+    }
     // float* box_v = boxVertices(height, width, depth, num_colors);
     // float* box_c = boxColors(num_colors, color_list);
-    // int* box_i = boxIndices(num_colors, random_colors);
-    // int nVerts = 8 * num_colors;
-    // int nIndices = 3 * 12;
-    // setupObject(box, nVerts, nIndices, box_v, box_c, box_i);
+    int box_i [3 * 12] = {
+        // First, the faces with x normals.
+        4*3, 2*3, 0*3,
+        2*3, 4*3, 6*3,
+
+        1*3, 3*3, 5*3,
+        7*3, 5*3, 3*3,
+
+        // Next, those with y normals.
+        0*3+1, 1*3+1, 4*3+1,
+        5*3+1, 4*3+1, 1*3+1,
+
+        7*3+1, 3*3+1, 2*3+1,
+        2*3+1, 6*3+1, 7*3+1,
+
+        // Finally, those with z normals.
+        4*3+2, 5*3+2, 6*3+2,
+        7*3+2, 6*3+2, 5*3+2,
+
+        2*3+2, 1*3+2, 0*3+2,
+        1*3+2, 2*3+2, 3*3+2
+    };
+    int nVerts = 8 * 3;
+    int nIndices = 3 * 12;
+    setupObject(box, nVerts, nIndices, box_v, box_n, box_i);
     return box;
 }
 
@@ -159,25 +222,8 @@ int* Shapes::sphereIndices(int slices, int points) {
     return array;
 }
 float* Shapes::boxVertices(float height, float width, float depth, const int num_colors) {
-    float* array = new float[3 * 8 * num_colors];
-    float coords[3 * 8] = {
-        -width / 2, height / 2, -depth / 2,
-        -width / 2, height / 2, depth / 2,
-        width / 2, height / 2, depth / 2,
-        width / 2, height / 2, -depth / 2,
-        -width / 2, -height / 2, -depth / 2,
-        -width / 2, -height / 2, depth / 2,
-        width / 2, -height / 2, depth / 2,
-        width / 2, -height / 2, -depth / 2
-    };
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < num_colors; j++) {
-            for (int k = 0; k < 3; k++) {
-                array[3 * num_colors * i + 3 * j + k] = coords[3 * i + k];
-            }
-        }
-    }
-    return array;
+    return NULL;
+    // return array;
 }
 float* Shapes::boxColors(const int num_colors, float color_list[][3]) {
     float* array = new float[num_colors * 3 * 8];
@@ -191,116 +237,58 @@ float* Shapes::boxColors(const int num_colors, float color_list[][3]) {
     }
     return array;
 }
-int* Shapes::boxIndices(const int num_colors, bool random_colors) {
+int* Shapes::boxIndices() {
     srand(time(NULL));
     int* array = new int[12 * 3];
     int index = 0;
     int color_index = 0;
-    if (random_colors) {
-        color_index = rand() % num_colors;
-    }
-    array[index++] = 0 * num_colors + color_index;
-    array[index++] = 1 * num_colors + color_index;
-    array[index++] = 2 * num_colors + color_index;
-    if (random_colors) {
-        color_index = rand() % num_colors;
-    } else {
-        color_index++;
-        color_index %= num_colors;
-    }
-    array[index++] = 2 * num_colors + color_index;
-    array[index++] = 3 * num_colors + color_index;
-    array[index++] = 0 * num_colors + color_index;
-    if (random_colors) {
-        color_index = rand() % num_colors;
-    } else {
-        color_index++;
-        color_index %= num_colors;
-    }
-    array[index++] = 1 * num_colors + color_index;
-    array[index++] = 5 * num_colors + color_index;
-    array[index++] = 6 * num_colors + color_index;
-    if (random_colors) {
-        color_index = rand() % num_colors;
-    } else {
-        color_index++;
-        color_index %= num_colors;
-    }
-    array[index++] = 6 * num_colors + color_index;
-    array[index++] = 2 * num_colors + color_index;
-    array[index++] = 1 * num_colors + color_index;
-    if (random_colors) {
-        color_index = rand() % num_colors;
-    } else {
-        color_index++;
-        color_index %= num_colors;
-    }
-    array[index++] = 0 * num_colors + color_index;
-    array[index++] = 4 * num_colors + color_index;
-    array[index++] = 5 * num_colors + color_index;
-    if (random_colors) {
-        color_index = rand() % num_colors;
-    } else {
-        color_index++;
-        color_index %= num_colors;
-    }
-    array[index++] = 5 * num_colors + color_index;
-    array[index++] = 1 * num_colors + color_index;
-    array[index++] = 0 * num_colors + color_index;
-    if (random_colors) {
-        color_index = rand() % num_colors;
-    } else {
-        color_index++;
-        color_index %= num_colors;
-    }
-    array[index++] = 3 * num_colors + color_index;
-    array[index++] = 2 * num_colors + color_index;
-    array[index++] = 6 * num_colors + color_index;
-    if (random_colors) {
-        color_index = rand() % num_colors;
-    } else {
-        color_index++;
-        color_index %= num_colors;
-    }
-    array[index++] = 6 * num_colors + color_index;
-    array[index++] = 7 * num_colors + color_index;
-    array[index++] = 3 * num_colors + color_index;
-    if (random_colors) {
-        color_index = rand() % num_colors;
-    } else {
-        color_index++;
-        color_index %= num_colors;
-    }
-    array[index++] = 0 * num_colors + color_index;
-    array[index++] = 3 * num_colors + color_index;
-    array[index++] = 7 * num_colors + color_index;
-    if (random_colors) {
-        color_index = rand() % num_colors;
-    } else {
-        color_index++;
-        color_index %= num_colors;
-    }
-    array[index++] = 7 * num_colors + color_index;
-    array[index++] = 4 * num_colors + color_index;
-    array[index++] = 0 * num_colors + color_index;
-    if (random_colors) {
-        color_index = rand() % num_colors;
-    } else {
-        color_index++;
-        color_index %= num_colors;
-    }
-    array[index++] = 4 * num_colors + color_index;
-    array[index++] = 7 * num_colors + color_index;
-    array[index++] = 6 * num_colors + color_index;
-    if (random_colors) {
-        color_index = rand() % num_colors;
-    } else {
-        color_index++;
-        color_index %= num_colors;
-    }
-    array[index++] = 6 * num_colors + color_index;
-    array[index++] = 5 * num_colors + color_index;
-    array[index++] = 4 * num_colors + color_index;
+    array[index++] = 0 * 3 + color_index;
+    array[index++] = 1 * 3 + color_index;
+    array[index++] = 2 * 3 + color_index;
+    color_index++; color_index %= 3;
+    array[index++] = 2 * 3 + color_index;
+    array[index++] = 3 * 3 + color_index;
+    array[index++] = 0 * 3 + color_index;
+    color_index++; color_index %= 3;
+    array[index++] = 1 * 3 + color_index;
+    array[index++] = 5 * 3 + color_index;
+    array[index++] = 6 * 3 + color_index;
+    color_index++; color_index %= 3;
+    array[index++] = 6 * 3 + color_index;
+    array[index++] = 2 * 3 + color_index;
+    array[index++] = 1 * 3 + color_index;
+    color_index++; color_index %= 3;
+    array[index++] = 0 * 3 + color_index;
+    array[index++] = 4 * 3 + color_index;
+    array[index++] = 5 * 3 + color_index;
+    color_index++; color_index %= 3;
+    array[index++] = 5 * 3 + color_index;
+    array[index++] = 1 * 3 + color_index;
+    array[index++] = 0 * 3 + color_index;
+    color_index++; color_index %= 3;
+    array[index++] = 3 * 3 + color_index;
+    array[index++] = 2 * 3 + color_index;
+    array[index++] = 6 * 3 + color_index;
+    color_index++; color_index %= 3;
+    array[index++] = 6 * 3 + color_index;
+    array[index++] = 7 * 3 + color_index;
+    array[index++] = 3 * 3 + color_index;
+    color_index++; color_index %= 3;
+    array[index++] = 0 * 3 + color_index;
+    array[index++] = 3 * 3 + color_index;
+    array[index++] = 7 * 3 + color_index;
+    color_index++; color_index %= 3;
+    array[index++] = 7 * 3 + color_index;
+    array[index++] = 4 * 3 + color_index;
+    array[index++] = 0 * 3 + color_index;
+    color_index++; color_index %= 3;
+    array[index++] = 4 * 3 + color_index;
+    array[index++] = 7 * 3 + color_index;
+    array[index++] = 6 * 3 + color_index;
+    color_index++; color_index %= 3;
+    array[index++] = 6 * 3 + color_index;
+    array[index++] = 5 * 3 + color_index;
+    array[index++] = 4 * 3 + color_index;
     return array;
 }
 
