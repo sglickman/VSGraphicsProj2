@@ -20,6 +20,7 @@ HEADERS += src/main/MainWidget.h \
            src/main/RenderScene.h \
            src/main/RobotScene.h \
            src/main/TeapotScene.h \
+           src/main/BuddhaScene.h \
            src/re330/BasicMath.h \
            src/re330/Camera.h \
            src/re330/Frustum.h \
@@ -61,6 +62,7 @@ SOURCES += src/main/main.cpp \
            src/main/RenderWidget0.cpp \
            src/main/RobotScene.cpp \
            src/main/TeapotScene.cpp \
+           src/main/BuddhaScene.cpp \
            src/re330/BasicMath.cpp \
            src/re330/GLRenderContext.cpp \
            src/re330/GLWidget.cpp \
