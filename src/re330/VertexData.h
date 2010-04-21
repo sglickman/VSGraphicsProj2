@@ -46,7 +46,9 @@ namespace RE330
 			from the application program.
 		*/
 		VertexBufferBinding vertexBufferBinding;
-
+		double getRadius() {
+      return vertexDeclaration.getRadius();
+		}
 	private:
 		int mIndexCount;
 		int *mIndexBuffer;

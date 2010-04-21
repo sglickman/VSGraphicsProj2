@@ -18,6 +18,9 @@ namespace RE330
 	public:
         Object() {}
 		VertexData vertexData;
+		double getRadius() {
+      return vertexData.getRadius();
+		}
 	};
 
 }
