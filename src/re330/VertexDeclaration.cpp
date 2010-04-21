@@ -4,6 +4,10 @@
 
 using namespace RE330;
 
+double VertexDeclaration::getRadius() {
+  const VertexElement* vertices = getElement(VES_POSITION);
+  return 0;
+}
 
 void VertexDeclaration::addElement(int bufferIndex, int offset, int size, int stride, VertexElementSemantic veSemantic)
 {

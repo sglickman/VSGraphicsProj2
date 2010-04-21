@@ -139,14 +139,14 @@ Object* Shapes::createBox(float height, float width, float depth) {
                      (j == k && j == 1 ? (i & 2) - 1 :
                       (j == k && j == 2 ? (i & 4)/2 - 1 : 0)));
             }
-            cout << (3*i + j) << ": Vertex" << " (" <<
-                box_v[3*3*i + 3*j + 0] << "," <<
-                box_v[3*3*i + 3*j + 1] << "," <<
-                box_v[3*3*i + 3*j + 2] << ")"
-                 "  \tNormal" << " (" <<
-                box_n[3*3*i + 3*j + 0] << "," <<
-                box_n[3*3*i + 3*j + 1] << "," <<
-                box_n[3*3*i + 3*j + 2] << ")"<< endl;
+            // cout << (3*i + j) << ": Vertex" << " (" <<
+            //     box_v[3*3*i + 3*j + 0] << "," <<
+            //     box_v[3*3*i + 3*j + 1] << "," <<
+            //     box_v[3*3*i + 3*j + 2] << ")"
+            //      "  \tNormal" << " (" <<
+            //     box_n[3*3*i + 3*j + 0] << "," <<
+            //     box_n[3*3*i + 3*j + 1] << "," <<
+            //     box_n[3*3*i + 3*j + 2] << ")"<< endl;
         }
     }
     // float* box_v = boxVertices(height, width, depth, num_colors);
