@@ -2,6 +2,7 @@
 #define __ObjReader_h__
 
 #include "RE330_global.h"
+#include "Vector3.h"
 
 namespace RE330 {
 
@@ -9,8 +10,8 @@ namespace RE330 {
 	{
 	public:
 		static void  readObj(char* fileName, int &nVertices, float **vertices, float **normals, 
-							 float **texcoords, int &nIndices, int **indices);
-        static void normalize(float *vertices, int nVertices);
+              float **texcoords, int &nIndices, int **indices);
+        static void normalize(float *vertices, int nVertices, Vector3 &sphereCenter, float &radius);
 
 	private:
 		static void get_indices(char *word, int *vindex, int *tindex, int *nindex);

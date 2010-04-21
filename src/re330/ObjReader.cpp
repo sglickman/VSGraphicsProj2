@@ -1,8 +1,11 @@
 #include "ObjReader.h"
+#include "Vector3.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <algorithm>
 
+using namespace std;
 using namespace RE330;
 
 void ObjReader::get_indices(char *word, int *vindex, int *tindex, int *nindex)
@@ -35,15 +38,25 @@ void ObjReader::get_indices(char *word, int *vindex, int *tindex, int *nindex)
 	*nindex = atoi(np);
 }
 
-void ObjReader::normalize(float *vertices, int nVertices) {
+void ObjReader::normalize(float *vertices, int nVertices, Vector3 &center, float &radius) {
     float max = vertices[0];
     float min = vertices[0];
     int x_index, y_index, z_index;
+    Vector3 minVector, maxVector;
+    minVector = Vector3(vertices[0], vertices[1], vertices[2]);
+    maxVector = Vector3(vertices[0], vertices[1], vertices[2]);
     
     for (int i = 0; i < nVertices; i ++) {
         x_index = 3*i;
         y_index = x_index + 1;
         z_index = y_index + 1;
+        minVector = Vector3(std::min(minVector[0], vertices[x_index]),
+                            std::min(minVector[1], vertices[y_index]),
+                            std::min(minVector[2], vertices[z_index]));
+        maxVector = Vector3(std::max(maxVector[0], vertices[x_index]),
+                            std::max(maxVector[1], vertices[y_index]),
+                            std::max(maxVector[2], vertices[z_index]));
+
         if (vertices[x_index] > max) {
             max = vertices[x_index];
         } else if (vertices[x_index] < min) {
@@ -71,9 +84,27 @@ void ObjReader::normalize(float *vertices, int nVertices) {
         vertices[y_index] = (vertices[y_index] - min) / (max - min) - 0.5;
         vertices[z_index] = (vertices[z_index] - min) / (max - min) - 0.5;
     }
+    
+    center = Vector3((minVector[0] + maxVector[0]) / 2,
+                     (minVector[1] + maxVector[1]) / 2,
+                     (minVector[2] + maxVector[2]) / 2);
+    radius = 0;
+    float xdist, ydist, zdist;
+    for (int i = 0; i < nVertices; i++) {
+      x_index = 3 * i;
+      y_index = x_index + 1;
+      z_index = y_index + 1;
+      xdist = center[0] - vertices[x_index];
+      ydist = center[1] - vertices[y_index];
+      zdist = center[2] - vertices[z_index];
+      radius = std::max( (double) radius,
+        sqrt(xdist*xdist + ydist*ydist + zdist*zdist));
+    }
+
 }
 
-void ObjReader::readObj(char* fileName, int &nVertices, float **vertices, float **normals, float **texcoords, int &nIndices, int **indices)
+void ObjReader::readObj(char* fileName, int &nVertices, float **vertices, float **normals, float **texcoords, 
+                        int &nIndices, int **indices)
 {
 	FILE * fp = fopen(fileName,"r");
 	if (fp == NULL) {
@@ -115,6 +146,12 @@ void ObjReader::readObj(char* fileName, int &nVertices, float **vertices, float 
 	int ntriangles = 0;
 	bool noNormals = false;
 	bool noTexCoords = false;
+  Vector3 maxVector = Vector3(std::numeric_limits<float>::min(), 
+                              std::numeric_limits<float>::min(), 
+                              std::numeric_limits<float>::min());
+  Vector3 minVector = Vector3(std::numeric_limits<float>::max(), 
+                              std::numeric_limits<float>::max(), 
+                              std::numeric_limits<float>::max());
 
 	while ( fgets( line, 80, fp ) != NULL ) {
 		if (line[0] == 'v') {
@@ -147,6 +184,8 @@ void ObjReader::readObj(char* fileName, int &nVertices, float **vertices, float 
 				nvertices++;
 				v[nvertices] = z;
 				nvertices++;
+        maxVector = Vector3(max(x, maxVector[0]), max(y, maxVector[1]), max(z, maxVector[2]));
+        minVector = Vector3(min(x, minVector[0]), min(y, minVector[1]), min(z, minVector[2]));
 			}
 		} else if (line[0] == 'f') {
 			char s1[32], s2[32], s3[32];
@@ -195,6 +234,7 @@ void ObjReader::readObj(char* fileName, int &nVertices, float **vertices, float 
 			ntriangles++;
 		}
 	}
+	
 
 	/* We don't support separate indices for normals, vertices, and 
 	   texture coordinates. Need to re-organize arrays. */

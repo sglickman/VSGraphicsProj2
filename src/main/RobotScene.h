@@ -29,6 +29,7 @@ protected:
     Shape3D *rightShoulder, *rightArmPart, *rightHand;
     Shape3D *leftThigh, *leftKnee, *leftLegPart, *leftFoot;
     Shape3D *rightThigh, *rightKnee, *rightLegPart, *rightFoot;
+    Shape3D * tpot;
 };
 
 #endif

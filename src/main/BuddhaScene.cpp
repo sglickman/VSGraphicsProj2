@@ -14,11 +14,15 @@ void BuddhaScene::init() {
     float *texcoords;
     int nIndices;
     int *indices;
+    float radius;
+    Vector3 center;
 
-    // Read in the buddha object
+    // Read in the teapot object
     ObjReader::readObj("teapot.obj", nVerts, &vertices, &normals,
                        &texcoords, nIndices, &indices);
-    ObjReader::normalize(vertices, nVerts);
+    ObjReader::normalize(vertices, nVerts, center, radius);
+    
+    printf("Center of object: (%f, %f, %f); radius: %f\n", center[0], center[1], center[2], radius);
 
     Object *buddha = new Object();
     VertexData& vertexData = buddha->vertexData;

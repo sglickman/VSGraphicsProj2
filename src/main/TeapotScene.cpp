@@ -19,11 +19,13 @@ void TeapotScene::init() {
     float *texcoords;
     int nIndices;
     int *indices;
+    Vector3 center;
+    float radius;
 
     // Read in the teapot object
     ObjReader::readObj("teapot.obj", nVerts, &vertices, &normals,
                        &texcoords, nIndices, &indices);
-    ObjReader::normalize(vertices, nVerts);
+    ObjReader::normalize(vertices, nVerts, center, radius);
 
     Object *teapot = new Object();
     VertexData& vertexData = teapot->vertexData;
@@ -54,9 +56,12 @@ void TeapotScene::init() {
     teaShape = new Shape3D(teapot, teaMaterial);
     teaDragon->addChild(teaShape);
 
+    Vector3 center2;
+    float radius2;
+    
     ObjReader::readObj("dragon_smooth.obj", nVerts, &vertices, &normals,
                        &texcoords2, nIndices, &indices);
-    ObjReader::normalize(vertices, nVerts);
+    ObjReader::normalize(vertices, nVerts, center2, radius2);
     Object *dragon = new Object();
     VertexData& vertexData2 = dragon->vertexData;
     vertexData2.vertexDeclaration.addElement(0, 0, 3, 3*sizeof(float),
