@@ -69,7 +69,7 @@ namespace RE330
 
 		int getElementCount() const;
 		const VertexElement* getElement(int index) const;
-    double getRadius();
+    double getRadius(int indexCount);
     
 
 	protected:

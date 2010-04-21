@@ -4,8 +4,10 @@
 
 using namespace RE330;
 
-double VertexDeclaration::getRadius() {
+double VertexDeclaration::getRadius(int indexCount) {
   const VertexElement* vertices = getElement(VES_POSITION);
+  printf("Element count: %d\n", getElementCount());
+  printf("Index count: %d\n", indexCount);
   return 0;
 }
 
