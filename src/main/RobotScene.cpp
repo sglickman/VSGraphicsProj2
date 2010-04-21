@@ -20,7 +20,7 @@ void RobotScene::init() {
     robomat = new Material();
     robomat->setSpecular(Vector3(1, 1, 1));
     robomat->setShininess(40.f);
-    robomat->setDiffuse(Vector3(.5, .7, 1.f));
+    robomat->setDiffuse(Vector3(.5, 1, 0));
     robomat->setAmbient(Vector3(.1, .1, .1));
     
     // Set up the robot scene tree hierarchy

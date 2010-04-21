@@ -14,6 +14,7 @@
 #include "TransformGroup.h"
 #include "RobotScene.h"
 #include "TeapotScene.h"
+#include "BuddhaScene.h"
 
 #include <stdio.h>
 #include <iostream>
@@ -96,7 +97,7 @@ void RenderWidget0::initSceneEvent()
 ** Sets up the teapot, which has normals.
 */
 void RenderWidget0::setupTeapotAndDragon() {
-    scene = new RobotScene(sceneManager);
+    scene = new BuddhaScene(sceneManager);
     scene->init();
 }
 
