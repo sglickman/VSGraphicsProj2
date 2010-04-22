@@ -23,7 +23,7 @@ namespace RE330 {
         ~Light();
 
         void light(RenderContext *r, const Matrix4 &C);
-        void draw(RenderContext *r, const Matrix4 &C) {}
+        void draw(RenderContext *r, const Matrix4 &C, const Matrix4 &P) {}
 
         // Quickly set the colors of the lights
         void setAllColors(Vector3 d, Vector3 s, Vector3 a)

@@ -16,6 +16,7 @@ namespace RE330
         Vector4(float a, float b, float c, float d) 
             : x(a), y(b), z(c), w(d) {}
         Vector4(float *k) : x(k[0]), y(k[1]), z(k[2]), w(k[3]) {}
+        Vector4(Vector3 v, float q) : x(v[0]), y(v[1]), z(v[2]), w(q) {}
         float operator[] (int i) const {return (&x)[i];}
         Vector4& operator= (const Vector4& k) {
             x = k[0];

@@ -7,6 +7,6 @@ void TransformGroup::light(RenderContext *r, const Matrix4 &C) {
     Group::light(r, C*t);
 }
 
-void TransformGroup::draw(RenderContext *r, const Matrix4 &C) {
-    Group::draw(r, C*t);
+void TransformGroup::draw(RenderContext *r, const Matrix4 &C, const Matrix4 &P) {
+    Group::draw(r, C*t, P);
 }

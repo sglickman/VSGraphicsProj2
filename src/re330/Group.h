@@ -14,7 +14,7 @@ namespace RE330
         ~Group();
 
         void light(RenderContext *r, const Matrix4 &C);
-        void draw(RenderContext *r, const Matrix4 &C);
+        void draw(RenderContext *r, const Matrix4 &C, const Matrix4 &P);
 
         void addChild(Node *child);
         void removeChild(Node *child);

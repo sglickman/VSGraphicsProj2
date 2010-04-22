@@ -15,6 +15,7 @@
 #include "RobotScene.h"
 #include "TeapotScene.h"
 #include "BuddhaScene.h"
+#include <QTime>
 
 #include <stdio.h>
 #include <iostream>
@@ -115,7 +116,15 @@ void RenderWidget0::toDecimal(int num_colors, float color_list[][3]) {
 
 void RenderWidget0::renderSceneEvent()
 {
+    float framerate;
+    QTime t;
+    t.start();
 	sceneManager->renderScene();
+    int elapsed = t.restart();
+    framerate = 1000 / elapsed;
+    char winTitle[100];
+    sprintf(winTitle, "%f fps", framerate);
+    this->parentWidget()->setWindowTitle(winTitle);
 }
 
 void RenderWidget0::resizeRenderWidgetEvent(const QSize &s)

@@ -78,7 +78,7 @@ void SceneManager::renderScene()
 
         //First prepare the scene's lights, then draw the objects.
         sceneRoot->light(renderContext, v);
-        sceneRoot->draw(renderContext, v);
+        sceneRoot->draw(renderContext, v, mCamera->getProjectionMatrix());
 
 		renderContext->endFrame();
 	}
