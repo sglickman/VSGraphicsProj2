@@ -52,6 +52,7 @@ protected:
 	void mouseMoveEvent(QMouseEvent *e);
 	void mouseReleaseEvent(QMouseEvent *e);
     void mouseDoubleClickEvent(QMouseEvent *e);
+    void keyPressEvent(QKeyEvent *e);
     	
     void toDecimal(int num_colors, float color_list[][3]);
     // void setupDefault();

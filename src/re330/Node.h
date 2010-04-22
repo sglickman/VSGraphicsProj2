@@ -15,7 +15,7 @@ namespace RE330
         ~Node() {}
 
         virtual void light(RenderContext *r, const Matrix4 &C) = 0;
-        virtual void draw(RenderContext *r, const Matrix4 &C, const Matrix4 &P) = 0;
+        virtual void draw(RenderContext *r, const Matrix4 &C, const Matrix4 &P, bool culling) = 0;
 
         Matrix4 &getTransformation() { return t; }
         void setTransformation(const Matrix4 &_t) { t = _t; };

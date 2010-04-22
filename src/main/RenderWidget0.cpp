@@ -63,6 +63,7 @@ float scale(float level, float actual_min, float actual_max,
 
 void RenderWidget0::initSceneEvent() 
 {
+    setFocus();
     hyperbolic_rectangle = false;
     colorful_geometry = false;
     solarsystem = false;
@@ -129,6 +130,17 @@ void RenderWidget0::renderSceneEvent()
 
 void RenderWidget0::resizeRenderWidgetEvent(const QSize &s)
 {
+}
+
+void RenderWidget0::keyPressEvent(QKeyEvent *e) {
+    if (e->text() == "n") {
+        sceneManager->culling = false;
+        printf("Turning culling off.\n");
+    } else if (e->text() == "c") {
+        sceneManager->culling = true;
+        printf("Turning culling on.\n");
+    }
+    e->ignore();
 }
 
 /*

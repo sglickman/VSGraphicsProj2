@@ -18,7 +18,7 @@ namespace RE330
         }
 
         void light(RenderContext *r, const Matrix4 &C) {};
-        void draw(RenderContext *r, const Matrix4 &C, const Matrix4 &P);
+        void draw(RenderContext *r, const Matrix4 &C, const Matrix4 &P, bool culling);
 
         Object* getObject() { return _obj; }
         Material* getMaterial() { return _mat; }

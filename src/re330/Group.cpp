@@ -17,12 +17,12 @@ void Group::light(RenderContext *r, const Matrix4 &C) {
     }
 }
 
-void Group::draw(RenderContext *r, const Matrix4 &C, const Matrix4 &P) {
+void Group::draw(RenderContext *r, const Matrix4 &C, const Matrix4 &P, bool culling) {
     list<Node*>::const_iterator iter;
 
     for (iter = nodeList->begin(); iter != nodeList->end(); iter++) {
         Node *n = (*iter);
-        n->draw(r, C, P);
+        n->draw(r, C, P, culling);
     }
 }
 

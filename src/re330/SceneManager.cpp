@@ -9,6 +9,7 @@ using namespace RE330;
 SceneManager::SceneManager()
 	: mCamera(0)
 {
+    culling = true;
     sceneRoot = new TransformGroup();
     worldRoot = new TransformGroup();
 
@@ -78,7 +79,7 @@ void SceneManager::renderScene()
 
         //First prepare the scene's lights, then draw the objects.
         sceneRoot->light(renderContext, v);
-        sceneRoot->draw(renderContext, v, mCamera->getProjectionMatrix());
+        sceneRoot->draw(renderContext, v, mCamera->getProjectionMatrix(), culling);
 
 		renderContext->endFrame();
 	}

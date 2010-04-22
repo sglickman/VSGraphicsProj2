@@ -64,6 +64,7 @@ namespace RE330
 			trigger the renderScene event handler to be called. 
 		*/
 		void renderScene();
+        bool culling;
 
 	};
 
