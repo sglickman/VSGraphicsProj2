@@ -129,7 +129,7 @@ void RenderWidget0::renderSceneEvent()
     t.start();
 	sceneManager->renderScene();
     int elapsed = t.restart();
-    framerate = 1000 / elapsed;
+    framerate = 1000 / (elapsed ? elapsed : 1);
     char winTitle[100];
     sprintf(winTitle, "%f fps", framerate);
     this->parentWidget()->setWindowTitle(winTitle);
@@ -165,6 +165,8 @@ void RenderWidget0::timerEvent(QTimerEvent *t)
 {
     if (scene) {
         scene->nextFrame();
+    } if (scene2) {
+        scene2->nextFrame();
     }
     // if (shadingmode) {
     //     

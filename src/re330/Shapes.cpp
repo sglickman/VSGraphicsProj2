@@ -7,6 +7,7 @@ using namespace RE330;
 
 Object* Shapes::createSphere(float height, int slices, int points) {
     Object *sphere = new Object();
+    sphere->setBoundingSphere(Vector3(0, 0, 0), height / 2);
 
     float* sphere_v = new float[(slices + 1) * points * 3];
     float* sphere_n = new float[(slices + 1) * points * 3];
@@ -110,6 +111,7 @@ Object* Shapes::createRect(float width, float height) {
 
 Object* Shapes::createBox(float height, float width, float depth) {
     Object *box = new Object();
+    box->setBoundingSphere(Vector3(0, 0, 0), Vector3(height, width, depth).len() / 2);
 
     float* box_v = new float[3 * 8 * 3];
     float* box_n = new float[3 * 8 * 3];
