@@ -25,6 +25,7 @@ void BuddhaScene::init() {
     printf("Center of object: (%f, %f, %f); radius: %f\n", center[0], center[1], center[2], radius);
 
     Object *buddha = new Object();
+    buddha->setBoundingSphere(center, radius);
     VertexData& vertexData = buddha->vertexData;
     vertexData.vertexDeclaration.addElement(0, 0, 3, 3*sizeof(float),
                                             RE330::VES_POSITION);
@@ -46,14 +47,15 @@ void BuddhaScene::init() {
     booMaterial->setShininess(40.f);
     booMaterial->setDiffuse(Vector3(.5, .7, 1.f));
     booMaterial->setAmbient(Vector3(.1, .2, .4));
-
-    daBooDahs = new Shape3D*[144];
-    for (int i = 0; i < 12; i++) {
-        for (int j = 0; j < 12; j++) {
-            daBooDahs[i*12 + j] = new Shape3D(buddha, booMaterial);
-            daBooDahs[i*12 + j]->applyTransformation(
-                Matrix4::translate(i-6, 0, j-6));
-            booDahRay->addChild(daBooDahs[i*12 + j]);
+    
+    int numTeapots = 50;
+    daBooDahs = new Shape3D*[numTeapots * numTeapots];
+    for (int i = 0; i < numTeapots; i++) {
+        for (int j = 0; j < numTeapots; j++) {
+            daBooDahs[i*numTeapots + j] = new Shape3D(buddha, booMaterial);
+            daBooDahs[i*numTeapots + j]->applyTransformation(
+                Matrix4::translate(i-(numTeapots / 2.0), 0, j-(numTeapots / 2.0)));
+            booDahRay->addChild(daBooDahs[i*numTeapots + j]);
         }
     }
     sceneManager->addChildToWorld(booDahRay);

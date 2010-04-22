@@ -38,6 +38,7 @@ void RobotScene::init() {
     ObjReader::normalize(vertices, nVerts, center, radius);
 
     Object *teapot = new Object();
+    teapot->setBoundingSphere(center, radius);
     VertexData& vertexData = teapot->vertexData;
     vertexData.vertexDeclaration.addElement(0, 0, 3, 3*sizeof(float),
                                             RE330::VES_POSITION);

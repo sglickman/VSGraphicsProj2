@@ -21,8 +21,16 @@ namespace RE330
 		double getRadius() {
       return radius;
 		}
+		Vector3 getCenter() {
+      return center;
+		}
+		void setBoundingSphere(Vector3 c, double r) {
+      center = c;
+      radius = r;
+		}
 		
 	private:
+    Vector3 center;
     double radius;
 	};
 
