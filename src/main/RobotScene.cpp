@@ -14,6 +14,8 @@ void RobotScene::init() {
                                 "src/Shaders/diffuse_shading.frag");
     shader->use();
 
+    everything = new TransformGroup();
+
     // Temporary object, materials
     Object *obj;
     Material *robomat, *mat;
@@ -242,7 +244,7 @@ void RobotScene::init() {
     theRobot->addChild(robotBody);
     
     theRobot->applyTransformation(Matrix4::translate(0, .3, 0));
-    sceneManager->addChild(theRobot);
+    everything->addChild(theRobot);
     
     obj = Shapes::createBox(5, 5, .0000001);
     mat = new Material(*robomat);
@@ -255,8 +257,7 @@ void RobotScene::init() {
     theGround->applyTransformation(Matrix4::translate(0, -1, 0));    
     theGround->applyTransformation(Matrix4::rotateX(-M_PI/2.f));
     
-    sceneManager->addChildToWorld(theGround);
-    
+    everything->addChild(theGround);
 
 }
 

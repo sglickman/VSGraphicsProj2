@@ -15,8 +15,10 @@ public:
     
     void init();
     void nextFrame();
+    Node* getRoot() {return everything;}
 
 protected:
+    TransformGroup *everything;
     TransformGroup *theRobot, *robotBody;
     TransformGroup *leftArm, *leftLeg, *leftLowerLeg;
     TransformGroup *rightArm, *rightLeg, *rightLowerLeg;

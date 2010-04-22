@@ -58,7 +58,6 @@ void BuddhaScene::init() {
             booDahRay->addChild(daBooDahs[i*numTeapots + j]);
         }
     }
-    sceneManager->addChildToWorld(booDahRay);
 
 }
 

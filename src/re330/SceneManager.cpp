@@ -7,13 +7,10 @@ using namespace std;
 using namespace RE330;
 
 SceneManager::SceneManager()
-	: mCamera(0)
+	: mCamera(0), sceneRoot(0)
 {
     culling = true;
-    sceneRoot = new TransformGroup();
     worldRoot = new TransformGroup();
-
-    sceneRoot->addChild(worldRoot);
 
     // redLight is a red spot light.
     // whiteLight is a white directional light.
@@ -23,7 +20,7 @@ SceneManager::SceneManager()
                              Vector3(1.0, 1.0, 1.0),
                              Vector3(0.1, 0.1, 0.1));
     whiteLight->makeDirectional(Vector3(0.f, 0.f, 1.f));  
-    sceneRoot->addChild(whiteLight);
+    worldRoot->addChild(whiteLight);
 }
 
 SceneManager::~SceneManager()
@@ -43,7 +40,7 @@ Object* SceneManager::createObject()
     // Creates an object in the root of the scene.
 	Object *o = new Object();
 //	mObjectList.push_back(o);
-    sceneRoot->addChild(new Shape3D(o, 0));
+    worldRoot->addChild(new Shape3D(o, 0));
 
 	return o;
 }
@@ -54,12 +51,12 @@ Camera* SceneManager::createCamera()
 	return mCamera;
 }
 
-void SceneManager::addChild(Node *n) {
-    addChildToWorld(n);
+void SceneManager::setScene(Node *n) {
+    sceneRoot = n;
 }
 
-void SceneManager::addChildToScene(Node *n) {
-    sceneRoot->addChild(n);
+void SceneManager::addChild(Node *n) {
+    addChildToWorld(n);
 }
 
 void SceneManager::addChildToWorld(Node *n) {
@@ -77,8 +74,11 @@ void SceneManager::renderScene()
 		renderContext->setProjectionMatrix(mCamera->getProjectionMatrix());
 		Matrix4 v = mCamera->getViewMatrix();
 
-        //First prepare the scene's lights, then draw the objects.
+        //First prepare the world's lights, then draw the objects.
+        worldRoot->light(renderContext, v);
         sceneRoot->light(renderContext, v);
+
+        worldRoot->draw(renderContext, v, mCamera->getProjectionMatrix(), culling);
         sceneRoot->draw(renderContext, v, mCamera->getProjectionMatrix(), culling);
 
 		renderContext->endFrame();

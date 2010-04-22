@@ -101,6 +101,10 @@ void RenderWidget0::initSceneEvent()
 void RenderWidget0::setupTeapotAndDragon() {
     scene = new BuddhaScene(sceneManager);
     scene->init();
+    sceneManager->setScene(scene->getRoot());
+
+    scene2 = new RobotScene(sceneManager);
+    scene2->init();
 }
 
 /*
@@ -310,9 +314,9 @@ void RenderWidget0::mouseMoveEvent(QMouseEvent *e)
                 (z12 > 0 ? sqrt(z12) : 0)
                 );
         float angle = asin(crossproduct.len());
-        sceneManager->setWorldTransformation(
+        sceneManager->setSceneTransformation(
             Matrix4::rotateA(crossproduct, angle) *
-            sceneManager->getWorldTransformation());
+            sceneManager->getSceneTransformation());
         // for (int i = 0; i < num_objects; i++) {
         //     object_list[i]->setTransformation(
         //         Matrix4::rotateA(crossproduct, angle) *

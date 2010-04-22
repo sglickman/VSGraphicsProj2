@@ -108,7 +108,7 @@ private:
     int num_objects;
     Vector3 initial_cop;
 
-    RenderScene *scene;
+    RenderScene *scene, *scene2;
 };
 
 #endif // BASICAPP_H

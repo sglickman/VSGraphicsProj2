@@ -14,6 +14,7 @@ public:
     
     void init();
     void nextFrame();
+    Node *getRoot() {}
 
 protected:
     TransformGroup *teaDragon;

@@ -27,7 +27,7 @@ namespace RE330
         friend class Shapes;
 	private:
 		Camera *mCamera;
-        TransformGroup *sceneRoot;
+        Node *sceneRoot;
         TransformGroup *worldRoot;
 
 	public:
@@ -47,13 +47,13 @@ namespace RE330
         /** Add a node to the root node.
          */
         void addChild(Node *n);
-        void addChildToScene(Node *n);
         void addChildToWorld(Node *n);
+        void setScene(Node *n);
 
-        void setWorldTransformation(const Matrix4 &C) 
-        { worldRoot->setTransformation(C); }
-        Matrix4 &getWorldTransformation() 
-        { return worldRoot->getTransformation(); }
+        void setSceneTransformation(const Matrix4 &C) 
+        { sceneRoot->setTransformation(C); }
+        Matrix4 &getSceneTransformation() 
+        { return sceneRoot->getTransformation(); }
 
 		/** This method needs to be called in the renderSceneEvent
 			event handler of the RenderWidget. 
