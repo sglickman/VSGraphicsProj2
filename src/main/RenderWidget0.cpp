@@ -101,10 +101,13 @@ void RenderWidget0::initSceneEvent()
 void RenderWidget0::setupTeapotAndDragon() {
     scene = new BuddhaScene(sceneManager);
     scene->init();
-    sceneManager->setScene(scene->getRoot());
+//    sceneManager->setScene(scene->getRoot());
+//    buddha_scene = true;
 
     scene2 = new RobotScene(sceneManager);
     scene2->init();
+    sceneManager->setScene(scene2->getRoot());
+    buddha_scene = false;
 }
 
 /*
@@ -143,6 +146,13 @@ void RenderWidget0::keyPressEvent(QKeyEvent *e) {
     } else if (e->text() == "c") {
         sceneManager->culling = true;
         printf("Turning culling on.\n");
+    } else if (e->text() == "s") {
+        if (buddha_scene) {
+            sceneManager->setScene(scene2->getRoot());
+        } else {
+            sceneManager->setScene(scene->getRoot());
+        }
+        buddha_scene = !buddha_scene;
     }
     e->ignore();
 }

@@ -64,6 +64,7 @@ protected:
     void setupTeapotAndDragon();
     // void setupTexturedPlanes();
 private:
+    bool buddha_scene;
 	SceneManager *sceneManager;
 	Camera *camera;
     Object *object;
