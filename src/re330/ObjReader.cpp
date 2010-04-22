@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <algorithm>
+#include <limits>
 
 using namespace std;
 using namespace RE330;

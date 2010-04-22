@@ -1,6 +1,7 @@
 #include "VertexDeclaration.h"
 #include <assert.h>
 #include <cstring>
+#include <stdio.h>
 
 using namespace RE330;
 
