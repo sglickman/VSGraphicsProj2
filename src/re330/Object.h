@@ -19,19 +19,19 @@ namespace RE330
         Object() {}
 		VertexData vertexData;
 		double getRadius() {
-      return radius;
+            return radius;
 		}
 		Vector3 getCenter() {
-      return center;
+            return center;
 		}
 		void setBoundingSphere(Vector3 c, double r) {
-      center = c;
-      radius = r;
+            center = c;
+            radius = r;
 		}
 		
 	private:
-    Vector3 center;
-    double radius;
+        Vector3 center;
+        double radius;
 	};
 
 }
