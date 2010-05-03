@@ -23,6 +23,8 @@ namespace RE330
     class RE330_EXPORT ObjectSphere : public ObjectShape {
     public:
         ObjectSphere(const float height, const int slices, const int points);
+    private:
+        int indices(const int slices, const int points) const;
     };
 
     class RE330_EXPORT ObjectBox : public ObjectShape {
@@ -32,9 +34,11 @@ namespace RE330
         
     class RE330_EXPORT RevolutionSurface : public ObjectShape {   
     public:
-        RevolutionSurface(Curve &c, const int ncuts);
+        RevolutionSurface(Curve &c, const int slices, const int points);
     protected:
         Curve curve;
+    private:
+        int indices(const int slices, const int points) const;
     };
 }
 

@@ -34,9 +34,10 @@ ObjectSphere::ObjectSphere(float height, int slices, int points)
     int index = 0;
     float theta, phi;
     for(int s = 0; s <= slices; s++) {
+        phi = M_PI/slices*s;
+
         for(int p = 0; p < points; p++) {
             theta = 2*M_PI/points*p;
-            phi = M_PI/slices*s;
 
             sphere_v[index] = height * cos(theta) * sin(phi);
             sphere_n[index++] = height * cos(theta) * sin(phi);
@@ -48,13 +49,31 @@ ObjectSphere::ObjectSphere(float height, int slices, int points)
             sphere_n[index++] = height * cos(phi);         
         }
     }
-    int* sphere_i = sphereIndices(slices, points);
+    int* sphere_i = indices(slices, points);
     int nVerts = (slices + 1) * points;
     int nIndices = slices * points * 2 * 3;
     setupObject(nVerts, nIndices, sphere_v, sphere_n, sphere_i);
 
     delete sphere_v;
     delete sphere_n;
+}
+
+int* ObjectSphere::indices(const int slices, const int points) const {
+    int* array = new int[2 * (slices) * points * 3];
+    int index = 0;
+    int color_index = 0;
+    for (int s = 0; s < slices; s++) {
+        for (int p = 0; p < points; p++) {
+            array[index++] = (s * points + p + 1);
+            array[index++] = (s * points + p);
+            array[index++] = ((s + 1) * points + p);
+
+            array[index++] = ((s + 1) * points + p);
+            array[index++] = ((s + 1) * points + p + 1);
+            array[index++] = (s * points + p + 1);
+        }
+    }
+    return array;
 }
 
 ObjectBox::ObjectBox(const float height, const float width, const float depth) 
@@ -123,11 +142,68 @@ ObjectBox::ObjectBox(const float height, const float width, const float depth)
 }
 
 /* Create a new RevolutionSurface from a Curve */
-RevoultionSurface::RevolutionSurface(const Curve &c, const int ncuts) :
+RevoultionSurface::RevolutionSurface(const Curve &c, const int slices,
+                                     const int points) :
+    ObjectShape(), 
     curve(c) 
 {
     // Use the convex hull property of the curve to determine the
     // approximate y center of the revolved surface.
 
     // Generate the actual surface
+    float* surf_v = new float[(slices + 1) * points * 3];
+    float* surf_n = new float[(slices + 1) * points * 3];
+
+    // Loop through, create the surface.
+    int index = 0;
+    float theta, t;
+    Vector4 u; // The current point on the curve
+    for(int s = 0; s <= slices; s++) {
+        t = (1/slices) * s;
+        u = curve.interpolate(t);
+        u /= u[4]; // Make the homogeneous coordinate 1 again.
+        
+        for(int p = 0; p < points; p++) {
+            theta = 2*M_PI/points * p;
+
+            // Beware, the normals are totally incorrect.
+
+            // x coordinate
+            surf_v[index] = u[1] * cos(theta);
+            surf_n[index++] = u[1] * cos(theta);
+
+            // y coordinate
+            surf_v[index] = u[2];
+            surf_n[index++] = 0;
+
+            // z coordinate
+            surf_v[index] = u[1] * cos(theta);
+            surf_n[index++] = u[1] * cos(theta);         
+        }
+    }
+    int* surf_i = indices(slices, points);
+    int nVerts = (slices + 1) * points;
+    int nIndices = slices * points * 2 * 3;
+    setupObject(nVerts, nIndices, surf_v, surf_n, surf_i);
+
+    delete surf_v;
+    delete surf_n;
+}
+
+int* RevolutionSurface::indices(const int slices, const int points) const {
+    int* array = new int[2 * (slices) * points * 3];
+    int index = 0;
+    int color_index = 0;
+    for (int s = 0; s < slices; s++) {
+        for (int p = 0; p < points; p++) {
+            array[index++] = (s * points + p + 1);
+            array[index++] = (s * points + p);
+            array[index++] = ((s + 1) * points + p);
+
+            array[index++] = ((s + 1) * points + p);
+            array[index++] = ((s + 1) * points + p + 1);
+            array[index++] = (s * points + p + 1);
+        }
+    }
+    return array;
 }
