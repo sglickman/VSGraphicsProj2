@@ -16,20 +16,16 @@ void VaseScene::init() {
 
     everything = new TransformGroup();
     
-    vector<Vector4> vasePoints = vector<Vector4> ();
-    vasePoints.push_back(Vector4(.1,.6,0,1));
-    vasePoints.push_back(Vector4(.1,.5,0,1));
-    vasePoints.push_back(Vector4(.2,.4,0,1));
-    vasePoints.push_back(Vector4(.1,.3,0,1));
-    vasePoints.push_back(Vector4(.1,.2,0,1));
-    vasePoints.push_back(Vector4(.2,.1,0,1));
-    vasePoints.push_back(Vector4(.2,0,0,1));
+    vector<Vector3> vasePoints = vector<Vector3> ();
+    vasePoints.push_back(Vector3(.1,.6,1));
+    vasePoints.push_back(Vector3(.1,.5,1));
+    vasePoints.push_back(Vector3(.2,.4,1));
+    vasePoints.push_back(Vector3(.1,.3,1));
+    vasePoints.push_back(Vector3(.1,.2,1));
+    vasePoints.push_back(Vector3(.2,.1,1));
+    vasePoints.push_back(Vector3(.2,0,1));
 
     PiecewiseCurve vaseCurve = PiecewiseCurve(vasePoints);
-    // CubicCurve vaseCurve = CubicCurve(Vector4(1,1,0,1),
-    //                                   Vector4(.6,.6,0,1),
-    //                                   Vector4(-.6,-.6,0,1),
-    //                                   Vector4(-1,-1,0,1));
 
     Object *obj;
     obj = new RevolutionSurface(vaseCurve, 5, 5);

@@ -156,11 +156,11 @@ RevolutionSurface::RevolutionSurface(const Curve &c, const int slices,
     // Loop through, create the surface.
     int index = 0;
     float theta, t;
-    Vector4 u; // The current point on the curve
+    Vector3 u; // The current point on the curve
     for(int s = 0; s <= slices; s++) {
         t = (1.f/slices) * s;
         u = curve.interpolate(t);
-        u /= u[3]; // Make the homogeneous coordinate 1 again.
+        u /= u[2]; // Make the homogeneous coordinate 1 again.
         cout << u[0] << "," << u[1] << endl;
         
         for(int p = 0; p < points; p++) {

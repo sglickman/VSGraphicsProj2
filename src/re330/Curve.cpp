@@ -4,15 +4,15 @@
 using namespace std;
 using namespace RE330;
 
-const Vector4 &CubicCurve::interpolate(const float t) const {
-    return ((p[0] * p[0][3] * ((1-t)*(1-t)*(1-t)) +
-             p[1] * p[1][3] * ((1-t)*(1-t)*t) +
-             p[2] * p[2][3] * ((1-t)*t*t) +
-             p[3] * p[3][3] * (t*t*t)) / 
-            (p[0][3] + p[1][3] + p[2][3] + p[3][3]));
+const Vector3 &CubicCurve::interpolate(const float t) const {
+    return ((p[0] * p[0][2] * ((1-t)*(1-t)*(1-t)) +
+             p[1] * p[1][2] * ((1-t)*(1-t)*t) +
+             p[2] * p[2][2] * ((1-t)*t*t) +
+             p[3] * p[3][2] * (t*t*t)) / 
+            (p[0][2] + p[1][2] + p[2][2] + p[3][2]));
 }
 
-const Vector4 &PiecewiseCurve::interpolate(const float t) const {
+const Vector3 &PiecewiseCurve::interpolate(const float t) const {
     float big_t = ((nPoints - 1) / 3) * t; // num curves * t
     //cout << "t = " << t;
 
