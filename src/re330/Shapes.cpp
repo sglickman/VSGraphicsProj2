@@ -7,9 +7,9 @@ using namespace RE330;
 
 
 
-void Shapes::setupObject(Object* obj, int nVerts, int nIndices, 
+void ObjectShape::setupObject(int nVerts, int nIndices, 
                          float* v, float* n, int* i) {
-    VertexData& vd = obj->vertexData;
+    VertexData& vd = vertexData;
 	// Specify the elements of the vertex data:
 	// - one element for vertex positions
 	vd.vertexDeclaration.addElement(0, 0, 3, 3*sizeof(float), 
@@ -25,7 +25,7 @@ void Shapes::setupObject(Object* obj, int nVerts, int nIndices,
 }
 
 ObjectSphere::ObjectSphere(float height, int slices, int points) 
-    : ObjectShape(), center(Vector3(0, 0, 0)), radius(height / 2)
+    : ObjectShape(Vector3(0, 0, 0), height / 2)
 {
     float* sphere_v = new float[(slices + 1) * points * 3];
     float* sphere_n = new float[(slices + 1) * points * 3];
@@ -77,8 +77,7 @@ int* ObjectSphere::indices(const int slices, const int points) const {
 }
 
 ObjectBox::ObjectBox(const float height, const float width, const float depth) 
-    : ObjectShape(), center(Vector3(0, 0, 0)), 
-      radius(Vector3(height, width, depth).len() / 2)
+    : ObjectShape(Vector3(0, 0, 0), Vector3(height, width, depth).len() / 2)
 {
     float* box_v = new float[3 * 8 * 3];
     float* box_n = new float[3 * 8 * 3];
@@ -142,7 +141,7 @@ ObjectBox::ObjectBox(const float height, const float width, const float depth)
 }
 
 /* Create a new RevolutionSurface from a Curve */
-RevoultionSurface::RevolutionSurface(const Curve &c, const int slices,
+RevolutionSurface::RevolutionSurface(const Curve &c, const int slices,
                                      const int points) :
     ObjectShape(), 
     curve(c) 
@@ -159,9 +158,10 @@ RevoultionSurface::RevolutionSurface(const Curve &c, const int slices,
     float theta, t;
     Vector4 u; // The current point on the curve
     for(int s = 0; s <= slices; s++) {
-        t = (1/slices) * s;
+        t = (1.f/slices) * s;
         u = curve.interpolate(t);
-        u /= u[4]; // Make the homogeneous coordinate 1 again.
+        u /= u[3]; // Make the homogeneous coordinate 1 again.
+        cout << u[0] << "," << u[1] << endl;
         
         for(int p = 0; p < points; p++) {
             theta = 2*M_PI/points * p;
@@ -169,16 +169,18 @@ RevoultionSurface::RevolutionSurface(const Curve &c, const int slices,
             // Beware, the normals are totally incorrect.
 
             // x coordinate
-            surf_v[index] = u[1] * cos(theta);
-            surf_n[index++] = u[1] * cos(theta);
+            surf_v[index] = u[0] * sin(theta);
+            surf_n[index++] = u[0] * sin(theta);
 
             // y coordinate
-            surf_v[index] = u[2];
+            surf_v[index] = u[1];
             surf_n[index++] = 0;
 
             // z coordinate
-            surf_v[index] = u[1] * cos(theta);
-            surf_n[index++] = u[1] * cos(theta);         
+            surf_v[index] = u[0] * cos(theta);
+            surf_n[index++] = u[0] * cos(theta);   
+
+            //cout << surf_v[index-1] << endl;
         }
     }
     int* surf_i = indices(slices, points);

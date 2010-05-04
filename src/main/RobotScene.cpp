@@ -66,7 +66,7 @@ void RobotScene::init() {
     
     // 
     // // Create the Robot's head.
-    obj = Shapes::createSphere(.2f, 10, 10);
+    obj = new ObjectSphere(.2f, 10, 10);
     mat = new Material(*robomat);
     
     head = new Shape3D(obj, mat);
@@ -77,7 +77,7 @@ void RobotScene::init() {
     robotBody = new TransformGroup();
     
     // Create the Robot's torso. Change to some other shape later.
-    obj = Shapes::createBox(.5, .4, .2);
+    obj = new ObjectBox(.5, .4, .2);
     mat = new Material(*robomat);
     
     torso = new Shape3D(obj, mat);    
@@ -87,7 +87,7 @@ void RobotScene::init() {
     leftArm = new TransformGroup();
     
     // Create the Robot's left shoulder.
-    obj = Shapes::createSphere(.1f, 10, 10);
+    obj = new ObjectSphere(.1f, 10, 10);
     mat = new Material(*robomat);
     
     leftShoulder = new Shape3D(obj, mat);
@@ -95,7 +95,7 @@ void RobotScene::init() {
     leftArm->addChild(leftShoulder);
     
     // Create the Robot's left arm meat.
-    obj = Shapes::createBox(.45f, .1f, .12f);
+    obj = new ObjectBox(.45f, .1f, .12f);
     mat = new Material(*robomat);
     
     leftArmPart = new Shape3D(obj, mat);
@@ -103,7 +103,7 @@ void RobotScene::init() {
     leftArm->addChild(leftArmPart);
     
     // Create the Robot's left hand.
-    obj = Shapes::createSphere(.07f, 10, 10);
+    obj = new ObjectSphere(.07f, 10, 10);
     mat = new Material(*robomat);
     
     leftHand = new Shape3D(obj, mat);
@@ -129,7 +129,7 @@ void RobotScene::init() {
     rightArm = new TransformGroup();
     
     // Create the Robot's right shoulder.
-    obj = Shapes::createSphere(.1f, 10, 10);
+    obj = new ObjectSphere(.1f, 10, 10);
     mat = new Material(*robomat);
     
     rightShoulder = new Shape3D(obj, mat);
@@ -137,7 +137,7 @@ void RobotScene::init() {
     rightArm->addChild(rightShoulder);
     
     // Create the Robot's right arm meat.
-    obj = Shapes::createBox(.45f, .1f, .12f);
+    obj = new ObjectBox(.45f, .1f, .12f);
     mat = new Material(*robomat);
     
     rightArmPart = new Shape3D(obj, mat);
@@ -145,7 +145,7 @@ void RobotScene::init() {
     rightArm->addChild(rightArmPart);
     
     // Create the Robot's right hand.
-    obj = Shapes::createSphere(.07f, 10, 10);
+    obj = new ObjectSphere(.07f, 10, 10);
     mat = new Material(*robomat);
     
     rightHand = new Shape3D(obj, mat);
@@ -162,7 +162,7 @@ void RobotScene::init() {
     leftLowerLeg = new TransformGroup();
     
     // Create the Robot's left thigh
-    obj = Shapes::createBox(.45f, .1f, .12f);
+    obj = new ObjectBox(.45f, .1f, .12f);
     mat = new Material(*robomat);
     
     leftThigh = new Shape3D(obj, mat);
@@ -170,14 +170,14 @@ void RobotScene::init() {
     leftLeg->addChild(leftThigh);   
     
     // Create the Robot's left knee.
-    obj = Shapes::createSphere(.1f, 10, 10);
+    obj = new ObjectSphere(.1f, 10, 10);
     mat = new Material(*robomat);
     
     leftKnee = new Shape3D(obj, mat);
     leftLowerLeg->addChild(leftKnee);
     
     // Create the Robot's lower left leg meat.
-    obj = Shapes::createBox(.45f, .1f, .12f);
+    obj = new ObjectBox(.45f, .1f, .12f);
     mat = new Material(*robomat);
     
     leftLegPart = new Shape3D(obj, mat);
@@ -185,7 +185,7 @@ void RobotScene::init() {
     leftLowerLeg->addChild(leftLegPart);  
     
     // Create the Robot's left foot.
-    obj = Shapes::createBox(.08f, .2f, .3f);
+    obj = new ObjectBox(.08f, .2f, .3f);
     mat = new Material(*robomat);
     
     leftFoot = new Shape3D(obj, mat);
@@ -205,7 +205,7 @@ void RobotScene::init() {
     rightLowerLeg = new TransformGroup();
     
     // Create the Robot's right thigh
-    obj = Shapes::createBox(.45f, .1f, .12f);
+    obj = new ObjectBox(.45f, .1f, .12f);
     mat = new Material(*robomat);
     
     rightThigh = new Shape3D(obj, mat);
@@ -213,14 +213,14 @@ void RobotScene::init() {
     rightLeg->addChild(rightThigh);  
     
     // Create the Robot's right knee.
-    obj = Shapes::createSphere(.1f, 10, 10);
+    obj = new ObjectSphere(.1f, 10, 10);
     mat = new Material(*robomat);
     
     rightKnee = new Shape3D(obj, mat);
     rightLowerLeg->addChild(rightKnee);
     
     // Create the Robot's lower right leg meat.
-    obj = Shapes::createBox(.45f, .1f, .12f);
+    obj = new ObjectBox(.45f, .1f, .12f);
     mat = new Material(*robomat);
     
     rightLegPart = new Shape3D(obj, mat);
@@ -228,7 +228,7 @@ void RobotScene::init() {
     rightLowerLeg->addChild(rightLegPart);  
     
     // Create the Robot's right foot.
-    obj = Shapes::createBox(.08f, .2f, .3f);
+    obj = new ObjectBox(.08f, .2f, .3f);
     mat = new Material(*robomat);
     
     rightFoot = new Shape3D(obj, mat);
@@ -246,7 +246,7 @@ void RobotScene::init() {
     theRobot->applyTransformation(Matrix4::translate(0, .3, 0));
     everything->addChild(theRobot);
     
-    obj = Shapes::createBox(5, 5, .0000001);
+    obj = new ObjectBox(5, 5, .0000001);
     mat = new Material(*robomat);
     
     mat->setDiffuse(Vector3(0, 1.f, 0.0));

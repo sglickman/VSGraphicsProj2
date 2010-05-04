@@ -13,18 +13,19 @@ namespace RE330
 {
     class RE330_EXPORT ObjectShape : public Object
     {
-        protected:
-            
-        public:
-            void setupObject(int nVerts, int nIndices, 
-                             float* v, float* n, int* i);
+    protected:
+        ObjectShape() {}
+        ObjectShape(Vector3 c, double r) : Object(c,r) {}
+    public:
+        void setupObject(int nVerts, int nIndices, 
+                         float* v, float* n, int* i);
     };
 
     class RE330_EXPORT ObjectSphere : public ObjectShape {
     public:
         ObjectSphere(const float height, const int slices, const int points);
     private:
-        int indices(const int slices, const int points) const;
+        int *indices(const int slices, const int points) const;
     };
 
     class RE330_EXPORT ObjectBox : public ObjectShape {
@@ -34,11 +35,11 @@ namespace RE330
         
     class RE330_EXPORT RevolutionSurface : public ObjectShape {   
     public:
-        RevolutionSurface(Curve &c, const int slices, const int points);
+        RevolutionSurface(const Curve &c, const int slices, const int points);
     protected:
-        Curve curve;
+        const Curve &curve;
     private:
-        int indices(const int slices, const int points) const;
+        int *indices(const int slices, const int points) const;
     };
 }
 

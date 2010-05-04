@@ -17,6 +17,7 @@ namespace RE330
 	{
 	public:
         Object() {}
+        Object(Vector3 c, double r) : center(c), radius(r) {}
 		VertexData vertexData;
 		double getRadius() {
             return radius;
@@ -29,7 +30,7 @@ namespace RE330
             radius = r;
 		}
 		
-	private:
+	protected:
         Vector3 center;
         double radius;
 	};

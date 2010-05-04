@@ -12,7 +12,7 @@
 #include "Shapes.h"
 #include "Shape3D.h"
 #include "TransformGroup.h"
-#include "RobotScene.h"
+#include "VaseScene.h"
 #include "TeapotScene.h"
 #include "BuddhaScene.h"
 #include <QTime>
@@ -104,7 +104,7 @@ void RenderWidget0::setupTeapotAndDragon() {
 //    sceneManager->setScene(scene->getRoot());
 //    buddha_scene = true;
 
-    scene2 = new RobotScene(sceneManager);
+    scene2 = new VaseScene(sceneManager);
     scene2->init();
     sceneManager->setScene(scene2->getRoot());
     buddha_scene = false;

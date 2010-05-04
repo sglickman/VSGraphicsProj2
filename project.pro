@@ -21,6 +21,7 @@ HEADERS += src/main/BuddhaScene.h \
            src/main/RenderWidget0.h \
            src/main/RobotScene.h \
            src/main/TeapotScene.h \
+           src/main/VaseScene.h \
            src/re330/BasicMath.h \
            src/re330/Camera.h \
            src/re330/Curve.h \
@@ -63,7 +64,9 @@ SOURCES += src/main/BuddhaScene.cpp \
            src/main/RenderWidget0.cpp \
            src/main/RobotScene.cpp \
            src/main/TeapotScene.cpp \
+           src/main/VaseScene.cpp \
            src/re330/BasicMath.cpp \
+           src/re330/Curve.cpp \
            src/re330/GLRenderContext.cpp \
            src/re330/GLWidget.cpp \
            src/re330/Group.cpp \
