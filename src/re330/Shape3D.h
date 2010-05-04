@@ -13,8 +13,8 @@ namespace RE330
             _mat = mat;
         }
         ~Shape3D() {
-            if (_obj) { delete _obj; }
-            if (_mat) { delete _mat; }
+            // if (_obj) { delete _obj; }
+            // if (_mat) { delete _mat; }
         }
 
         void light(RenderContext *r, const Matrix4 &C) {};

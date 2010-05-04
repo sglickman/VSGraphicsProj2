@@ -27,11 +27,11 @@ SceneManager::~SceneManager()
 {
 	if(mCamera)
 	{
-		delete mCamera;
+//		delete mCamera;
 	}
     if(sceneRoot)
     {
-        delete sceneRoot;
+//        delete sceneRoot;
     }
 }
 

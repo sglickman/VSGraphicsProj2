@@ -11,7 +11,7 @@ using namespace RE330;
 void VaseScene::init() {
     // Prepare the shader
     Shader *shader = new Shader("src/Shaders/diffuse_shading.vert",
-                                "src/Shaders/diffuse_shading.frag");
+                               "src/Shaders/diffuse_shading.frag");
     shader->use();
 
     everything = new TransformGroup();
@@ -19,11 +19,11 @@ void VaseScene::init() {
     vector<Vector3> vasePoints = vector<Vector3> ();
     vasePoints.push_back(Vector3(.1,.6,1));
     vasePoints.push_back(Vector3(.1,.5,1));
-    vasePoints.push_back(Vector3(.2,.4,1));
-    vasePoints.push_back(Vector3(.5,.3,1));
+    vasePoints.push_back(Vector3(.1,.4,1));
+    vasePoints.push_back(Vector3(.1,.3,1));
     vasePoints.push_back(Vector3(.1,.2,1));
-    vasePoints.push_back(Vector3(.2,.1,1));
-    vasePoints.push_back(Vector3(.2,0,1));
+    vasePoints.push_back(Vector3(.1,.1,1));
+    vasePoints.push_back(Vector3(.1,0,1));
 
     PiecewiseCurve vaseCurve = PiecewiseCurve(vasePoints);
 

@@ -163,7 +163,8 @@ RevolutionSurface::RevolutionSurface(const Curve &c, const int slices,
         u = curve.interpolate_point(t);
         udt = curve.interpolate_deriv(t);
         u /= u[2]; // Make the homogeneous coordinate 1 again.
-        cout << u[0] << "," << u[1] << endl;
+        // udt /= udt[2]; // udt = udt.normalize();
+        cout << udt[0] << "," << udt[1] << endl;
         
         for(int p = 0; p < points; p++) {
             theta = 2*M_PI/points * p;

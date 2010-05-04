@@ -99,8 +99,8 @@ void RenderWidget0::initSceneEvent()
 ** Sets up the teapot, which has normals.
 */
 void RenderWidget0::setupTeapotAndDragon() {
-    scene = new BuddhaScene(sceneManager);
-    scene->init();
+    //scene = new BuddhaScene(sceneManager);
+    //scene->init();
 //    sceneManager->setScene(scene->getRoot());
 //    buddha_scene = true;
 
