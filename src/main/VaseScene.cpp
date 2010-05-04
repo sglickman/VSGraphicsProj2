@@ -20,7 +20,7 @@ void VaseScene::init() {
     vasePoints.push_back(Vector3(.1,.6,1));
     vasePoints.push_back(Vector3(.1,.5,1));
     vasePoints.push_back(Vector3(.2,.4,1));
-    vasePoints.push_back(Vector3(.1,.3,1));
+    vasePoints.push_back(Vector3(.5,.3,1));
     vasePoints.push_back(Vector3(.1,.2,1));
     vasePoints.push_back(Vector3(.2,.1,1));
     vasePoints.push_back(Vector3(.2,0,1));
@@ -28,7 +28,7 @@ void VaseScene::init() {
     PiecewiseCurve vaseCurve = PiecewiseCurve(vasePoints);
 
     Object *obj;
-    obj = new RevolutionSurface(vaseCurve, 5, 5);
+    obj = new RevolutionSurface(vaseCurve, 10, 10);
     //obj = new ObjectBox(.45f, .1f, .12f);
     Material *vasemat;
     vasemat = new Material();

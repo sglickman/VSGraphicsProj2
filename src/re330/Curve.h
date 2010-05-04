@@ -12,7 +12,8 @@ namespace RE330
     {
     public:
         Curve() {}
-        virtual const Vector3& interpolate(const float t) const = 0;
+        virtual const Vector3& interpolate_point(const float t) const = 0;
+        virtual const Vector3 &interpolate_deriv(const float t) const = 0;
     };
 
     class RE330_EXPORT CubicCurve : public virtual Curve
@@ -31,7 +32,8 @@ namespace RE330
         const Vector3& operator[] (const int i) const { return p[i]; }
         Vector3& operator[] (const int i) {return p[i]; }
 
-        const Vector3 &interpolate (const float t) const;
+        const Vector3 &interpolate_point (const float t) const;
+        const Vector3 &interpolate_deriv (const float t) const;
     protected:
         Vector3 p[4];
     };
@@ -51,7 +53,8 @@ namespace RE330
             p = c.p; 
             return *this; }
 
-        const Vector3 &interpolate (const float t) const;
+        const Vector3 &interpolate_point (const float t) const;
+        const Vector3 &interpolate_deriv (const float t) const;
     protected:
         vector<Vector3> p;
         int nPoints;

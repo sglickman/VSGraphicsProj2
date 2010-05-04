@@ -156,10 +156,12 @@ RevolutionSurface::RevolutionSurface(const Curve &c, const int slices,
     // Loop through, create the surface.
     int index = 0;
     float theta, t;
-    Vector3 u; // The current point on the curve
+    Vector3 u, udt; // The current point on the curve, its deriv.
+    Vector4 x, n; // The current point in 3space, its normal
     for(int s = 0; s <= slices; s++) {
         t = (1.f/slices) * s;
-        u = curve.interpolate(t);
+        u = curve.interpolate_point(t);
+        udt = curve.interpolate_deriv(t);
         u /= u[2]; // Make the homogeneous coordinate 1 again.
         cout << u[0] << "," << u[1] << endl;
         
@@ -170,15 +172,15 @@ RevolutionSurface::RevolutionSurface(const Curve &c, const int slices,
 
             // x coordinate
             surf_v[index] = u[0] * sin(theta);
-            surf_n[index++] = u[0] * sin(theta);
+            surf_n[index++] = -udt[1] * sin(theta);
 
             // y coordinate
             surf_v[index] = u[1];
-            surf_n[index++] = 0;
+            surf_n[index++] = udt[0];
 
             // z coordinate
             surf_v[index] = u[0] * cos(theta);
-            surf_n[index++] = u[0] * cos(theta);   
+            surf_n[index++] = -udt[1] * cos(theta);   
 
             //cout << surf_v[index-1] << endl;
         }
@@ -193,7 +195,7 @@ RevolutionSurface::RevolutionSurface(const Curve &c, const int slices,
 }
 
 int* RevolutionSurface::indices(const int slices, const int points) const {
-    int* array = new int[2 * (slices) * points * 3];
+    int* array = new int[2 * (slices) * points * 3 * 2];
     int index = 0;
     int color_index = 0;
     for (int s = 0; s < slices; s++) {
@@ -207,5 +209,16 @@ int* RevolutionSurface::indices(const int slices, const int points) const {
             array[index++] = (s * points + p + 1);
         }
     }
+    // for (int s = 0; s < slices; s++) {
+    //     for (int p = 0; p < points; p++) {
+    //         array[index++] = (s * points + p);
+    //         array[index++] = ((s + 1) * points + p);
+    //         array[index++] = (s * points + p + 1);
+
+    //         array[index++] = ((s + 1) * points + p + 1);
+    //         array[index++] = (s * points + p + 1);
+    //         array[index++] = ((s + 1) * points + p);
+    //     }
+    // }
     return array;
 }
