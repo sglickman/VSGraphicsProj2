@@ -150,8 +150,8 @@ RevolutionSurface::RevolutionSurface(const Curve &c, const int slices,
     // approximate y center of the revolved surface.
 
     // Generate the actual surface
-    float* surf_v = new float[(slices + 1) * points * 3];
-    float* surf_n = new float[(slices + 1) * points * 3];
+    float* surf_v = new float[(slices + 1) * points * 3 * 2];
+    float* surf_n = new float[(slices + 1) * points * 3 * 2];
 
     // Loop through, create the surface.
     int index = 0;
@@ -186,9 +186,37 @@ RevolutionSurface::RevolutionSurface(const Curve &c, const int slices,
             //cout << surf_v[index-1] << endl;
         }
     }
+    for(int s = 0; s <= slices; s++) {
+        t = (1.f/slices) * s;
+        u = curve.interpolate_point(t);
+        udt = curve.interpolate_deriv(t);
+        u /= u[2]; // Make the homogeneous coordinate 1 again.
+        // udt /= udt[2]; // udt = udt.normalize();
+        cout << udt[0] << "," << udt[1] << endl;
+        
+        for(int p = 0; p < points; p++) {
+            theta = 2*M_PI/points * p;
+
+            // Beware, the normals are totally incorrect.
+
+            // x coordinate
+            surf_v[index] = u[0] * sin(theta);
+            surf_n[index++] = udt[1] * sin(theta);
+
+            // y coordinate
+            surf_v[index] = u[1];
+            surf_n[index++] = -udt[0];
+
+            // z coordinate
+            surf_v[index] = u[0] * cos(theta);
+            surf_n[index++] = udt[1] * cos(theta);   
+
+            //cout << surf_v[index-1] << endl;
+        }
+    }
     int* surf_i = indices(slices, points);
-    int nVerts = (slices + 1) * points;
-    int nIndices = slices * points * 2 * 3;
+    int nVerts = (slices + 1) * points * 2;
+    int nIndices = slices * points * 2 * 3 * 2;
     setupObject(nVerts, nIndices, surf_v, surf_n, surf_i);
 
     delete surf_v;
@@ -210,16 +238,16 @@ int* RevolutionSurface::indices(const int slices, const int points) const {
             array[index++] = (s * points + p + 1);
         }
     }
-    // for (int s = 0; s < slices; s++) {
-    //     for (int p = 0; p < points; p++) {
-    //         array[index++] = (s * points + p);
-    //         array[index++] = ((s + 1) * points + p);
-    //         array[index++] = (s * points + p + 1);
+    for (int s = 0; s < slices; s++) {
+        for (int p = 0; p < points; p++) {
+            array[index++] = ((s + 1) * points + p);
+            array[index++] = (s * points + p + 1);
+            array[index++] = (s * points + p);
 
-    //         array[index++] = ((s + 1) * points + p + 1);
-    //         array[index++] = (s * points + p + 1);
-    //         array[index++] = ((s + 1) * points + p);
-    //     }
-    // }
+            array[index++] = (s * points + p + 1);
+            array[index++] = ((s + 1) * points + p);
+            array[index++] = ((s + 1) * points + p + 1);
+        }
+    }
     return array;
 }
