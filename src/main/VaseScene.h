@@ -2,6 +2,7 @@
 #define VaseScene_H
 
 #include "RenderScene.h"
+#include "Matrix4.h"
 #include "Shape3D.h"
 #include "Light.h"
 
@@ -19,7 +20,13 @@ public:
 
 protected:
     TransformGroup *everything;
-    Shape3D *theVase;
+    Shape3D *donut;
+    Shape3D *vase;
+    Shape3D *coke;
+    Shape3D *apple;
+    Shape3D *table;
+    Shape3D *leftCandle;
+    Shape3D *rightCandle;
 };
 
 #endif

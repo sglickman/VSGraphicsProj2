@@ -19,6 +19,8 @@ namespace RE330
     public:
         void setupObject(int nVerts, int nIndices, 
                          float* v, float* n, int* i);
+        void setupObject(int nVerts, int nIndices, 
+                        float* v, float* n, float* t, int* i);
     };
 
     class RE330_EXPORT ObjectSphere : public ObjectShape {

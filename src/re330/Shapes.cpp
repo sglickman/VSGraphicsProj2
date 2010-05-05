@@ -6,6 +6,27 @@ using namespace std;
 using namespace RE330;
 
 
+void ObjectShape::setupObject(int nVerts, int nIndices, 
+                         float* v, float* n, float* t, int* i) {
+    VertexData& vd = vertexData;
+	// Specify the elements of the vertex data:
+	// - one element for vertex positions
+	vd.vertexDeclaration.addElement(0, 0, 3, 3*sizeof(float), 
+                                    RE330::VES_POSITION);
+
+    vd.vertexDeclaration.addElement(1, 0, 3, 3*sizeof(float), 
+                                    RE330::VES_NORMAL);
+    vd.vertexDeclaration.addElement(2, 0, 2, 2*sizeof(float),
+                                    RE330::VES_TEXTURE_COORDINATES);
+
+	// Create the buffers and load the data
+	vd.createVertexBuffer(0, nVerts*3*sizeof(float), (unsigned char*)v);
+    vd.createVertexBuffer(1, nVerts*3*sizeof(float), (unsigned char*)n);
+    vd.createVertexBuffer(2, nVerts*2*sizeof(float), (unsigned char*)t);
+    vd.createIndexBuffer(nIndices, i);
+}
+
+
 
 void ObjectShape::setupObject(int nVerts, int nIndices, 
                          float* v, float* n, int* i) {
@@ -153,9 +174,11 @@ RevolutionSurface::RevolutionSurface(const Curve &c, const int slices,
     // Generate the actual surface
     float* surf_v = new float[VERTICES_PER_SIDE * 3 * 2];
     float* surf_n = new float[VERTICES_PER_SIDE * 3 * 2];
+    float* surf_t = new float[VERTICES_PER_SIDE * 2 * 2];
 
     float *cur_in_v, *cur_out_v;
     float *cur_in_n, *cur_out_n;
+    float *cur_in_t, *cur_out_t;
 
     // Loop through, create the surface.
     int index = 0;
@@ -168,7 +191,7 @@ RevolutionSurface::RevolutionSurface(const Curve &c, const int slices,
         udt = curve.interpolate_deriv(t);
         u /= u[2]; // Make the homogeneous coordinate 1 again.
         // udt /= udt[2]; // udt = udt.normalize();
-        cout << udt[0] << "," << udt[1] << endl;
+        // cout << udt[0] << "," << udt[1] << endl;
         
         for(int p = 0; p < points; p++) {
             theta = 2*M_PI/points * p;
@@ -178,22 +201,28 @@ RevolutionSurface::RevolutionSurface(const Curve &c, const int slices,
             cur_in_v = &(surf_v[(index+VERTICES_PER_SIDE)*3]);
             cur_out_n = &(surf_n[index*3]);
             cur_in_n = &(surf_n[(index+VERTICES_PER_SIDE)*3]);
+            cur_out_t = &(surf_t[index*2]);
+            cur_in_t = &(surf_t[(index+VERTICES_PER_SIDE)*2]);
 
             // x coordinate
             // Outside
             cur_out_v[0] = u[0] * sin(theta);
             cur_out_n[0] = -udt[1] * sin(theta);
+            cur_out_t[0] = p / (float) points;
             // Inside
             cur_in_v[0] = u[0] * sin(theta);
             cur_in_n[0] = udt[1] * sin(theta);
+            cur_in_t[0] = p / (float) points;
 
             // y coordinate
             // Outside
             cur_out_v[1] = u[1];
             cur_out_n[1] = udt[0];
+            cur_out_t[1] = s / (float) slices;
             // Inside
             cur_in_v[1] = u[1];
             cur_in_n[1] = -udt[0];
+            cur_in_t[1] = s / (float) slices;
 
             // z coordinate
             // Outisde
@@ -210,10 +239,11 @@ RevolutionSurface::RevolutionSurface(const Curve &c, const int slices,
     int* surf_i = indices(slices, points);
     int nVerts = (slices + 1) * points * 2 * 2;
     int nIndices = (slices) * (points) * 2 * 3 * 2;
-    setupObject(nVerts, nIndices, surf_v, surf_n, surf_i);
+    setupObject(nVerts, nIndices, surf_v, surf_n, surf_t, surf_i);
 
     delete surf_v;
     delete surf_n;
+    delete surf_t;
 }
 
 int* RevolutionSurface::indices(const int slices, const int points) const {
