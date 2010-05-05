@@ -17,13 +17,13 @@ void VaseScene::init() {
     everything = new TransformGroup();
     
     vector<Vector3> vasePoints = vector<Vector3> ();
-    vasePoints.push_back(Vector3(.0,.0,1));
-    vasePoints.push_back(Vector3(.5,.0,.5));
-    vasePoints.push_back(Vector3(.5,.5,.5));
-    vasePoints.push_back(Vector3(.0,1,1));
-    // vasePoints.push_back(Vector3(.5,.2,1));
-    // vasePoints.push_back(Vector3(.6,.1,1));
-    // vasePoints.push_back(Vector3(.7,.0,1));
+    vasePoints.push_back(Vector3(.1,.0,1));
+    vasePoints.push_back(Vector3(.2,.1,1));
+    vasePoints.push_back(Vector3(.3,.2,1));
+    vasePoints.push_back(Vector3(.4,.3,1));
+    vasePoints.push_back(Vector3(.5,.4,1));
+    vasePoints.push_back(Vector3(.6,.5,1));
+    vasePoints.push_back(Vector3(.7,.6,1));
 
     PiecewiseCurve vaseCurve = PiecewiseCurve(vasePoints);
 
