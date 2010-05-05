@@ -233,13 +233,13 @@ int* RevolutionSurface::indices(const int slices, const int points) const {
     }
     for (int s = 0; s < slices; s++) {
         for (int p = 0; p < points; p++) {
-            array[index++] = points*slices + (s*points + p);
-            array[index++] = points*slices + ((s+1)*points + ((p+1)%points));
-            array[index++] = points*slices + ((s+1)*points + p);
+            array[index++] = points*(slices+1) + (s*points + p);
+            array[index++] = points*(slices+1) + ((s+1)*points + ((p+1)%points));
+            array[index++] = points*(slices+1) + ((s+1)*points + p);
 
-            array[index++] = points*slices + (s*points + p);
-            array[index++] = points*slices + (s*points + ((p+1)%points));
-            array[index++] = points*slices + ((s+1)*points + ((p+1)%points));
+            array[index++] = points*(slices+1) + (s*points + p);
+            array[index++] = points*(slices+1) + (s*points + ((p+1)%points));
+            array[index++] = points*(slices+1) + ((s+1)*points + ((p+1)%points));
         }
     }
     return array;
