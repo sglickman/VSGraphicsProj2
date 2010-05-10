@@ -169,7 +169,7 @@ RevolutionSurface::RevolutionSurface(const Curve &c, const int slices,
 {
     // Use the convex hull property of the curve to determine the
     // approximate y center of the revolved surface.
-    const int VERTICES_PER_SIDE = (slices + 1) * points;
+    const int VERTICES_PER_SIDE = (slices + 1) * (points + 1);
 
     // Generate the actual surface
     float* surf_v = new float[VERTICES_PER_SIDE * 3 * 2];
@@ -187,13 +187,13 @@ RevolutionSurface::RevolutionSurface(const Curve &c, const int slices,
     Vector4 x, n; // The current point in 3space, its normal
     for(int s = 0; s <= slices; s++) {
         t = (1.f/slices) * s;
-        u = curve.interpolate_point(t);
-        udt = curve.interpolate_deriv(t);
+        u = curve.interpolatePoint(t);
+        udt = curve.interpolateDeriv(t);
         u /= u[2]; // Make the homogeneous coordinate 1 again.
         // udt /= udt[2]; // udt = udt.normalize();
         // cout << udt[0] << "," << udt[1] << endl;
         
-        for(int p = 0; p < points; p++) {
+        for(int p = 0; p < points+1; p++) {
             theta = 2*M_PI/points * p;
 
             // Set up pointers to spots in the array for legibility
@@ -237,7 +237,7 @@ RevolutionSurface::RevolutionSurface(const Curve &c, const int slices,
         }
     }
     int* surf_i = indices(slices, points);
-    int nVerts = (slices + 1) * points * 2 * 2;
+    int nVerts = VERTICES_PER_SIDE * 2;
     int nIndices = (slices) * (points) * 2 * 3 * 2;
     setupObject(nVerts, nIndices, surf_v, surf_n, surf_t, surf_i);
 

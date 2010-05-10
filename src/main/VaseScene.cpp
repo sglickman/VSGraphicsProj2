@@ -41,6 +41,7 @@ void VaseScene::init() {
     donutmat->setAmbient(Vector3(.2, .2, .2));
     donutmat->setTexture(donuttexture);
     donut = new Shape3D(obj, donutmat);
+    donut->applyTransformation(Matrix4::translate(.4,0,0));
     everything->addChild(donut);
 
     vector<Vector3> applePoints = vector<Vector3> ();
@@ -64,7 +65,7 @@ void VaseScene::init() {
     applemat->setAmbient(Vector3(.2, .2, .2));
     applemat->setTexture(appletexture);
     apple = new Shape3D(obj, applemat);
-    apple->applyTransformation(Matrix4::translate(0, 0, 0));
+    apple->applyTransformation(Matrix4::translate(-.4,0,0));
     everything->addChild(apple);
     
     vector<Vector3> cokePoints = vector<Vector3> ();
@@ -75,7 +76,7 @@ void VaseScene::init() {
 
     PiecewiseCurve cokeCurve = PiecewiseCurve(cokePoints);
 
-    obj = new RevolutionSurface(cokeCurve, 20, 20);
+    obj = new RevolutionSurface(cokeCurve, 5, 5);
     //obj = new ObjectBox(.45f, .1f, .12f);
     texImg = new QImage("coke-label.jpg", "JPG");
     Texture *coketexture;
