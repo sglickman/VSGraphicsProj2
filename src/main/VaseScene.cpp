@@ -69,14 +69,40 @@ void VaseScene::init() {
     everything->addChild(apple);
     
     vector<Vector3> cokePoints = vector<Vector3> ();
-    cokePoints.push_back(Vector3(.175, .4, 1));
-    cokePoints.push_back(Vector3(.2, .375, 1));
-    cokePoints.push_back(Vector3(.2, .025, 1));
-    cokePoints.push_back(Vector3(.175, .0, 1));
+    // cokePoints.push_back(Vector3(.175, .4, 1));
+    // cokePoints.push_back(Vector3(.2, .375, 1));
+    // cokePoints.push_back(Vector3(.2, .025, 1));
+    // cokePoints.push_back(Vector3(.175, .0, 1));
+    cokePoints.push_back(Vector3(0, .48, 1));
+
+    cokePoints.push_back(Vector3(.1, .48, 1));
+    cokePoints.push_back(Vector3(.1, .5, 1));
+
+    cokePoints.push_back(Vector3(.12, .5, 1));
+
+    cokePoints.push_back(Vector3(.12, .49, 1));
+    cokePoints.push_back(Vector3(.14, .47, 1));
+
+    cokePoints.push_back(Vector3(.15, .47, 1));
+
+    cokePoints.push_back(Vector3(.15, .32, 1));
+    cokePoints.push_back(Vector3(.15, .17, 1));
+
+    cokePoints.push_back(Vector3(.15, .02, 1));
+
+    cokePoints.push_back(Vector3(.14, .02, 1));
+    cokePoints.push_back(Vector3(.12, .01, 1));
+
+    cokePoints.push_back(Vector3(.12, .0, 1));
+
+    cokePoints.push_back(Vector3(.1, .00, 1));
+    cokePoints.push_back(Vector3(.1, .02, 1));
+
+    cokePoints.push_back(Vector3(0, .02, 1));
 
     PiecewiseCurve cokeCurve = PiecewiseCurve(cokePoints);
 
-    obj = new RevolutionSurface(cokeCurve, 5, 5);
+    obj = new RevolutionSurface(cokeCurve, 30, 30);
     //obj = new ObjectBox(.45f, .1f, .12f);
     texImg = new QImage("coke-label.jpg", "JPG");
     Texture *coketexture;

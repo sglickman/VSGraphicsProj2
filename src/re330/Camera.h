@@ -50,7 +50,7 @@ namespace RE330
             );
         }
 		void testCase1() {
-            centerOfProjection = Vector3(0, 0, 2);
+            centerOfProjection = Vector3(0, 0, 1.7);
             lookAtPoint = Vector3(0, 0, 0);
             upVector = Vector3(0, 1, 0);
             setAspectRatio(1);
@@ -61,7 +61,7 @@ namespace RE330
 		}
 		
 		void testCase2() {
-            centerOfProjection = Vector3(-10, 40, 40);
+            centerOfProjection = Vector3(-5, 40, 40);
             lookAtPoint = Vector3(-5, 0, 0);
             upVector = Vector3(0, 1, 0);
             setAspectRatio(1);
