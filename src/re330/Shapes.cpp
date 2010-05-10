@@ -252,24 +252,24 @@ int* RevolutionSurface::indices(const int slices, const int points) const {
     int color_index = 0;
     for (int s = 0; s < slices; s++) {
         for (int p = 0; p < points; p++) {
-            array[index++] = (s*points + p);
-            array[index++] = ((s+1)*points + p);
-            array[index++] = ((s+1)*points + ((p+1)%points));
+            array[index++] = (s*(points+1) + p);
+            array[index++] = ((s+1)*(points+1) + p);
+            array[index++] = ((s+1)*(points+1) + ((p+1)%(points+1)));
 
-            array[index++] = (s*points + p);
-            array[index++] = ((s+1)*points + ((p+1)%points));
-            array[index++] = (s*points + ((p+1)%points));
+            array[index++] = (s*(points+1) + p);
+            array[index++] = ((s+1)*(points+1) + ((p+1)%(points+1)));
+            array[index++] = (s*(points+1) + ((p+1)%(points+1)));
         }
     }
     for (int s = 0; s < slices; s++) {
         for (int p = 0; p < points; p++) {
-            array[index++] = points*(slices+1) + (s*points + p);
-            array[index++] = points*(slices+1) + ((s+1)*points + ((p+1)%points));
-            array[index++] = points*(slices+1) + ((s+1)*points + p);
+            array[index++] = (points+1)*(slices+1) + (s*(points+1) + p);
+            array[index++] = (points+1)*(slices+1) + ((s+1)*(points+1) + ((p+1)%(points+1)));
+            array[index++] = (points+1)*(slices+1) + ((s+1)*(points+1) + p);
 
-            array[index++] = points*(slices+1) + (s*points + p);
-            array[index++] = points*(slices+1) + (s*points + ((p+1)%points));
-            array[index++] = points*(slices+1) + ((s+1)*points + ((p+1)%points));
+            array[index++] = (points+1)*(slices+1) + (s*(points+1) + p);
+            array[index++] = (points+1)*(slices+1) + (s*(points+1) + ((p+1)%(points+1)));
+            array[index++] = (points+1)*(slices+1) + ((s+1)*(points+1) + ((p+1)%(points+1)));
         }
     }
     return array;
