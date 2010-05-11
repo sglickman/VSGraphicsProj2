@@ -15,6 +15,7 @@ void VaseScene::init() {
     shader->use();
 
     everything = new TransformGroup();
+    tableScene = new TransformGroup();
     
     vector<Vector3> donutPoints = vector<Vector3> ();
     donutPoints.push_back(Vector3(.125, .0, 1));
@@ -42,7 +43,7 @@ void VaseScene::init() {
     donutmat->setTexture(donuttexture);
     donut = new Shape3D(obj, donutmat);
     donut->applyTransformation(Matrix4::translate(.4,0,0));
-    everything->addChild(donut);
+    tableScene->addChild(donut);
 
     vector<Vector3> applePoints = vector<Vector3> ();
     applePoints.push_back(Vector3(.0, .1, 1));
@@ -66,16 +67,29 @@ void VaseScene::init() {
     applemat->setTexture(appletexture);
     apple = new Shape3D(obj, applemat);
     apple->applyTransformation(Matrix4::translate(-.4,-.1,0));
-    everything->addChild(apple);
+    tableScene->addChild(apple);
 
     vector<Vector3> tablePoints = vector<Vector3> ();
     tablePoints.push_back(Vector3(0, 0, 1));
-    tablePoints.push_back(Vector3(1, 0, 1));
-    tablePoints.push_back(Vector3(1, 0, 1));
-    tablePoints.push_back(Vector3(1.02, -0.02, 1));
-    tablePoints.push_back(Vector3(1, -0.04, 1));
-    tablePoints.push_back(Vector3(0.1, -0.04, 1));
-    tablePoints.push_back(Vector3(0.1, -0.04, 1));
+    tablePoints.push_back(Vector3(0.8, 0, 1));
+    tablePoints.push_back(Vector3(0.8, 0, 1));
+    tablePoints.push_back(Vector3(.82, -0.04, 1));
+    tablePoints.push_back(Vector3(.8, -0.08, 1));
+    tablePoints.push_back(Vector3(0.1, -0.08, 1));
+    tablePoints.push_back(Vector3(0.1, -0.08, 1));
+    tablePoints.push_back(Vector3(0.07, -0.4, 1));
+    tablePoints.push_back(Vector3(0.1, -0.8, 1));
+    tablePoints.push_back(Vector3(0.1, -0.8, 1));
+    tablePoints.push_back(Vector3(0.3, -0.8, 1));
+    tablePoints.push_back(Vector3(0.32, -0.82, 1));
+    tablePoints.push_back(Vector3(0.34, -0.84, 1));
+    tablePoints.push_back(Vector3(0.34, -0.84, 1));
+    tablePoints.push_back(Vector3(0.36, -0.84, 1));
+    tablePoints.push_back(Vector3(0.38, -0.86, 1));
+    tablePoints.push_back(Vector3(0.38, -0.86, 1));
+    tablePoints.push_back(Vector3(0, -0.86, 1));
+    tablePoints.push_back(Vector3(0, -0.86, 1));
+
 
     PiecewiseCurve tableCurve = PiecewiseCurve(tablePoints);
 
@@ -91,7 +105,7 @@ void VaseScene::init() {
     tablemat->setAmbient(Vector3(.2, .2, .2));
     tablemat->setTexture(tableTexture);
     table = new Shape3D(obj, tablemat);
-    everything->addChild(table);
+    tableScene->addChild(table);
     
     vector<Vector3> cokePoints = vector<Vector3> ();
     cokePoints.push_back(Vector3(0, .02, 1));
@@ -128,7 +142,11 @@ void VaseScene::init() {
     cokemat->setTexture(coketexture);
     coke = new Shape3D(obj, cokemat);
     coke->applyTransformation(Matrix4::translate(0, 0, 0));
-    everything->addChild(coke);
+    tableScene->addChild(coke);
+    
+    tableScene->applyTransformation(Matrix4::translate(0, 0.2, 0));
+    tableScene->applyTransformation(Matrix4::scale(0.8, 0.8, 0.8));
+    everything->addChild(tableScene);
 
 
     

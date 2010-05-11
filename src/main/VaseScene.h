@@ -20,6 +20,7 @@ public:
 
 protected:
     TransformGroup *everything;
+    TransformGroup *tableScene;
     Shape3D *donut;
     Shape3D *vase;
     Shape3D *coke;
