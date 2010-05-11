@@ -65,57 +65,51 @@ void VaseScene::init() {
     applemat->setAmbient(Vector3(.2, .2, .2));
     applemat->setTexture(appletexture);
     apple = new Shape3D(obj, applemat);
-    apple->applyTransformation(Matrix4::translate(-.4,0,0));
+    apple->applyTransformation(Matrix4::translate(-.4,-.1,0));
     everything->addChild(apple);
+
+    vector<Vector3> tablePoints = vector<Vector3> ();
+    tablePoints.push_back(Vector3(0, 0, 1));
+    tablePoints.push_back(Vector3(1, 0, 1));
+    tablePoints.push_back(Vector3(1, 0, 1));
+    tablePoints.push_back(Vector3(1.02, -0.02, 1));
+    tablePoints.push_back(Vector3(1, -0.04, 1));
+    tablePoints.push_back(Vector3(0.1, -0.04, 1));
+    tablePoints.push_back(Vector3(0.1, -0.04, 1));
+
+    PiecewiseCurve tableCurve = PiecewiseCurve(tablePoints);
+
+    obj = new RevolutionSurface(tableCurve, 20, 20);
+    texImg = new QImage("wood.jpg", "JPG");
+    Texture *tableTexture;
+    tableTexture = new Texture(texImg);
+    Material *tablemat;
+    tablemat = new Material();
+    tablemat->setSpecular(Vector3(.1, .1, .1));
+    tablemat->setShininess(1.0f);
+    tablemat->setDiffuse(Vector3(.8, .8, .8));
+    tablemat->setAmbient(Vector3(.2, .2, .2));
+    tablemat->setTexture(tableTexture);
+    table = new Shape3D(obj, tablemat);
+    everything->addChild(table);
     
     vector<Vector3> cokePoints = vector<Vector3> ();
-    // cokePoints.push_back(Vector3(.175, .4, 1));
-    // cokePoints.push_back(Vector3(.2, .375, 1));
-    // cokePoints.push_back(Vector3(.2, .025, 1));
-    // cokePoints.push_back(Vector3(.175, .0, 1));
-    // cokePoints.push_back(Vector3(0, .48, 1));
-    // 
-    // cokePoints.push_back(Vector3(.1, .48, 1));
-    // cokePoints.push_back(Vector3(.1, .5, 1));
-    // 
-    // cokePoints.push_back(Vector3(.12, .5, 1));
-    // 
-    // cokePoints.push_back(Vector3(.12, .49, 1));
-    // cokePoints.push_back(Vector3(.14, .47, 1));
-    // 
-    // cokePoints.push_back(Vector3(.15, .47, 1));
-    // 
-    // cokePoints.push_back(Vector3(.15, .32, 1));
-    // cokePoints.push_back(Vector3(.15, .17, 1));
-    // 
-    // cokePoints.push_back(Vector3(.15, .02, 1));
-    // 
-    // cokePoints.push_back(Vector3(.14, .02, 1));
-    // cokePoints.push_back(Vector3(.12, .01, 1));
-    // 
-    // cokePoints.push_back(Vector3(.12, .0, 1));
-    // 
-    // cokePoints.push_back(Vector3(.1, .00, 1));
-    // cokePoints.push_back(Vector3(.1, .02, 1));
-    // 
-    // cokePoints.push_back(Vector3(0, .02, 1));
-
-    	cokePoints.push_back(Vector3(0, .02, 1));
-    	cokePoints.push_back(Vector3(.1, .02, 1));
-    	cokePoints.push_back(Vector3(.1, .00, 1));
-    	cokePoints.push_back(Vector3(.12, .0, 1));
-    	cokePoints.push_back(Vector3(.12, .01, 1));
-    	cokePoints.push_back(Vector3(.14, .02, 1));
-    	cokePoints.push_back(Vector3(.15, .02, 1));
-    	cokePoints.push_back(Vector3(.15, .17, 1));
-    	cokePoints.push_back(Vector3(.15, .32, 1));
-    	cokePoints.push_back(Vector3(.15, .47, 1));
-    	cokePoints.push_back(Vector3(.14, .47, 1));
-    	cokePoints.push_back(Vector3(.12, .49, 1));
-    	cokePoints.push_back(Vector3(.12, .5, 1));
-    	cokePoints.push_back(Vector3(.1, .5, 1));
-    	cokePoints.push_back(Vector3(.1, .48, 1));
-    	cokePoints.push_back(Vector3(0, .48, 1));
+    cokePoints.push_back(Vector3(0, .02, 1));
+    cokePoints.push_back(Vector3(.1, .02, 1));
+    cokePoints.push_back(Vector3(.1, .00, 1));
+    cokePoints.push_back(Vector3(.12, .0, 1));
+    cokePoints.push_back(Vector3(.12, .01, 1));
+    cokePoints.push_back(Vector3(.14, .02, 1));
+    cokePoints.push_back(Vector3(.15, .02, 1));
+    cokePoints.push_back(Vector3(.15, .17, 1));
+    cokePoints.push_back(Vector3(.15, .32, 1));
+    cokePoints.push_back(Vector3(.15, .47, 1));
+    cokePoints.push_back(Vector3(.14, .47, 1));
+    cokePoints.push_back(Vector3(.12, .49, 1));
+    cokePoints.push_back(Vector3(.12, .5, 1));
+    cokePoints.push_back(Vector3(.1, .5, 1));
+    cokePoints.push_back(Vector3(.1, .48, 1));
+    cokePoints.push_back(Vector3(0, .48, 1));
 
 
     PiecewiseCurve cokeCurve = PiecewiseCurve(cokePoints);
@@ -135,6 +129,8 @@ void VaseScene::init() {
     coke = new Shape3D(obj, cokemat);
     coke->applyTransformation(Matrix4::translate(0, 0, 0));
     everything->addChild(coke);
+
+
     
 
 }
