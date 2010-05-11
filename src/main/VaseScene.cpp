@@ -73,32 +73,50 @@ void VaseScene::init() {
     // cokePoints.push_back(Vector3(.2, .375, 1));
     // cokePoints.push_back(Vector3(.2, .025, 1));
     // cokePoints.push_back(Vector3(.175, .0, 1));
-    cokePoints.push_back(Vector3(0, .48, 1));
+    // cokePoints.push_back(Vector3(0, .48, 1));
+    // 
+    // cokePoints.push_back(Vector3(.1, .48, 1));
+    // cokePoints.push_back(Vector3(.1, .5, 1));
+    // 
+    // cokePoints.push_back(Vector3(.12, .5, 1));
+    // 
+    // cokePoints.push_back(Vector3(.12, .49, 1));
+    // cokePoints.push_back(Vector3(.14, .47, 1));
+    // 
+    // cokePoints.push_back(Vector3(.15, .47, 1));
+    // 
+    // cokePoints.push_back(Vector3(.15, .32, 1));
+    // cokePoints.push_back(Vector3(.15, .17, 1));
+    // 
+    // cokePoints.push_back(Vector3(.15, .02, 1));
+    // 
+    // cokePoints.push_back(Vector3(.14, .02, 1));
+    // cokePoints.push_back(Vector3(.12, .01, 1));
+    // 
+    // cokePoints.push_back(Vector3(.12, .0, 1));
+    // 
+    // cokePoints.push_back(Vector3(.1, .00, 1));
+    // cokePoints.push_back(Vector3(.1, .02, 1));
+    // 
+    // cokePoints.push_back(Vector3(0, .02, 1));
 
-    cokePoints.push_back(Vector3(.1, .48, 1));
-    cokePoints.push_back(Vector3(.1, .5, 1));
+    	cokePoints.push_back(Vector3(0, .02, 1));
+    	cokePoints.push_back(Vector3(.1, .02, 1));
+    	cokePoints.push_back(Vector3(.1, .00, 1));
+    	cokePoints.push_back(Vector3(.12, .0, 1));
+    	cokePoints.push_back(Vector3(.12, .01, 1));
+    	cokePoints.push_back(Vector3(.14, .02, 1));
+    	cokePoints.push_back(Vector3(.15, .02, 1));
+    	cokePoints.push_back(Vector3(.15, .17, 1));
+    	cokePoints.push_back(Vector3(.15, .32, 1));
+    	cokePoints.push_back(Vector3(.15, .47, 1));
+    	cokePoints.push_back(Vector3(.14, .47, 1));
+    	cokePoints.push_back(Vector3(.12, .49, 1));
+    	cokePoints.push_back(Vector3(.12, .5, 1));
+    	cokePoints.push_back(Vector3(.1, .5, 1));
+    	cokePoints.push_back(Vector3(.1, .48, 1));
+    	cokePoints.push_back(Vector3(0, .48, 1));
 
-    cokePoints.push_back(Vector3(.12, .5, 1));
-
-    cokePoints.push_back(Vector3(.12, .49, 1));
-    cokePoints.push_back(Vector3(.14, .47, 1));
-
-    cokePoints.push_back(Vector3(.15, .47, 1));
-
-    cokePoints.push_back(Vector3(.15, .32, 1));
-    cokePoints.push_back(Vector3(.15, .17, 1));
-
-    cokePoints.push_back(Vector3(.15, .02, 1));
-
-    cokePoints.push_back(Vector3(.14, .02, 1));
-    cokePoints.push_back(Vector3(.12, .01, 1));
-
-    cokePoints.push_back(Vector3(.12, .0, 1));
-
-    cokePoints.push_back(Vector3(.1, .00, 1));
-    cokePoints.push_back(Vector3(.1, .02, 1));
-
-    cokePoints.push_back(Vector3(0, .02, 1));
 
     PiecewiseCurve cokeCurve = PiecewiseCurve(cokePoints);
 
