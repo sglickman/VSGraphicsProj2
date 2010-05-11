@@ -1,43 +1,23 @@
-D	CHANGED
-M	README
-M	bin/project.app/Contents/MacOS/project
-M	project.pro
-A	src/Shaders/texture_shading.frag
-A	src/Shaders/texture_shading.vert
-A	src/main/BuddhaScene.cpp
-A	src/main/BuddhaScene.h
-A	src/main/RenderScene.h
-M	src/main/RenderWidget0.cpp
-M	src/main/RenderWidget0.h
-A	src/main/RobotScene.cpp
-A	src/main/RobotScene.h
-A	src/main/TeapotScene.cpp
-A	src/main/TeapotScene.h
-M	src/re330/GLRenderContext.cpp
-M	src/re330/GLRenderContext.h
-A	src/re330/Group.cpp
-A	src/re330/Group.h
-A	src/re330/Leaf.h
-M	src/re330/Light.cpp
-M	src/re330/Light.h
-M	src/re330/Material.h
-M	src/re330/Matrix4.h
-M	src/re330/Node.h
-M	src/re330/ObjReader.cpp
-M	src/re330/ObjReader.h
-M	src/re330/Object.h
-M	src/re330/RenderContext.h
-M	src/re330/SceneManager.cpp
-M	src/re330/SceneManager.h
-A	src/re330/Shape3D.cpp
-A	src/re330/Shape3D.h
-M	src/re330/Shapes.cpp
-M	src/re330/Shapes.h
-A	src/re330/TransformGroup.cpp
-A	src/re330/TransformGroup.h
-M	src/re330/Vector4.h
-M	src/re330/VertexData.h
-M	src/re330/VertexDeclaration.cpp
-M	src/re330/VertexDeclaration.h
-A	src/re330/culled_benchmarks.txt
-A	src/re330/unculled_benchmarks.txt
+CHANGED
+README
+apple.jpg
+bin/project.app/Contents/MacOS/project
+brick.jpg
+coke-label.jpg
+donut.jpg
+donut.png
+project.pro
+src/main/RenderWidget0.cpp
+src/main/RobotScene.cpp
+src/main/VaseScene.cpp
+src/main/VaseScene.h
+src/re330/Camera.h
+src/re330/Curve.cpp
+src/re330/Curve.h
+src/re330/Object.h
+src/re330/SceneManager.cpp
+src/re330/Shape3D.h
+src/re330/Shapes.cpp
+src/re330/Shapes.h
+stone.png
+wood.jpg
